@@ -1,4 +1,4 @@
-# Grupo 4
+# Tacomaré
 
 <p align="center">
 <a href= "https://www.inteli.edu.br/"> <img src="https://github.com/Inteli-College/2024-T0008-EC05-G03/assets/85657433/afc793e7-2a20-4207-8832-0c998187c537" alt="Inteli - Instituto de Tecnologia e Liderança" border="0"></a>
