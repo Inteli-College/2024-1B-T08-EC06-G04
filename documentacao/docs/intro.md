@@ -4,11 +4,11 @@ custom_edit_url: null
 slug: /
 ---
 
-# Introdução ao Projeto 
+# Introdução ao Projeto Tacomaré
 
 ## Visão Geral
 
-&emsp;&emsp; O projeto  representa uma inovação disruptiva no campo da agricultura e manufatura de cana-de-açúcar. Com a colaboração da empresa Atvos, nossa equipe está desenvolvendo um robô altamente especializado, equipado com IA e visão computacional, para verificar a limpeza dos tubos de reboilers usados no processamento da cana-de-açúcar. Este sistema robótico será capaz de analisar a eficácia da limpeza dos tubos e fornecer dados precisos para a Atvos, garantindo eficiência e confiabilidade no processo de manutenção.
+&emsp;&emsp; O projeto Tacomaré representa uma inovação disruptiva no campo da agricultura e manufatura de cana-de-açúcar. Com a colaboração da empresa Atvos, nossa equipe está desenvolvendo um robô altamente especializado, equipado com IA e visão computacional, para verificar a limpeza dos tubos de reboilers usados no processamento da cana-de-açúcar. Este sistema robótico será capaz de analisar a eficácia da limpeza dos tubos e fornecer dados precisos para a Atvos, garantindo eficiência e confiabilidade no processo de manutenção.
 
 ## Participantes do Projeto
 

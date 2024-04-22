@@ -9,7 +9,7 @@ custom_edit_url: null
 
 &emsp;&emsp; Personas não são pessoas reais, mas são baseadas nos comportamentos e motivações do público-alvo, coletados através de pesquisas. Elas nos ajudam a tomar decisões sobre funcionalidades, interações e até o design visual das soluções. Cada persona inclui detalhes demográficos, comportamentos, necessidades e objetivos. Elas guiam o desenvolvimento do projeto, garantindo que não perca de vista para quem esta sendo projetado e que permanece alinhado com as expectativas e requisitos dos usuários.
 
-&emsp;&emsp; No contexto do respectivo projeto, as personas servirão como referência para garantir que nossas soluções sejam personalizadas para atender às necessidades reais dos usuários. Elas ajudam a criar empatia com os usuários, priorizar características de desenvolvimento, facilitar a comunicação entre as partes interessadas e estabelecer metas claras para usabilidade. Abaixo, há um resumo sobre as duas personas realizadas pelo "Grupo 04"
+&emsp;&emsp; No contexto do respectivo projeto, as personas servirão como referência para garantir que nossas soluções sejam personalizadas para atender às necessidades reais dos usuários. Elas ajudam a criar empatia com os usuários, priorizar características de desenvolvimento, facilitar a comunicação entre as partes interessadas e estabelecer metas claras para usabilidade. Abaixo, há um resumo sobre as duas personas realizadas pelo Grupo Tacomaré
 
 # Resumo das Personas
 
