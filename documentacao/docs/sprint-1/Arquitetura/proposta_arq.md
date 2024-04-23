@@ -1,0 +1,1 @@
+# Proposta de arquitetura do sistema
