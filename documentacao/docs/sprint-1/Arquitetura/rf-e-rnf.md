@@ -2,7 +2,7 @@
 custom_edit_url: null
 ---
 
-# Arquitetura
+# Requisitos
 
 Nesta documentação, apresentamos uma solução de tecnologia projetada para atender às necessidades específicas e requisitos da Atvos. A eficácia e o sucesso de qualquer solução tecnológica dependem em grande medida da clareza, precisão e compreensão de seus requisitos. Portanto, é fundamental definir e entender adequadamente os requisitos funcionais e não funcionais.
 
