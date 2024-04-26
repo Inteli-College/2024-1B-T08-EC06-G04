@@ -43,8 +43,15 @@
 
 <p style={{textAlign: 'center'}}>Fonte: Elaboração própria</p>
 
-&emsp;&emsp;O diagrama acima tem o intuito de explicar o fluxo da ação do usuário conseguir capturar as iagens de um ponto específico, ou seja, capturar as imagens de um tubo em específico, assim, o usuário poderá ver a situação de todos os tubos e quanto de resíduo eles tem.
-&emsp;&emsp;O usuário consegue, através de um controle realizar os movimentos do robo remotamente, enquanto o TurtleBot porta uma câmera para enviar todas as imagens.
+&emsp;&emsp;O diagrama acima visa fornecer uma explicação detalhada do fluxo de ações necessárias para que o usuário possa capturar imagens de um ponto específico, como um tubo em particular. Este processo é crucial para permitir que o usuário tenha uma visão abrangente da situação de todos os tubos e a quantidade de resíduos presentes neles.
+
+&emsp;&emsp;Para alcançar esse objetivo, é essencial que o usuário possa controlar remotamente os movimentos do robô, que está equipado com uma câmera para capturar e enviar as imagens em tempo real. Este controle remoto é facilitado por meio de um dispositivo de controle, que permite ao usuário interagir com o robô.
+
+&emsp;&emsp;Ao iniciar o processo, o usuário utiliza o dispositivo de controle para enviar comandos ao robô, direcionando-o para o ponto específico onde deseja capturar imagens, neste caso, um tubo específico. O robô, conhecido como TurtleBot, é projetado para mover-se, permitindo que alcance o local desejado com facilidade.
+
+&emsp;&emsp;Uma vez que o TurtleBot tenha alcançado o ponto designado, a câmera embutida no robô é ativada, começando a capturar imagens do tubo em questão. Essas imagens são então transmitidas em tempo real para o dispositivo de visualização do usuário, permitindo-lhe examinar a condição do tubo e avaliar a quantidade de resíduos presentes nele.
+
+&emsp;&emsp;Durante todo esse processo, a comunicação entre o dispositivo de controle, o robô e o dispositivo de visualização é essencial para garantir uma operação fluida e eficaz. Além disso, a capacidade do TurtleBot de movimentar-se de forma autônoma e a precisão da câmera embutida são fundamentais para garantir que as imagens capturadas sejam claras e informativas.
 
 <p style={{textAlign: 'center'}}>Figura 3 - Diagrama de sequência: Capturar temperatura de um ponto específico</p>
 
@@ -52,4 +59,32 @@
 
 <p style={{textAlign: 'center'}}>Fonte: Elaboração própria</p>
 
-&emsp;&emsp;Este outro diagrama procura demosntrar a captura de temperatura de um ponto em específico, ou seja, de um tubo. Inicialmente, o usuário através de um controle realizar os movimentos do robo remotamente, e o TurtleBot porta um sensor de temperatura, após a temperatura ser registrada ela é enviada para o usuário como um status, se o tubo precisa ou não de limpeza.
+&emsp;&emsp;Este diagrama representa o processo de captura de temperatura de um ponto específico, ou seja, de um tubo. Inicialmente, o usuário utiliza um controle remoto para realizar os movimentos do robô TurtleBot. Este robô está equipado com um sensor de temperatura, capaz de medir a temperatura do tubo. Após a medição, a temperatura é registrada e enviada de volta ao usuário como um status. Esse status indica se o tubo está dentro dos parâmetros aceitáveis ou se necessita de limpeza.
+
+&emsp;&emsp;O controle remoto permite ao usuário operar o TurtleBot de forma remota, movendo-o para diferentes locais onde a medição da temperatura do tubo é necessária. Uma vez posicionado, o sensor de temperatura do TurtleBot é acionado para realizar a medição. Essa medição é então processada internamente, e o resultado é enviado de volta ao usuário.
+
+&emsp;&emsp;Com base na temperatura registrada, o usuário pode determinar se o tubo está funcionando dentro dos limites aceitáveis ou se há a necessidade de limpeza ou manutenção. Isso é essencial para garantir o funcionamento adequado do sistema ao qual o tubo está conectado, evitando problemas como superaquecimento ou falhas no processo.
+
+## Diagrama de contexto
+
+&emsp;&emsp;O Diagrama de Contexto é uma ferramenta fundamental dentro da UML (Unified Modeling Language), uma linguagem de modelagem amplamente utilizada na engenharia de software. Este diagrama é especialmente valioso no início do processo de design de sistemas, pois fornece uma visão geral simplificada das interações entre o sistema em questão e seus atores externos.
+
+&emsp;&emsp;Em termos simples, o Diagrama de Contexto mostra o sistema como uma caixa central e todos os agentes externos (ou "atores") com os quais ele interage ao seu redor. Estes atores podem ser pessoas, sistemas externos, dispositivos de hardware, entre outros. O objetivo é capturar as relações mais importantes do sistema com o mundo exterior, sem se aprofundar nos detalhes internos de sua implementação.
+
+&emsp;&emsp;A imagem abaixo trata-se do diagrama de contexto realizada para a solução
+
+<p style={{textAlign: 'center'}}>Figura 4 - Diagrama de contexto</p>
+
+![oceano azul](../../../static/img/arquitetura_contexto.png)
+
+<p style={{textAlign: 'center'}}>Fonte: Elaboração própria</p>
+
+&emsp;&emsp;O diagrama representa de maneira abrangente a interação do usuário com todos os componentes do sistema. Em um primeiro momento, o usuário está em controle, emitindo comandos para o sistema, os quais são processados e retornados como confirmação de execução. Essa interação inicial estabelece a base para a operação fluida do sistema.
+
+&emsp;&emsp;Outro ponto crucial é a interação com a API, uma interface fundamental que facilita o acesso e a comunicação com os diversos elementos do sistema. Por meio da API, o usuário pode requisitar dados específicos, como informações provenientes de câmeras ou sensores. Essa troca de dados entre o usuário e a API permite uma comunicação eficiente e versátil.
+
+&emsp;&emsp;Adicionalmente, há a interação com o robô TurtleBot, um componente essencial que concretiza as ações solicitadas pelo usuário. A conexão entre o robô desejado e o controle é mediada por essa interação, estabelecendo uma ponte tangível entre os comandos emitidos pelo usuário e a execução física por parte do robô.
+
+&emsp;&emsp;Por sua vez, o robô TurtleBot interage com a API, enviando os dados coletados durante sua operação. Essa interação bidirecional entre o robô e a API permite uma troca contínua de informações, possibilitando uma adaptação dinâmica às necessidades do usuário e do ambiente.
+
+&emsp;&emsp;Por fim, o controle mantém uma interação constante com o Robô TurtleBot, coordenando e sincronizando os movimentos e ações conforme solicitado pelo usuário. Esse processo de interação contínua entre o controle e o robô garante a precisão e a eficácia na execução das tarefas designadas.
