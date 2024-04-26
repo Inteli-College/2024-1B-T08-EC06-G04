@@ -23,7 +23,11 @@
 
 ## Descrição 
 
-📜| 
+📜| Este projeto desenvolvido para a Atvos utiliza inteligência artificial (IA) e um robô turtlebot para realizar a inspeção dos tubos dos reboilers na produção de açúcar de cana. Através de uma abordagem dupla, nossa solução busca identificar obstruções que possam comprometer a eficiência do processo.
+
+Uma das soluções envolve o uso de sensores de temperatura acoplados ao turtlebot para monitorar e registrar a temperatura dos tubos. Anomalias na temperatura podem indicar a presença de entupimentos, possibilitando a criação de um mapa de calor para identificar os canos entupidos.
+
+A outra solução, uma câmera endoscópica percorre o interior dos tubos. Esta câmera, equipada com o modelo de IA YOLO, analisa as imagens capturadas para detectar visualmente quaisquer sinais de entupimento. A combinação destas tecnologias permite uma avaliação abrangente e precisa do estado dos tubos, garantindo uma operação mais estável e eficiente.
 
 
 ---
