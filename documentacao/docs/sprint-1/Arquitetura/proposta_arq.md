@@ -22,5 +22,5 @@
 &emsp;&emsp; Para a comunicação entre os módulos que serão utilizados, temos dois tipos de requisição e um tipo de comunicação física, sendo eles:
 
 - Requisição Web (MQTT, HTTP, etc): esse tipo de requisição conecta o robô, o controle e o microcontrolador com o backend da aplicação e ela utiliza de chamadas a distância para a comunicação entre os módulos
-- Requisição SQL: é um tipo de requisição para banco de dados que facilita a alteração ou leitura do banco. Será utilizada entre o backend e o banco de dados para comunicar alterações e organizar os dados
+- Requisição SQL: é um pedido ao banco de dados que facilita sua alteração ou leitura. Será utilizada entre o backend e o banco de dados para comunicar alterações e organizar os dados
 - Ligação física: consiste na conexão física entre elementos, transmitindo a informação por meio de cabos entre os módulos. Será utilizado para conectar os módulos adicionais(camera e sensores) com o microprocessador
