@@ -10,13 +10,13 @@ Nesta documentação, apresentamos uma solução de tecnologia projetada para at
 
 Os requisitos funcionais descrevem as funcionalidades específicas e as operações que a solução deve realizar. Eles são a base para o desenvolvimento e a implementação da solução, delineando as capacidades e os comportamentos esperados do sistema. 
 
-**1.1** RF-1: O robo deve conseguir identificar tubos que estão parcialmente ou totalmente obstruidos atráves de sua camêra.
+**1.1** RF-1: O robô deve conseguir identificar tubos que estão parcialmente ou totalmente obstruídos através de sua câmera.
 
-**1.2** RF-2: O robo de conseguir fazer a leitura das informações termicas do reboiler através de um sensor de temperatura.
+**1.2** RF-2: O robô de conseguir fazer a leitura das informações térmicas do reboiler através de um sensor de temperatura.
 
-**1.3** RF-3: O Usuário deve conseguir controlar o robo através de um controle virtual.
+**1.3** RF-3: O Usuário deve conseguir controlar o robô através de um controle virtual.
 
-**1.4** RF-4: O robo deve conseguir seguir um caminho pré-estipulado pelo usuário.
+**1.4** RF-4: O robô deve conseguir seguir um caminho pré-estipulado pelo usuário.
 
 **1.5** RF-5: O sistema deve retornar dados colhidos assim como uma API.
 
@@ -32,4 +32,4 @@ Os requisitos não funcionais referem-se às características e qualidades do si
 
 **2.4** RNF-4: O tempo de resposta do servidor deve ser menor que 300ms.
 
-**2.5** RNF-5: A leitura da temperatura deve possuir uma variação máxima de ±1°C da temperatura real.
+**2.5** RNF-5: A leitura da temperatura deve possuir uma variação máxima de ±2°C da temperatura real.
