@@ -6,7 +6,7 @@ Essa ferramenta não é um elemento estático, mas é moldada a partir de inform
 
 No contexto deste projeto, a matriz de risco será a base para garantir que nossa abordagem seja proativa em relação aos desafios e incertezas. Ela capacita as equipes a desenvolverem respostas estratégicas e a manterem a resiliência operacional, fundamentais para o sucesso do projeto. Abaixo, apresentaremos uma visão geral sobre a matriz de risco desenvolvida pelo nosso grupo.
 
-![Matriz De Risco](../../../static/img/MatrizDeRisco_.png)
+![Matriz De Risco](../../../static/img/MatrizDeRisco.png)
 
 ---
 
