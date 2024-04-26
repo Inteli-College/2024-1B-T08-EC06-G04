@@ -88,3 +88,7 @@
 &emsp;&emsp;Por sua vez, o robô TurtleBot interage com a API, enviando os dados coletados durante sua operação. Essa interação bidirecional entre o robô e a API permite uma troca contínua de informações, possibilitando uma adaptação dinâmica às necessidades do usuário e do ambiente.
 
 &emsp;&emsp;Por fim, o controle mantém uma interação constante com o Robô TurtleBot, coordenando e sincronizando os movimentos e ações conforme solicitado pelo usuário. Esse processo de interação contínua entre o controle e o robô garante a precisão e a eficácia na execução das tarefas designadas.
+
+---
+
+Todos os diagramas podem ser visualizados mais detalhadamente [aqui](https://miro.com/app/board/uXjVKPzRjuQ=/)
