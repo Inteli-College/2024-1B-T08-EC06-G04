@@ -14,21 +14,35 @@ No contexto deste projeto, a matriz de risco será a base para garantir que noss
 
 ---
 
-&emsp;&emsp;Custos elevados : Para evitar que o projeto tenha custos muito elevados para o parceiro, vamos procurar por robôs, câmeras e sensores que possam lidar especificamente com as condições do projeto, sem gastar demais com os componentes da solução, mas garantindo que possam resistir e ser durável por um tempo razoável estipulado sem a necessidade de sua troca.
+&emsp;&emsp;Custos elevados : Esse risco refere-se ao possível problema de criarmos uma solução cujos custos de implementação excedem os ganhos possíveis.
 
-&emsp;&emsp;Complexidade Operacional elevada : Para que nossa solução não exija que a Atvos ofereça demasiado treinamento especializado para os operadores da solução, faremos testes com usuários de nivelado letramento digital a fim de garantir o fácil uso da solução.
+ Para evitar que o projeto tenha custos muito elevados para o parceiro, vamos procurar por robôs, câmeras e sensores que possam lidar especificamente com as condições do projeto, sem gastar demais com os componentes da solução, mas garantindo que possam resistir e ser durável por um tempo razoável estipulado sem a necessidade de sua troca.
+
+&emsp;&emsp;Complexidade Operacional elevada : Representa o desafio de tornar a solução acessível para operadores com variados níveis de habilidade técnica.
+
+Para que nossa solução não exija que a Atvos ofereça demasiado treinamento especializado para os operadores da solução, faremos testes com usuários de nivelado letramento digital a fim de garantir o fácil uso da solução.
 
 
-&emsp;&emsp;Baixa acurácia: Para mitigar o risco de baixa acurácia em modelos de visão computacional, é crucial aumentar a diversidade e a quantidade de dados no conjunto de treinamento. Além disso, deve-se realizar uma validação cruzada rigorosa para ajustar os parâmetros do modelo de forma otimizada. Também é recomendável utilizar técnicas de aumento de dados e, se necessário, explorar modelos pré-treinados ou arquiteturas mais avançadas para melhorar o desempenho.
+&emsp;&emsp;Baixa acurácia : Este risco está associado à performance de visão computacional.
+
+ Para mitigar o risco de baixa acurácia em modelos de visão computacional, é crucial aumentar a diversidade e a quantidade de dados no conjunto de treinamento. Além disso, deve-se realizar uma validação cruzada rigorosa para ajustar os parâmetros do modelo de forma otimizada. Também é recomendável utilizar técnicas de aumento de dados e, se necessário, explorar modelos pré-treinados ou arquiteturas mais avançadas para melhorar o desempenho.
 
 
 
-&emsp;&emsp;Problemas com joystick/controle do robô : Para mitigar problemas com o joystick vamos indicar que seja usado um controle responsivo e que não tenha problemas para enviar comandos na distancia de uso desejada e que não tenha problemas com as condições do ambiente industrial proposto.
+&emsp;&emsp;Problemas com joystick/controle do robô : Trata-se do risco de falhas no controle remoto do robô tanto problemas físicos quanto de conexão.
 
-&emsp;&emsp;Problemas de conexão robô/servidor : Para garantir uma conexão confiável entre o robô e o servidor, implementaremos uma solução de rede que use protocolos de comunicação robustos. A estratégia envolve o uso de múltiplos canais de comunicação, com redundância para minimizar o risco de interrupções. Testes de carga e simulações de falhas serão conduzidos regularmente para assegurar que o sistema mantenha o desempenho sob diversas condições operacionais.
+Para mitigar problemas com o joystick vamos indicar que seja usado um controle responsivo e que não tenha problemas para enviar comandos na distancia de uso desejada e que não tenha problemas com as condições do ambiente industrial proposto.
 
-&emsp;&emsp;aprendizado dos conteúdos: Até agora, a experiência dos membros do grupo com o Ross não tem sido muito fácil. No entanto, com o auxílio dos professores e dedicação ao auto estudo, esperamos que a situação melhore ao longo do tempo.
+&emsp;&emsp;Problemas de conexão robô/servidor : Este risco envolve interrupções ou falhas na comunicação entre o robô e os sistemas de controle centralizados.
 
-&emsp;&emsp;Falha em componentes devido a temperatura elevada: Para abordar o risco de falhas devido a temperaturas elevadas, desenvolveremos um protótipo em escala menor para testar soluções de monitoramento térmico. Recomendaremos a compra de um robô comercial que já possua robustez térmica comprovada, equipado com sistemas avançados de controle de temperatura. Nosso protótipo servirá para validar as especificações necessárias e garantir que o robô adquirido atenda aos requisitos de operação segura.
+Para garantir uma conexão confiável entre o robô e o servidor, implementaremos uma solução de rede que use protocolos de comunicação robustos. A estratégia envolve o uso de múltiplos canais de comunicação, com redundância para minimizar o risco de interrupções. Testes de carga e simulações de falhas serão conduzidos regularmente para assegurar que o sistema mantenha o desempenho sob diversas condições operacionais.
+
+&emsp;&emsp;aprendizado dos conteúdos : Refere-se às dificuldades iniciais de membros do grupo em dominar ferramentas e tecnologias específicas.
+
+Até agora, a experiência dos membros do grupo com o Ross não tem sido muito fácil. No entanto, com o auxílio dos professores e dedicação ao auto estudo, esperamos que a situação melhore ao longo do tempo.
+
+&emsp;&emsp;Falha em componentes devido a temperatura elevada : Este risco aborda a suscetibilidade de componentes eletrônicos a falhas em condições de temperatura elevada.
+
+ Para abordar o risco de falhas devido a temperaturas elevadas, desenvolveremos um protótipo em escala menor para testar soluções de monitoramento térmico. Recomendaremos a compra de um robô comercial que já possua robustez térmica comprovada, equipado com sistemas avançados de controle de temperatura. Nosso protótipo servirá para validar as especificações necessárias e garantir que o robô adquirido atenda aos requisitos de operação segura.
 
 
