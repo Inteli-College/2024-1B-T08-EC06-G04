@@ -56,3 +56,15 @@ Maria enfrenta dificuldades com monitoramento manual e análise limitada de dado
 ---
 
 &emsp;&emsp; Examinando as personas de Carlos e Maria, podemos deduzir as áreas críticas de foco para o nosso projeto. A necessidade de Carlos por um processo de trabalho mais seguro e intuitivo nos obriga a projetar soluções que sejam amigáveis ao usuário e seguras. Por outro lado, a necessidade de Maria por dados precisos e gestão eficiente de recursos nos direciona para a necessidade de ferramentas avançadas de rastreamento e análise de dados a respeito dos reboilers.
+
+## Fontes
+
+([Link fonte 1](https://www.emerald.com/insight/content/doi/10.1108/JQME-10-2021-0127/full/html))
+
+([Link fonte 2](https://www.industrialtrainer.org/maintenance-and-repair-best-practices))
+
+&emsp;&emsp;Ambas as fontes apresentadas forneceram dados para a criação de ambas as personas, após uma meticulosa pesquisa a respeito do mercado em que a Atvos se encontra e o mercado sob qual nosso projeto será realizado, além de sua area de enfoque.
+
+&emsp;&emsp;Essas fontes fornecem uma base sólida para entender como diferentes estratégias e práticas podem ser adaptadas para criar personas realistas que reflitam os desafios e necessidades dos usuários finais em contextos industriais. Utilizar essas informações ajudará a garantir que as soluções desenvolvidas no projeto estejam alinhadas com as necessidades dos profissionais envolvidos.
+
+
