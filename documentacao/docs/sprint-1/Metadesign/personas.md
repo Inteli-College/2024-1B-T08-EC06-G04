@@ -56,3 +56,4 @@ Maria enfrenta dificuldades com monitoramento manual e análise limitada de dado
 ---
 
 &emsp;&emsp;Examinando as personas de Carlos e Maria, podemos deduzir as áreas críticas de foco para o nosso projeto. A necessidade de Carlos por um processo de trabalho mais seguro e intuitivo nos obriga a projetar soluções que sejam amigáveis ao usuário e seguras. Por outro lado, a necessidade de Maria por dados precisos e gestão eficiente de recursos nos direciona para a necessidade de ferramentas avançadas de rastreamento e análise de dados a respeito dos reboilers.
+
