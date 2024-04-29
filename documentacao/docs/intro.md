@@ -4,6 +4,10 @@ custom_edit_url: null
 slug: /
 ---
 
+import {Membro} from "@site/src/components/profile.jsx";
+import useBaseUrl from "@docusaurus/useBaseUrl";
+import styles from "@site/src/css/profile.module.css";
+
 # Introdução ao Projeto Tacomaré
 
 ## Visão Geral
@@ -12,13 +16,15 @@ slug: /
 
 ## Participantes do Projeto
 
-- **Antonio Artimonte Vaz Guimarães**
-- **Breno Santos**
-- **Bruno Gottardo Conti**
-- **Gabriel Gallo**
-- **Gabrielle Mitoso**
-- **Luan Ramos de Mello**
-- **Rafaela Cristina Rojas**
+<div className={styles.profiles}>
+    <Membro nome="Antônio Artimore" imagem={useBaseUrl("https://media.licdn.com/dms/image/D4D03AQHWhBcP5iT58g/profile-displayphoto-shrink_200_200/0/1703212257337?e=1719446400&v=beta&t=-hxRCaieslIx5EnUF1kdL05ndTW3xRoNzSNYov5bHVI")} linkedin="https://www.linkedin.com/in/antonio-guimar%C3%A3es-2bb961264/?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app"></Membro>
+    <Membro nome="Breno Santos" imagem={useBaseUrl("https://media.licdn.com/dms/image/D4D03AQGrZG9Tv9JdZg/profile-displayphoto-shrink_200_200/0/1711976052733?e=1719446400&v=beta&t=EnMiEdG5b93zUKIq8OwufXXMMxv9TYyaJLjetfNcPYI")} linkedin="https://www.linkedin.com/in/breno-santos-0843131b8/"></Membro>
+    <Membro nome="Bruno Conti" imagem={useBaseUrl("https://media.licdn.com/dms/image/D5603AQHP0Vtxfm1MWA/profile-displayphoto-shrink_200_200/0/1678741883613?e=1719446400&v=beta&t=aI8huLHMqpXm3Kc_CJB2WhAftYQ3pQNLU2JtiRkeHWw")} linkedin="https://www.linkedin.com/in/bruno-gottardo-conti-a9625726a/"></Membro>
+    <Membro nome="Gabriel Gallo" imagem={useBaseUrl("https://media.licdn.com/dms/image/D4E03AQGQ_hxvNv8a2w/profile-displayphoto-shrink_200_200/0/1665073284301?e=1719446400&v=beta&t=wNURhSaL_KL_5AYa545NKxdEG3-yDKq-4aRb-1JFD90")} linkedin="https://www.linkedin.com/in/gabriel-gallo-m-coutinho-443809232/"></Membro>
+    <Membro nome="Gabrielle Mitoso" imagem={useBaseUrl("https://media.licdn.com/dms/image/D4D03AQHs0Kfrwmc5gA/profile-displayphoto-shrink_200_200/0/1676560341538?e=1719446400&v=beta&t=UxXb2ubre3WZkvImu-8SxpZJBlLY1FXIoPsMXy23MZk")} linkedin="https://www.linkedin.com/in/gabrielle-mitoso/"></Membro>
+    <Membro nome="Luan Mello" imagem={useBaseUrl("https://media.licdn.com/dms/image/D4D03AQF5k4FEfaI4mg/profile-displayphoto-shrink_200_200/0/1698150342373?e=1719446400&v=beta&t=cZXl3FXyEFyfAG8cmRZykVDRtpGO6uRIu2l0UGGtFnQ")} linkedin="https://www.linkedin.com/in/luan-ramos-de-mello-253b28268/"></Membro>
+    <Membro nome="Rafaela Rojas" imagem={useBaseUrl("https://media.licdn.com/dms/image/D4D03AQEZUiXhFkM1SQ/profile-displayphoto-shrink_200_200/0/1685488274068?e=1719446400&v=beta&t=74cw_CRyN__dpurQW6PIAAjCxi3boMq-l_xdUiOVM8o")} linkedin="https://www.linkedin.com/in/rafaelarojas/"></Membro>
+</div>
 
 ## Objetivo do Projeto
 
