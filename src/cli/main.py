@@ -1,7 +1,6 @@
 import typer
 import inquirer
 from yaspin import yaspin
-import time
 import requests
 from threading import Thread
 
