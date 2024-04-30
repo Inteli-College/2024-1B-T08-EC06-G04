@@ -7,13 +7,14 @@ from threading import Thread
 
 app = typer.Typer()
 
-# Constants for the API
+# Valores API e ENDPOINTS
 API_BASE_URL = "http://127.0.0.1:8000"
 ROBOT_MOVEMENT_ENDPOINT = f"{API_BASE_URL}/move"
 ROBOT_STOP_ENDPOINT = f"{API_BASE_URL}/stop"
 ROBOT_CONNECT_ENDPOINT = f"{API_BASE_URL}/connect"
 ROBOT_DISCONNECT_ENDPOINT = f"{API_BASE_URL}/disconnect"
 
+# Função para mostrar a resposta da API
 def process_action(action, data=None):
     with yaspin(text="Processing...", color="yellow") as spinner:
         if action == 'Move':
@@ -24,14 +25,18 @@ def process_action(action, data=None):
             response = requests.post(ROBOT_CONNECT_ENDPOINT)
         elif action == 'Disconnect':
             response = requests.post(ROBOT_DISCONNECT_ENDPOINT)
+        elif action == 'Exit':
+            response = requests.post(ROBOT_DISCONNECT_ENDPOINT)
 
         spinner.stop()
         if response:
             typer.echo(f"Action: {action}, Response: {response.text}")
 
+# Função principal
 @app.command()
 def robo():
     running = True
+    # Loop para perguntar a ação
     while running:
         questions = [
             inquirer.List(
@@ -44,6 +49,7 @@ def robo():
         answers = inquirer.prompt(questions)
         action = answers['action']
 
+        # Se açao for Move, perguntar as posições
         if action == 'Move':
             move_questions = [
                 inquirer.Text('x', message='Enter X position'),
@@ -62,6 +68,7 @@ def robo():
         elif action == 'Disconnect':
             process_action(action)
 
+        # Se ação for Exit, sair do loop e desconectar robo
         elif action == 'Exit':
             typer.echo("Exiting program...")
             running = False
