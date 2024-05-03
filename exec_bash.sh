@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Executa ao sair do script
+trap "echo 'Limpando... (apagando venv)'; rm -rf $(pwd)/src/venv" EXIT
+
 cd src
 
 python3 -m venv venv
@@ -10,21 +13,22 @@ pip install typer inquirer
 
 cd project_ws
 
+# Pega o caminho da instaância do venv
 TYPER_PATH=$(pip show typer | grep "Location:" | awk '{print $2}')
 
+# Se não achar
 if [ -z "$TYPER_PATH" ]; then
     echo "Typer not found. Please make sure it is installed."
     exit 1
 fi
 
-# Export the PYTHONPATH environment variable
+# Exporta a variável de ambiente PYTHONPATH com o caminho do venv
 export PYTHONPATH="$PYTHONPATH:$TYPER_PATH"
 
-# Optionally: Echo PYTHONPATH to verify it
+
 echo "Updated PYTHONPATH: $PYTHONPATH"
 
+# Builda e roda o ros2
 colcon build
 
 ros2 run cli_interface main
-
-trap "echo 'Limpando... (apagando venv)'; rm -rf venv" EXIT
