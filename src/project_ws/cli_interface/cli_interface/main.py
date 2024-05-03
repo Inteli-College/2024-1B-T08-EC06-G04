@@ -1,6 +1,18 @@
+# Instrucoes para rodar o codigo com os pacotes python:
+# 1. python3 -m venv venv
+# 2. source venv/bin/activate
+# 3. pip install typer inquirer yaspin
+# 4. pip show typer | grep Location
+# 5. export PYTHONPATH=$PYTHONPATH:/path/to/typer
+# 6. colcon build
+
 import rclpy
+import typer
 from rclpy.node import Node
 from geometry_msgs.msg import Twist
+import inquirer
+
+app = typer.Typer()
 
 class RobotController(Node):
     def __init__(self):
@@ -26,19 +38,27 @@ class RobotController(Node):
             self.shutdown_requested = True  # Set flag to indicate shutdown
         print(f"Action: {action} processed.")
 
+@app.command()
 def main():
     rclpy.init()
     robot_controller = RobotController()
 
     try:
         while not robot_controller.shutdown_requested:
-            print("Available actions: Move, Stop, Connect, Disconnect, Exit")
-            action = input("What action do you want to perform? ")
+            questions = [
+                inquirer.List('action',
+                              message="What action do you want to perform?",
+                              choices=['Move', 'Stop', 'Connect', 'Disconnect', 'Exit'])
+            ]
+            answers = inquirer.prompt(questions)
+            action = answers['action']
 
             if action == 'Move':
-                x = input("Enter X position (linear speed): ")
-                angular_theta = input("Enter angular theta position (angular speed): ")
-                move_data = {'x': x, 'angular_theta': angular_theta}
+                move_questions = [
+                    inquirer.Text('x', message="Enter X position (linear speed):"),
+                    inquirer.Text('angular_theta', message="Enter angular theta (angular speed):")
+                ]
+                move_data = inquirer.prompt(move_questions)
                 robot_controller.process_action(action, move_data)
 
             elif action in ['Stop', 'Connect', 'Disconnect', 'Exit']:
@@ -53,4 +73,4 @@ def main():
         rclpy.shutdown()
 
 if __name__ == '__main__':
-    main()
+    app()
