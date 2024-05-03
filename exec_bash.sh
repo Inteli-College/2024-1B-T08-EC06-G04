@@ -26,3 +26,5 @@ echo "Updated PYTHONPATH: $PYTHONPATH"
 colcon build
 
 ros2 run cli_interface main
+
+trap "echo 'Limpando... (apagando venv)'; rm -rf venv" EXIT
