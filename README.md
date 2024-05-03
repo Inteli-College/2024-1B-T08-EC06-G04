@@ -56,6 +56,26 @@ A outra solução, uma câmera endoscópica percorre o interior dos tubos. Esta 
 
 ## Inicialização
 
+Para inicializar a interface CLI, se seu terminal for .bash, execute o seguinte no seu terminal na respectiva ordem:
+
+```bash
+cd 2024-1B-T08-EC06-G04
+
+chmod +x exec_bash.sh
+
+./exec_bash.sh
+```
+
+Já, se seu terminal for .zsh, execute os seguinte códigos no terminal:
+
+```bash
+cd 2024-1B-T08-EC06-G04
+
+chmod +x exec_zsh.sh
+
+./exec_zsh.sh
+```
+
 ### Workspace ROS
 
 ---
