@@ -28,4 +28,6 @@ export PYTHONPATH="$PYTHONPATH:$TYPER_PATH"
 # Builda e roda o ros2
 colcon build
 
+source local/install_setup.zsh
+
 ros2 run cli_interface main

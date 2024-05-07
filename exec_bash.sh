@@ -31,4 +31,6 @@ echo "Updated PYTHONPATH: $PYTHONPATH"
 # Builda e roda o ros2
 colcon build
 
+source local/install_setup.bash
+
 ros2 run cli_interface main
