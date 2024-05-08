@@ -19,8 +19,8 @@ class RobotController(Node):
         super().__init__('robot_controller')
         self.publisher = self.create_publisher(Twist, 'cmd_vel', 10)
         self.connected = False
-        self.linear_speed = 0.
-        self.angular_speed = 0.
+        self.linear_speed = round(0.0,2)
+        self.angular_speed = round(0.0,2)
         self.killed = False
 
     def connect(self):
