@@ -93,7 +93,7 @@ def teleop_mode(robot_controller):
     try:
         if os.name != 'nt':
             settings = termios.tcgetattr(sys.stdin)
-        print("Entering teleoperation mode. Use 'w', 's', 'a', 'd' to control the robot, and ' ' to stop. Press 'q' to quit teleop.")
+        print("Entering teleoperation mode. Use 'w', 's', 'a', 'd' to control the robot, ' ' to stop and 'b' to kill the process . Press 'q' to quit teleop.")
         while True:
             key = get_key(settings)  
             if key == 'w':
@@ -106,6 +106,9 @@ def teleop_mode(robot_controller):
                 robot_controller.decrease_angular_speed()
             elif key == ' ':
                 robot_controller.stop_robot()
+            elif key == 'b':
+                robot_controller.kill_switch()
+                break
             elif key == 'q':
                 break    # Exit teleop mode
             time.sleep(0.1)  
