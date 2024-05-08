@@ -117,6 +117,9 @@ def user_interaction(robot_controller):
             robot_controller.disconnect()
         elif action == 'Exit':
             break
+    robot_controller.disconnect()
+    rclpy.shutdown()
+    exit(1)
 
 @app.command()
 def main():
@@ -127,12 +130,15 @@ def main():
 
     try:
         rclpy.spin(robot_controller)
+        user_thread.join()
     except KeyboardInterrupt:
-        pass
-    finally:
         robot_controller.disconnect()
         rclpy.shutdown()
         user_thread.join()
+    #finally:
+    #    robot_controller.disconnect()
+    #    rclpy.shutdown()
+    #    user_thread.join()
 
 if __name__ == '__main__':
     app()
