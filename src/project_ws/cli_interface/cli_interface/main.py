@@ -21,6 +21,7 @@ class RobotController(Node):
         self.connected = False
         self.linear_speed = 0.
         self.angular_speed = 0.
+        self.killed = False
 
     def connect(self):
         if not self.connected:
@@ -42,26 +43,39 @@ class RobotController(Node):
             print(f"Moving: linear={self.linear_speed} m/s, angular={self.angular_speed} rad/s")
 
     def stop_robot(self):
-        self.linear_speed = 0.0
-        self.angular_speed = 0.0
+        self.linear_speed = round(0.0,2)
+        self.angular_speed = round(0.0,2)
         self.move_robot()
         print("Robot stopped.")
 
     def decrease_linear_speed(self):
-        self.linear_speed -= 0.1
+        self.linear_speed -= round(0.1,2)
         self.move_robot()
 
     def increase_linear_speed(self):
-        self.linear_speed += 0.1
+        self.linear_speed += round(0.1,2)
         self.move_robot()
 
     def decrease_angular_speed(self):
-        self.angular_speed -= 0.1
+        self.angular_speed -= round(0.1,2)
         self.move_robot()
 
     def increase_angular_speed(self):
-        self.angular_speed += 0.1
+        self.angular_speed += round(0.1,2)
         self.move_robot()
+    
+    def start_switch(self):
+        self.killed = False
+    
+    def process_state(self):
+        return self.killed
+
+    def kill_switch(self):
+        self.killed = True
+        self.linear_speed = round(0.0,2)
+        self.angular_speed = round(0.0,2)
+        self.move_robot()
+
 
 def get_key(settings):
     if os.name == 'nt':
@@ -79,7 +93,7 @@ def teleop_mode(robot_controller):
     try:
         if os.name != 'nt':
             settings = termios.tcgetattr(sys.stdin)
-        print("Entering teleoperation mode. Use 'w', 's', 'a', 'd' to control the robot, and ' ' to stop. Press 'q' to quit teleop.")
+        print("Entering teleoperation mode. Use 'w', 's', 'a', 'd' to control the robot, ' ' to stop and 'b' to kill the process . Press 'q' to quit teleop.")
         while True:
             key = get_key(settings)  
             if key == 'w':
@@ -92,6 +106,9 @@ def teleop_mode(robot_controller):
                 robot_controller.decrease_angular_speed()
             elif key == ' ':
                 robot_controller.stop_robot()
+            elif key == 'b':
+                robot_controller.kill_switch()
+                break
             elif key == 'q':
                 break    # Exit teleop mode
             time.sleep(0.1)  
@@ -99,24 +116,37 @@ def teleop_mode(robot_controller):
         if os.name != 'nt' and settings:
             termios.tcsetattr(sys.stdin, termios.TCSADRAIN, settings)
 
+
 def user_interaction(robot_controller):
     questions = [
         inquirer.List('action',
-                      message="What action do you want to perform?",
-                      choices=['Teleoperate', 'Connect', 'Disconnect', 'Exit'])
+                    message="What action do you want to perform?",
+                    choices=['Teleoperate', 'Connect', 'Disconnect', "Kill process",'Exit'])
     ]
+    questions2 = [inquirer.List('action',message="What action do you want to perform?",choices=['Start process', 'Exit'])]
     while True:
-        answers = inquirer.prompt(questions)
-        action = answers['action']
-
-        if action == 'Teleoperate':
-            teleop_mode(robot_controller)
-        elif action == 'Connect':
-            robot_controller.connect()
-        elif action == 'Disconnect':
-            robot_controller.disconnect()
-        elif action == 'Exit':
-            break
+        # answers = inquirer.prompt(questions)
+        # action = answers['action']
+        if robot_controller.process_state() == False:
+            answers = inquirer.prompt(questions)
+            action = answers['action']
+            if action == 'Teleoperate':
+                teleop_mode(robot_controller)
+            elif action == 'Connect':
+                robot_controller.connect()
+            elif action == 'Disconnect':
+                robot_controller.disconnect()
+            elif action == "Kill process":
+                robot_controller.kill_switch()
+            elif action == 'Exit':
+                break
+        else:
+            answers = inquirer.prompt(questions2)
+            action = answers['action']
+            if action == "Start process":
+                robot_controller.start_switch()
+            elif action == 'Exit':
+                break
     robot_controller.disconnect()
     rclpy.shutdown()
     exit(1)
