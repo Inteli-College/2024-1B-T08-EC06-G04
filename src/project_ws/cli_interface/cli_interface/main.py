@@ -1,10 +1,11 @@
-import rclpy
 import typer
+import rclpy
 from rclpy.node import Node
 from geometry_msgs.msg import Twist
 import inquirer
 import threading
 import sys, os
+import time
 
 if os.name == 'nt':
     import msvcrt
@@ -18,6 +19,8 @@ class RobotController(Node):
         super().__init__('robot_controller')
         self.publisher = self.create_publisher(Twist, 'cmd_vel', 10)
         self.connected = False
+        self.linear_speed = 0.
+        self.angular_speed = 0.
 
     def connect(self):
         if not self.connected:
@@ -26,21 +29,39 @@ class RobotController(Node):
 
     def disconnect(self):
         if self.connected:
-            self.publisher.destroy()
+            #self.publisher.destroy()
             self.connected = False
             print("Disconnected and cleaned up.")
 
-    def move_robot(self, linear, angular):
+    def move_robot(self):
         if self.connected:
             msg = Twist()
-            msg.linear.x = linear
-            msg.angular.z = angular
+            msg.linear.x = self.linear_speed
+            msg.angular.z = self.angular_speed
             self.publisher.publish(msg)
-            print(f"Moving: linear={linear} m/s, angular={angular} rad/s")
+            print(f"Moving: linear={self.linear_speed} m/s, angular={self.angular_speed} rad/s")
 
     def stop_robot(self):
-        self.move_robot(0.0, 0.0)
+        self.linear_speed = 0.0
+        self.angular_speed = 0.0
+        self.move_robot()
         print("Robot stopped.")
+
+    def decrease_linear_speed(self):
+        self.linear_speed -= 0.1
+        self.move_robot()
+
+    def increase_linear_speed(self):
+        self.linear_speed += 0.1
+        self.move_robot()
+
+    def decrease_angular_speed(self):
+        self.angular_speed -= 0.1
+        self.move_robot()
+
+    def increase_angular_speed(self):
+        self.angular_speed += 0.1
+        self.move_robot()
 
 def get_key(settings):
     if os.name == 'nt':
@@ -54,25 +75,26 @@ def get_key(settings):
         return key
 
 def teleop_mode(robot_controller):
-    settings = None  # Initialize settings variable
+    settings = None  
     try:
         if os.name != 'nt':
             settings = termios.tcgetattr(sys.stdin)
         print("Entering teleoperation mode. Use 'w', 's', 'a', 'd' to control the robot, and ' ' to stop. Press 'q' to quit teleop.")
         while True:
-            key = get_key(settings)  # Pass settings to get_key
+            key = get_key(settings)  
             if key == 'w':
-                robot_controller.move_robot(0.1, 0.0)
+                robot_controller.increase_linear_speed()
             elif key == 's':
-                robot_controller.move_robot(-0.1, 0.0)
+                robot_controller.decrease_linear_speed()
             elif key == 'a':
-                robot_controller.move_robot(0.0, 0.1)
+                robot_controller.increase_angular_speed()
             elif key == 'd':
-                robot_controller.move_robot(0.0, -0.1)
+                robot_controller.decrease_angular_speed()
             elif key == ' ':
                 robot_controller.stop_robot()
             elif key == 'q':
-                break  # Exit teleop mode
+                break    # Exit teleop mode
+            time.sleep(0.1)  
     finally:
         if os.name != 'nt' and settings:
             termios.tcsetattr(sys.stdin, termios.TCSADRAIN, settings)
