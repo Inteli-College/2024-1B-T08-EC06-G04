@@ -118,9 +118,9 @@ def user_interaction(robot_controller):
     questions = [
         inquirer.List('action',
                     message="What action do you want to perform?",
-                    choices=['Teleoperate', 'Connect', 'Disconnect', 'Exit', "Kill"])
+                    choices=['Teleoperate', 'Connect', 'Disconnect', "Kill process",'Exit'])
     ]
-    questions2 = [inquirer.List('action',message="What action do you want to perform?",choices=['Start', 'Exit'])]
+    questions2 = [inquirer.List('action',message="What action do you want to perform?",choices=['Start process', 'Exit'])]
     while True:
         # answers = inquirer.prompt(questions)
         # action = answers['action']
@@ -133,19 +133,17 @@ def user_interaction(robot_controller):
                 robot_controller.connect()
             elif action == 'Disconnect':
                 robot_controller.disconnect()
-            elif action == "Kill":
+            elif action == "Kill process":
                 robot_controller.kill_switch()
             elif action == 'Exit':
                 break
         else:
             answers = inquirer.prompt(questions2)
             action = answers['action']
-            if action == "Start":
+            if action == "Start process":
                 robot_controller.start_switch()
             elif action == 'Exit':
                 break
-            else:
-                print("Robot is killed. Please start the robot first.")
 
 @app.command()
 def main():
