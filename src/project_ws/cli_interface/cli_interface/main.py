@@ -43,25 +43,25 @@ class RobotController(Node):
             print(f"Moving: linear={self.linear_speed} m/s, angular={self.angular_speed} rad/s")
 
     def stop_robot(self):
-        self.linear_speed = 0.0
-        self.angular_speed = 0.0
+        self.linear_speed = round(0.0,2)
+        self.angular_speed = round(0.0,2)
         self.move_robot()
         print("Robot stopped.")
 
     def decrease_linear_speed(self):
-        self.linear_speed -= 0.1
+        self.linear_speed -= round(0.1,2)
         self.move_robot()
 
     def increase_linear_speed(self):
-        self.linear_speed += 0.1
+        self.linear_speed += round(0.1,2)
         self.move_robot()
 
     def decrease_angular_speed(self):
-        self.angular_speed -= 0.1
+        self.angular_speed -= round(0.1,2)
         self.move_robot()
 
     def increase_angular_speed(self):
-        self.angular_speed += 0.1
+        self.angular_speed += round(0.1,2)
         self.move_robot()
     
     def start_switch(self):
@@ -72,8 +72,8 @@ class RobotController(Node):
 
     def kill_switch(self):
         self.killed = True
-        self.linear_speed = 0.0
-        self.angular_speed = 0.0
+        self.linear_speed = round(0.0,2)
+        self.angular_speed = round(0.0,2)
         self.move_robot()
 
 
