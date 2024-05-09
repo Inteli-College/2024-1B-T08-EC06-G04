@@ -74,11 +74,38 @@ Para melhorar o a Experiência do Usuário na CLI, foi utilizado o Inquirer para
 
 &emsp;**geometry_msg/Twist:** Utilizamos a mensagem Twist do pacote geometry_msgs que é um padrão em ROS para enviar comandos de movimento. No script da CLI, essa mensagem foi usada para especificar velocidades lineares e angulares que são publicadas no tópico cmd_vel, o canal padrão para controlar movimentos do robo.
 
+```python
+# Código relevante para comunicação com o TurtleBot
 
+    [...]
+
+    self.publisher = self.create_publisher(Twist, 'cmd_vel', 10)
+
+    [...]
+
+    def move_robot(self):
+        if self.connected:
+            msg = Twist()
+            msg.linear.x = self.linear_speed
+            msg.angular.z = self.angular_speed
+            self.publisher.publish(msg)
+            print(f"Movendo: velocidade linear={round(self.linear_speed,2)} m/s, velocidade angular={round(self.angular_speed,2)} rad/s")
+```
 #### Estrutura do código
 
 &emsp;O aplicativo inicia criando um nó ROS chamado robot_controller. Este nó é essencial para a interação com o sistema ROS, pois através dele são realizadas todas as operações de publicação e subscrição de mensagens. O principal meio de comunicação com o robô é através do publicador que envia mensagens para o tópico cmd_vel. Estas mensagens controlam diretamente a movimentação do robô ao especificar velocidades lineares e angulares.
 
+```python
+# Código relevante para a estrutura do código
+class RobotController(Node):
+    def __init__(self):
+        super().__init__('robot_controller')
+        self.publisher = self.create_publisher(Twist, 'cmd_vel', 10)
+        self.connected = False
+        self.linear_speed = round(0.0,2)
+        self.angular_speed = round(0.0,2)
+        self.killed = False
+```
 
 #### Interface de usuário
 
@@ -86,3 +113,68 @@ Para melhorar o a Experiência do Usuário na CLI, foi utilizado o Inquirer para
 
 
 &emsp;**Modo de Teleoperação:** Quando o usuário seleciona a opção de teleoperar, ele pode controlar o robô em tempo real usando teclas específicas (como w, a, s, d, espaço). A entrada do teclado é tratada de forma não bloqueante usando bibliotecas específicas do sistema operacional (como tty e termios para sistemas UNIX-like e msvcrt para Windows), permitindo que os comandos sejam responsivos e imediatos.
+
+```python
+# Código relevante para a interface de usuário
+def teleop_mode(robot_controller):
+    settings = None  
+    try:
+        if os.name != 'nt':
+            settings = termios.tcgetattr(sys.stdin)
+        print("Entrando no modo de teleoperação. Use as seguintes teclas para controlar o robô:")
+        print("  _______ ")
+        print(" |   w   |")
+        print(" | a s d |")
+        print(" |_______|")
+        print(" Use 'w', 's', 'a', 'd' para mover.")
+        print(" Use 'espaço' para parar.")
+        print(" Use 'q' para sair.")
+        print(" Use 'b' para forçar a morte do processo e parada.")
+        while True:
+            key = get_key(settings)  
+            if key == 'w':
+                robot_controller.increase_linear_speed()
+            elif key == 's':
+                robot_controller.decrease_linear_speed()
+            elif key == 'a':
+                robot_controller.increase_angular_speed()
+            elif key == 'd':
+                robot_controller.decrease_angular_speed()
+            elif key == ' ':
+                robot_controller.stop_robot()
+            elif key == 'b':
+                robot_controller.kill_switch()
+                break
+            elif key == 'q':
+                break    # Sair do modo teloperado
+            time.sleep(0.1)  
+    finally:
+        if os.name != 'nt' and settings:
+            termios.tcsetattr(sys.stdin, termios.TCSADRAIN, settings)
+```
+#### Tratamento de Erros e Exceções
+
+&emsp; Incluimos o monitoramento de exceções durante a execução do programa e a implementação de mecanismos de recuperação adequados para lidar com condições inesperadas.
+
+```python
+# Código relevante para tratamento de erros e exceções
+except KeyboardInterrupt:
+    robot_controller.disconnect()
+    rclpy.shutdown()
+    user_thread.join()
+markdown
+```
+
+#### Segurança e Confiabilidade
+
+&emsp;Incluimos mecanismos de prevenção de falhas e procedimentos de parada de emergência. Isso garante que o robô opere de forma segura em diferentes condições de operação e que possa ser controlado de maneira confiável pelos usuários.
+
+```python
+# Código relevante para segurança e confiabilidade
+def kill_switch(self):
+    self.killed = True
+    self.linear_speed = round(0.0,2)
+    self.angular_speed = round(0.0,2)
+    self.move_robot()
+```
+
