@@ -45,7 +45,7 @@ sudo apt install python3
 
 #### Instalando ROS2
 
-&emsp;&emsp; Para instalar o ROS2, caso ainda não esteja configurado, siga as instruções detalhadas disponíveis neste [link](https://docs.ros.org/en/iron/Installation.html).
+&emsp;&emsp; Para instalar o ROS2, caso ainda não esteja configurado, siga as instruções detalhadas disponíveis neste [link](https://docs.ros.org/en/foxy/Installation.html).
 
 ### Estabelecendo a Conexão de Rede
 
