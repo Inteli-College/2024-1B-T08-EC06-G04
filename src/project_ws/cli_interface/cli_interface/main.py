@@ -40,7 +40,7 @@ class RobotController(Node):
             msg.linear.x = self.linear_speed
             msg.angular.z = self.angular_speed
             self.publisher.publish(msg)
-            print(f"Moving: linear={self.linear_speed} m/s, angular={self.angular_speed} rad/s")
+            print(f"Moving: linear={round(self.linear_speed,2)} m/s, angular={round(self.angular_speed,2)} rad/s")
 
     def stop_robot(self):
         self.linear_speed = round(0.0,2)
@@ -93,7 +93,14 @@ def teleop_mode(robot_controller):
     try:
         if os.name != 'nt':
             settings = termios.tcgetattr(sys.stdin)
-        print("Entering teleoperation mode. Use 'w', 's', 'a', 'd' to control the robot, ' ' to stop and 'b' to kill the process . Press 'q' to quit teleop.")
+        print("Entering teleoperation mode. Use the following keys to control the robot:")
+        print("  _______ ")
+        print(" |   w   |")
+        print(" | a s d |")
+        print(" |_______|")
+        print(" Use 'w', 's', 'a', 'd' to move.")
+        print(" Use 'space' to stop.")
+        print(" Use 'b' to exit.")
         while True:
             key = get_key(settings)  
             if key == 'w':
