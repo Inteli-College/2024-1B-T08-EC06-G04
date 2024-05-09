@@ -14,6 +14,7 @@ else:
 
 app = typer.Typer()
 
+# Classe que controla o robô
 class RobotController(Node):
     def __init__(self):
         super().__init__('robot_controller')
@@ -23,6 +24,7 @@ class RobotController(Node):
         self.angular_speed = round(0.0,2)
         self.killed = False
 
+    # Funções de controle do robô
     def connect(self):
         if not self.connected:
             self.connected = True
@@ -48,6 +50,7 @@ class RobotController(Node):
         self.move_robot()
         print("Parando robô.")
 
+    # Funções de controle de velocidade do robô 
     def decrease_linear_speed(self):
         self.linear_speed -= round(0.1,2)
         self.move_robot()
@@ -64,6 +67,7 @@ class RobotController(Node):
         self.angular_speed += round(0.1,2)
         self.move_robot()
     
+    # Funções de controle do processo/Kill Switch
     def start_switch(self):
         self.killed = False
     
@@ -77,6 +81,7 @@ class RobotController(Node):
         self.move_robot()
 
 
+# Função para capturar teclas do teclado
 def get_key(settings):
     if os.name == 'nt':
         if msvcrt.kbhit():
@@ -88,6 +93,7 @@ def get_key(settings):
         termios.tcsetattr(sys.stdin, termios.TCSADRAIN, settings)
         return key
 
+# Função para teleoperar o robô
 def teleop_mode(robot_controller):
     settings = None  
     try:
@@ -118,13 +124,14 @@ def teleop_mode(robot_controller):
                 robot_controller.kill_switch()
                 break
             elif key == 'q':
-                break    # Exit teleop mode
+                break    # Sair do modo teloperado
             time.sleep(0.1)  
     finally:
         if os.name != 'nt' and settings:
             termios.tcsetattr(sys.stdin, termios.TCSADRAIN, settings)
 
 
+# Função para interação com o usuário
 def user_interaction(robot_controller):
     questions = [
         inquirer.List('action',
@@ -132,6 +139,7 @@ def user_interaction(robot_controller):
                     choices=['Teleoperar', 'Conectar', 'Desconectar', "Parada de emergência",'Sair'])
     ]
     questions2 = [inquirer.List('action',message="Qual ação será realizada?",choices=['Iniciar processo', 'Sair'])]
+    
     while True:
         # answers = inquirer.prompt(questions)
         # action = answers['action']
@@ -147,18 +155,19 @@ def user_interaction(robot_controller):
             elif action == 'Parada de emergência':
                 robot_controller.kill_switch()
             elif action == 'Sair':
-                break
+                break # Sair do programa
         else:
             answers = inquirer.prompt(questions2)
             action = answers['action']
             if action == "Iniciar processo":
                 robot_controller.start_switch()
             elif action == 'Sair':
-                break
+                break # Sair do programa
     robot_controller.disconnect()
     rclpy.shutdown()
     exit(1)
 
+# Função principal
 @app.command()
 def main():
     rclpy.init()
