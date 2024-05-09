@@ -100,7 +100,8 @@ def teleop_mode(robot_controller):
         print(" |_______|")
         print(" Use 'w', 's', 'a', 'd' to move.")
         print(" Use 'space' to stop.")
-        print(" Use 'b' to exit.")
+        print(" Use 'q' to exit.")
+        print(" Use 'b' to stop the process.")
         while True:
             key = get_key(settings)  
             if key == 'w':
