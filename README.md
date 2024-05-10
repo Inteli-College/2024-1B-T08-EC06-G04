@@ -40,10 +40,14 @@ A outra solução, uma câmera endoscópica percorre o interior dos tubos. Esta 
 │   ├── blog
 │   ├── docs
 |   │   ├── sprint-1
+|   │   │   ├── Arquitetura
+|   │   │   ├── Entedimento
+|   │   │   ├── Metadesign
 |   │   ├── sprint-2
 |   │   ├── sprint-3 
 |   │   ├── sprint-4 
-|   │   └── sprint-5
+|   │   ├── sprint-5 
+|   │   └── intro.md
 │   ├── src
 |   │   ├── components
 |   │   ├── css
@@ -56,17 +60,63 @@ A outra solução, uma câmera endoscópica percorre o interior dos tubos. Esta 
 
 ## Inicialização
 
+Afim de inicializar a CLI para comunicação com o robô deve-se fazer o seguinte:
+
+#### Setup do robo para escutar publish:
+
+Para realizar o setup inicial do robo para "escutar" os movimentos deve-se executar o seguinte em seu terminal:
+
+Se seu terminal for .bash
+
+```bash
+cd 2024-1B-T08-EC06-G04
+
+./exec2_bash.sh
+```
+
+Se seu terminal for .zsh
+
+```bash
+cd 2024-1B-T08-EC06-G04
+
+./exec2_zsh.sh
+```
+
+#### Inicializaçõa da CLI:
+
+Para inicializar a interface CLI, se seu terminal for .bash, execute o seguinte no seu terminal na respectiva ordem:
+
+```bash
+cd 2024-1B-T08-EC06-G04
+
+./exec_bash.sh
+```
+
+Já, se seu terminal for .zsh, execute os seguinte códigos no terminal:
+
+```bash
+cd 2024-1B-T08-EC06-G04
+
+./exec_zsh.sh
+```
+
 ### Workspace ROS
 
 ---
 
 ## Histórico de lançamentos
 
-- 0.1.0 - 16/02/2024
+- 0.1.0 - 26/04/2024
   - Entendimento do negócio
   - Arquitetura do sistema
   - Metadesign
   - Identidade visual do grupo
+- 0.2.0 - 10/05/2024
+  - Interface simplificada (CLI)
+  - Movimentos do robô
+  - Sistema de emergência
+  - Metodologia
+  - Instruções para execução
 
 #  Licença/License
 
