@@ -166,4 +166,37 @@ Em uma nova aba do terminal, continue com a execução do segundo script para ab
 ./exec_zsh.sh
 ```
 
-Uma vez concluídos esses procedimentos, a Interface de Linha de Comando (CLI) estará totalmente operacional e configurada para facilitar a interação eficaz com o robô
+Uma vez concluídos esses procedimentos, a Interface de Linha de Comando (CLI) estará totalmente operacional e configurada para facilitar a interação eficaz com o robô.
+
+
+## Operação da CLI
+
+Após abrir a CLI, será deparado com a seguinte interface:
+
+![Interface CLI](../../../static/img/CLIINT.png)
+
+Contendo as seguintes opções: **Teleoperação**, **Conectar**, **Desconectar**, **Para de Emergência**, **Sair**
+
+:::tip
+Para utilizar a CLI e escolher a opção desejada, usa-se as setas do teclado para cima e baixo afim de navegar e a tecla `Enter` para selecionar a opção desejada.
+:::
+
+Segue abaixo a funcionalidade de cada um deles;
+
+- Teleoperação: Após aberto, permite movimentar o robô com as teclas `W,A,S,D` respectivamente para frente, girar lado esquerdo, para trás, girar lado direto. Além disso, caso aperte a tecla `"Espaço"`, o robô irá parar, a tecla `"q"` irá sair do modo de teleoperação e a tecla `"b"` irá matar o processo, afim de ser a _"parada de emergência"_ do robô
+
+![Teleoperação interface](../../../static/img/TeleopMode.png)
+
+- Conectar: Para poder operar o robô na teleoperação é necessário conectar o mesmo, clicando na opção de `Conectar`
+
+- Desconectar: Após conectar e utilizar o robô, é possível escolher a opção `desconectar` para evitar o uso sem querer do robô
+
+- Parada de emergência: Ao escolher a opção parada de emergência, não importará se estiver conectado, desconectado ou fora da interface de teleoperação, o robô irá parar o que ele está executando. Após será aberta uma nova interface de escolhas, onde será possível sair da CLI ou, iniciar o processo novamente, voltando a interface anterior. Segue abaixo está outra interface que é aberta ao escolher `Parada de Emergência`:
+
+![Tela parada de emergência](../../../static/img/PrdEMG.png)
+
+- Sair: Por fim, há também a opção Sair, onde se for clicada, apenas encerrará o processo da CLI
+
+:::note
+Se der algum problema relacionado a CLI e ela não fechar, digite a combinação de teclas **CTRL + C** repetidas vezes até finalizar completamente o processo
+:::
