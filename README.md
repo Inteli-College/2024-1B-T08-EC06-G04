@@ -106,11 +106,17 @@ cd 2024-1B-T08-EC06-G04
 
 ## Histórico de lançamentos
 
-- 0.1.0 - 16/02/2024
+- 0.1.0 - 26/04/2024
   - Entendimento do negócio
   - Arquitetura do sistema
   - Metadesign
   - Identidade visual do grupo
+- 0.2.0 - 10/05/2024
+  - Interface simplificada (CLI)
+  - Movimentos do robô
+  - Sistema de emergência
+  - Metodologia
+  - Instruções para execução
 
 #  Licença/License
 
