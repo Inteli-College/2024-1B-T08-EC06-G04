@@ -119,8 +119,19 @@ sudo apt install python3.10-venv
 4. **Execute o script de inicialização**
 
 Execute o seguinte código para o robô "escutar" os publishers feitos pela CLI:
+
+:::note
+Senha do SSH `grupo412`
+:::
+
 ```bash
-./exec2_bash.sh
+ssh grupo4@10.128.0.9
+```
+
+Após, digite a senha
+
+```bash
+ros2 launch turtlebot3_bringup robot.launch.py
 ```
 
 Em uma nova aba do terminal, continue com a execução do segundo script para abrir a interface CLI em sua máquina:
@@ -156,8 +167,18 @@ sudo apt install python3.10-venv
 3. **Execute o script de inicialização**
 Execute o seguinte código para o robô "escutar" os publishers feitos pela CLI:
 
+:::note
+Senha do SSH `grupo412`
+:::
+
 ```bash
-./exec2_zsh.sh
+ssh grupo4@10.128.0.9
+```
+
+Após, digite a senha
+
+```bash
+ros2 launch turtlebot3_bringup robot.launch.py
 ```
 
 Em uma nova aba do terminal, continue com a execução do segundo script para abrir a interface CLI em sua máquina:
