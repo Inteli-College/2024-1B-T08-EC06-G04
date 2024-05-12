@@ -25,6 +25,8 @@ fi
 # Exporta a variável de ambiente PYTHONPATH com o caminho do venv
 export PYTHONPATH="$PYTHONPATH:$TYPER_PATH"
 
+echo 'export ROS_DOMAIN_ID=86 #TURTLEBOT3' >> ~/.zshrc
+
 # Builda e roda o ros2
 colcon build
 
