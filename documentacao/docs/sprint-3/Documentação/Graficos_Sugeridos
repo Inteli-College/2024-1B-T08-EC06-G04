@@ -1,0 +1,46 @@
+---
+sidebar_position: 3
+custom_edit_url: null
+title: "Documentação da API e Gráficos Sugeridos"
+---
+
+# Documentação da API e Sugestões de Gráficos
+
+## Descrição dos Dados Disponíveis na API
+
+### 1. Informações Gerais
+A API fornece acesso aos seguintes dados:
+- **Dados sobre a limpeza**: Informações sobre a limpeza do reboiler, incluindo data, quantos tubos estão limpos, e quantos tubos estão obstruidos.
+
+### 2. Endpoints Disponíveis
+- **GET /sales**: Retorna uma lista de todas as vendas realizadas.
+- **GET /customers**: Retorna uma lista de todos os clientes.
+- **GET /products**: Retorna uma lista de todos os produtos.
+- **GET /inventory**: Retorna o status atual do estoque.
+- **GET /employees**: Retorna uma lista de todos os funcionários.
+
+## Sugestões de Gráficos para a Plataforma de BI
+
+### 1. Gráfico de Vendas Mensais
+**Descrição**: Um gráfico de barras que mostra o total de vendas por mês.  
+**Utilidade**: Ajuda a identificar tendências de vendas ao longo do ano.  
+**Exemplo**:
+
+![Gráfico de Vendas Mensais](../../../static/img/Graficos/GraficoTR.png)
+
+### 2. Gráfico de Distribuição de Clientes por Idade
+**Descrição**: Um gráfico de pizza que mostra a distribuição de clientes por faixa etária.  
+**Utilidade**: Permite entender a demografia dos clientes.  
+**Exemplo**:
+
+![Gráfico de Distribuição de Clientes por Idade](../../../static/img/Graficos/GraficoM.png)
+
+### 3. Gráfico de Estoque por Categoria de Produto
+**Descrição**: Um gráfico de barras horizontais que mostra a quantidade de estoque disponível por categoria de produto.  
+**Utilidade**: Ajuda a monitorar a disponibilidade de produtos e identificar categorias que precisam de reabastecimento.  
+**Exemplo**:
+
+![Gráfico de Estoque por Categoria de Produto](../../../static/img/Graficos/GraficoUL.png)
+
+## Considerações Finais
+Esta documentação visa fornecer uma visão clara e detalhada dos dados disponíveis na API, bem como sugestões de gráficos para facilitar a análise e visualização dos dados na plataforma de BI do cliente. Para mais informações ou dúvidas, por favor, entre em contato com nossa equipe de suporte.
