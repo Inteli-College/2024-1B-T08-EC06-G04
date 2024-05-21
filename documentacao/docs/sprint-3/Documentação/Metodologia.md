@@ -26,7 +26,7 @@ O LiDAR (Light Detection and Ranging) é um sensor que mede distâncias até obj
 - **Navegação Autônoma:** Ajuda o TurtleBot 3 a navegar de forma autônoma, evitando obstáculos e planejando rotas seguras.
 - **Detecção de Obstáculos:** Detecta obstáculos ao redor do robô, permitindo reações a mudanças no ambiente e evitando colisões.
 
-:::note 
+:::info 
 O `LiDAR` pode ser utilizado de outras maneiras também. Todavia até então usaremos o mesmo em nossa solução apenas para as funções descritas acima. Se quiser informações adicionais do que o LiDAR é capaz de realizar, recomendo ler este [artigo](https://www.faro.com/en/Resource-Library/Article/What-is-Lidar#:~:text=Lidar%20technology%20is%20an%20ideal,models%20and%20map%20digital%20elevation.).
 :::
 
@@ -125,9 +125,131 @@ Abaixo está o código atualizado de movimentação do robô com a integração 
 Se seu robô não é capaz de interagir com o LiDAR, é possível seguir utilizando o código desenvolvido na [Sprint 2](https://github.com/Inteli-College/2024-1B-T08-EC06-G04/tree/0.2.0) do robô, porém **limitado** nas funções apresentadas naquela Sprint.
 :::
 
+Segue abaixo os trechos de código relacionados ao funcionamento do `LiDAR`.
+
+:::note
+Este trecho de código faz parte da funcionalidade do `LiDAR`. O código completo possui outras funcionalidades além das apresentadas aqui.
+:::
+
 ```python
-Codigo LIDAR :D
+class RobotController(Node):
+    def __init__(self):
+        self.subscriber = self.create_subscription(
+            LaserScan,
+            'scan',
+            self.lidar_callback,
+            qos_profile=qos_profile_sensor_data
+        )
+        self.safety_distance = 0.35  # Reduziu a distância de parada pela metade
+
+
+    def lidar_callback(self, msg):
+        num_ranges = len(msg.ranges)
+        sector_size = num_ranges // 12  # Ajustado para tornar o cone mais estreito
+        # Definir índices dos setores usando a lógica de divisão
+        front_left_indices = range(num_ranges - sector_size, num_ranges)  # Parte frontal esquerda
+        front_right_indices = range(0, sector_size)  # Parte frontal direita
+        back_indices = range(5 * sector_size, 7 * sector_size)  # Parte traseira
+        front_ranges = []
+        back_ranges = []
+        # Coletar distâncias da parte frontal esquerda
+        for index in front_left_indices:
+            if 0.01 < msg.ranges[index] < 100.0:  # Garantir que a distância esteja dentro dos limites válidos
+                front_ranges.append(msg.ranges[index])
+        # Coletar distâncias da parte frontal direita
+        for index in front_right_indices:
+            if 0.01 < msg.ranges[index] < 100.0:  # Garantir que a distância esteja dentro dos limites válidos
+                front_ranges.append(msg.ranges[index])
+        # Coletar distâncias da parte traseira
+        for index in back_indices:
+            if 0.01 < msg.ranges[index] < 100.0:  # Garantir que a distância esteja dentro dos limites válidos
+                back_ranges.append(msg.ranges[index])
+        # Verificar se alguma das distâncias nas partes frontal ou traseira está abaixo do limite de segurança
+        if any(r < self.safety_distance for r in front_ranges):
+            self.front_clear = False
+        else:
+            self.front_clear = True
+        if any(r < self.safety_distance for r in back_ranges):
+            self.back_clear = False
+        else:
+            self.back_clear = True
+        if not self.front_clear and self.linear_speed > 0:
+            self.stop_robot()
+            print(f"Obstáculo detectado próximo ao robô, parando. Obstáculo mais próximo a {min(r for r in front_ranges if r < self.safety_distance)} metros.")
+        elif not self.back_clear and self.linear_speed < 0:
+            self.stop_robot()
+            print(f"Obstáculo detectado próximo ao robô ao reverter, parando. Obstáculo mais próximo a {min(r for r in back_ranges if r < self.safety_distance)} metros.")
 ```
+
+Segue abaixo as principais funções do código mais bem explicadas e resumidas, para melhor entendimento
+
+#### Inicialização do `RobotController`
+
+Nesta parte do código, estamos definindo a classe `RobotController` que herda da classe `Node`. O método `__init__` é o construtor da classe e é responsável por inicializar o nó, criar uma assinatura para o tópico `scan` do `LiDAR`, definir o callback `lidar_callback` e configurar o perfil de QoS para os dados do sensor. Também definimos a distância de segurança (`safety_distance`) como 0.35 u.m (unidades de medida).
+
+```python
+class RobotController(Node):
+    def __init__(self):
+        self.subscriber = self.create_subscription(
+            LaserScan,
+            'scan',
+            self.lidar_callback,
+            qos_profile=qos_profile_sensor_data
+        )
+        self.safety_distance = 0.35
+```
+
+#### Callback do `LiDAR`
+
+O método `lidar_callback` é chamado sempre que uma nova mensagem `LaserScan` é recebida no tópico `scan`. Aqui, calculamos o número total de leituras (`num_ranges`) e determinamos o tamanho de cada setor (`sector_size`) para dividir as leituras do `LiDAR` em diferentes partes do robô (frontal esquerda, frontal direita e traseira).
+
+```python
+# Coletar distâncias da parte frontal esquerda
+for index in front_left_indices:
+    if 0.01 < msg.ranges[index] < 100.0:  # Garantir que a distância esteja dentro dos limites válidos
+        front_ranges.append(msg.ranges[index])
+# Coletar distâncias da parte frontal direita
+for index in front_right_indices:
+    if 0.01 < msg.ranges[index] < 100.0:  # Garantir que a distância esteja dentro dos limites válidos
+        front_ranges.append(msg.ranges[index])
+# Coletar distâncias da parte traseira
+for index in back_indices:
+    if 0.01 < msg.ranges[index] < 100.0:  # Garantir que a distância esteja dentro dos limites válidos
+        back_ranges.append(msg.ranges[index])
+```
+
+#### Coletar distâncias
+
+Para cada setor (frontal esquerda, frontal direita e traseira), coletamos as distâncias das leituras do `LiDAR` que estão dentro dos limites válidos (0.01 a 100.0 metros). Essas distâncias são armazenadas nas listas `front_ranges` e `back_ranges`.
+
+```python
+# Verificar se alguma das distâncias nas partes frontal ou traseira está abaixo do limite de segurança
+if any(r < self.safety_distance for r in front_ranges):
+    self.front_clear = False
+else:
+    self.front_clear = True
+if any(r < self.safety_distance for r in back_ranges):
+    self.back_clear = False
+else:
+    self.back_clear = True
+```
+
+#### Verificação de segurança
+
+Nesta parte, verificamos se alguma das distâncias coletadas está abaixo do limite de segurança (`safety_distance`). Se estiver, definimos as variáveis `front_clear` e `back_clear` como `False`, indicando que há um obstáculo na frente ou na traseira do robô.
+
+```python
+if not self.front_clear and self.linear_speed > 0:
+    self.stop_robot()
+    print(f"Obstáculo detectado próximo ao robô, parando. Obstáculo mais próximo a {min(r for r in front_ranges if r < self.safety_distance)} metros.")
+elif not self.back_clear and self.linear_speed < 0:
+    self.stop_robot()
+    print(f"Obstáculo detectado próximo ao robô ao reverter, parando. Obstáculo mais próximo a {min(r for r in back_ranges if r < self.safety_distance)} metros.")
+```
+
+#### Ação de parada
+
+Finalmente, se um obstáculo for detectado e o robô estiver se movendo na direção do obstáculo (para frente ou para trás), o robô será parado chamando o método `stop_robot()`. Uma mensagem é impressa no console informando a presença do obstáculo e a distância do obstáculo mais próximo.
 
 ### Adição do Streamlit e Processamento de Imagens
 
@@ -502,6 +624,94 @@ No código da interface visual e processamento de imagens
             self.get_logger().error('Could not decode the image')
 ```
 
+Já no código referente ao LiDAR, se ele ler algum valor abaixo de 0,35 u.m, o robo irá parar no exato momento, se movimentando apenas para outras direções sem ser a que estava indo anteriormente para prevenir a batida.
+
+```python
+        # Verificar se alguma das distâncias nas partes frontal ou traseira está abaixo do limite de segurança
+        if any(r < self.safety_distance for r in front_ranges):
+            self.front_clear = False
+        else:
+            self.front_clear = True
+        if any(r < self.safety_distance for r in back_ranges):
+            self.back_clear = False
+        else:
+            self.back_clear = True
+```
+
 :::info
 Para informações de execução, acesse a documentação a respeito das mesmas.
 :::
+
+## Segurança e confiabilidade
+
+Na Sprint anterior, foi desenvolvida uma `Kill Switch` que interrompia a transmissão de dados da máquina local para a `Raspberry Pi` do robô. Nesta Sprint, avançamos com uma nova `Kill Switch` capaz de encerrar a execução do código de escuta do robô na `Raspberry Pi`, prevenindo erros e interferências.
+
+:::note
+O pacote `Turtlebot3` deve estar instalado na `Raspberry Pi` para o funcionamento correto do código, além do ROS2.
+:::
+
+O código implementado adiciona um novo serviço de escuta que, ao receber uma chamada de emergência, encerra o processo de bringup, interrompendo qualquer comunicação via tópico ROS com o robô.
+
+Para melhor visualização, segue o mesmo abaixo.
+
+```python
+import rclpy
+from rclpy.node import Node
+from std_srvs.srv import Empty
+import subprocess
+import signal
+import os
+
+class TurtlebotBringupManager(Node):
+    def __init__(self):
+        super().__init__('turtlebot_bringup_manager')
+        # Cria um serviço que responde a chamadas de 'emergency_stop' com a função de callback 'emergency_stop_callback'
+        self.srv = self.create_service(Empty, 'emergency_stop', self.emergency_stop_callback)
+        self.bringup_process = None
+
+    def start_bringup(self):
+        # Inicia o processo de bringup do TurtleBot3, lançando o arquivo de lançamento ROS2
+        self.bringup_process = subprocess.Popen(['ros2', 'launch', 'turtlebot3_bringup', 'robot.launch.py'])
+
+    def emergency_stop_callback(self, request, response):
+        # Função de callback chamada quando o serviço de 'emergency_stop' é ativado
+        self.get_logger().info('Emergency stop received. Stopping TurtleBot3 bringup.')
+        if self.bringup_process:
+            # Encerra o processo de bringup do TurtleBot3 enviando um sinal de término ao grupo de processos
+            os.killpg(os.getpgid(self.bringup_process.pid), signal.SIGTERM)
+            self.bringup_process = None
+        return response
+
+def main(args=None):
+    # Inicializa o cliente ROS
+    rclpy.init(args=args)
+    manager = TurtlebotBringupManager()
+    # Inicia o bringup do TurtleBot3
+    manager.start_bringup()
+    # Mantém o nó em execução até que seja interrompido
+    rclpy.spin(manager)
+    # Destrói o nó e encerra a inicialização ROS
+    manager.destroy_node()
+    rclpy.shutdown()
+
+if __name__ == '__main__':
+    main()
+```
+
+1. **Imports**: 
+   Importa as bibliotecas necessárias, incluindo `rclpy` para interações ROS2, `subprocess` para iniciar processos externos, `signal` para manipulação de sinais e `os` para interações com o sistema operacional.
+
+2. **TurtlebotBringupManager Class**:
+   Define uma classe que herda de `Node`, representando um nó ROS2.
+   
+   - **`__init__` Method**: 
+     Inicializa o nó e cria um serviço ROS chamado `emergency_stop`, que chama a função `emergency_stop_callback` quando ativado.
+   
+   - **`start_bringup` Method**: 
+     Inicia o processo de bringup do TurtleBot3, lançando um arquivo ROS2.
+   
+   - **`emergency_stop_callback` Method**: 
+     Callback acionada pelo serviço `emergency_stop` para interromper o processo de bringup, garantindo a interrupção segura.
+
+3. **main Function**:
+   Função principal que inicializa o nó ROS2, inicia o bringup do TurtleBot3, mantém o nó em execução e lida com a destruição do nó e encerramento do ROS2 quando o programa é interrompido.
