@@ -22,6 +22,8 @@ Esta análise financeira detalha os custos e considerações econômicas relacio
 
 > Nota: A coluna “Valor Final” inclui valores de frete e impostos (considerando ICMS de 18% e IPI de 10%).
 
+> Link para a planilha Excel: https://1drv.ms/x/s!Arzvp0EDtndcgUcPq0qq6VL_te33?e=FgOShB
+
 ### Custos de Mão de Obra
 
 | Função                | Quantidade | Meses | Salário Mensal | Valor Final    | Fonte                |
@@ -31,6 +33,8 @@ Esta análise financeira detalha os custos e considerações econômicas relacio
 | Gestor de Projetos    | 1          | 2     | R$ 7.500,00    | R$ 13.500,00   | Glassdoor|
 | **Total**             |            |       |                | **R$ 65.500,00** |                    |
 
+> Link para a planilha Excel: https://1drv.ms/x/s!Arzvp0EDtndcgUl5MVMSg7RRGoXL?e=mLwYJj
+
 ### Custos Totais
 
 | Descrição             | Valor         |
@@ -38,6 +42,8 @@ Esta análise financeira detalha os custos e considerações econômicas relacio
 | Custos de Hardware    | R$ 13.216,62  |
 | Custos de Mão de Obra | R$ 65.500,00  |
 | **Total**             | **R$ 78.716,62** |
+
+> Link para a planilha Excel: https://1drv.ms/x/s!Arzvp0EDtndcgUuV7u5yx5Di6jn5?e=wWhbzP
 
 ### Impostos e CNAE
 
