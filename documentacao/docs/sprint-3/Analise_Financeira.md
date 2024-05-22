@@ -71,11 +71,11 @@ Além de uma análise financeira, o grupo considerou onde e como pode fazer alte
 - **Ajustes no Escopo do Projeto**:
   - Revisar o escopo do projeto para identificar funcionalidades que podem ser simplificadas ou eliminadas sem comprometer a eficácia do PoC.
 
-# Valor Mínimo Aceitável para Venda do Projeto
+## Valor Mínimo Aceitável para Venda do Projeto
 
 Para determinar o valor mínimo aceitável para a venda do projeto, consideramos a necessidade de cobrir os custos totais e ainda garantir uma margem mínima de lucro.
 
-## Custos Reduzidos
+### Custos Reduzidos
 
 Aplicando uma redução de 10% nos custos de hardware:
 
@@ -89,7 +89,7 @@ Aplicando uma redução de 15% nos custos de mão de obra:
 
 - **Custo Total Reduzido:** R$ 11.894,96 (hardware) + R$ 55.675,00 (mão de obra) = R$ 67.569,96
 
-## Margem de Lucro
+### Margem de Lucro
 
 Para assegurar a viabilidade do projeto e um retorno mínimo aceitável, definimos uma margem de lucro de 10%.
 
