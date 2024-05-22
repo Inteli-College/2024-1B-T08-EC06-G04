@@ -141,14 +141,26 @@ class Listener(Node):
             self.get_logger().error('Could not decode the image')
 
 def main():
-    rclpy.init()
-    robot_controller = RobotController()
-    listener = Listener()
+    if 'ros_initialized' not in st.session_state:
+        rclpy.init()
+        st.session_state.ros_initialized = True
 
-    def run_ros2_listener():
-        rclpy.spin(listener)
+        robot_controller = RobotController()
+        listener = Listener()
 
-    threading.Thread(target=run_ros2_listener, daemon=True).start()
+        executor = rclpy.executors.MultiThreadedExecutor()
+
+        executor.add_node(robot_controller)
+        executor.add_node(listener)
+
+        def spin_executor():
+            executor.spin()
+
+        threading.Thread(target=spin_executor, daemon=True).start()
+
+        st.session_state.robot_controller = robot_controller
+    else:
+        robot_controller = st.session_state.robot_controller
 
     st.sidebar.title("Control Panel")
 
@@ -183,8 +195,6 @@ def main():
         robot_controller.disconnect()
         rclpy.shutdown()
         st.stop()
-
-    rclpy.spin(robot_controller)
 
 if __name__ == '__main__':
     main()
