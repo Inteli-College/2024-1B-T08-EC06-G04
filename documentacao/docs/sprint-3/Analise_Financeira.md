@@ -71,21 +71,32 @@ Além de uma análise financeira, o grupo considerou onde e como pode fazer alte
 - **Ajustes no Escopo do Projeto**:
   - Revisar o escopo do projeto para identificar funcionalidades que podem ser simplificadas ou eliminadas sem comprometer a eficácia do PoC.
 
-### Valor Mínimo Aceitável para Venda do Projeto
+# Valor Mínimo Aceitável para Venda do Projeto
 
 Para determinar o valor mínimo aceitável para a venda do projeto, consideramos a necessidade de cobrir os custos totais e ainda garantir uma margem mínima de lucro.
 
-#### Custos Reduzidos
+## Custos Reduzidos
 
-- Aplicando uma redução de 10% nos custos de hardware:
-  - **Novo Total de Hardware**: R$ 13.216,62 * 0,90 = R$ 11.894,96
-- Aplicando uma redução de 15% nos custos de mão de obra:
-  - **Novo Total de Mão de Obra**: R$ 65.500,00 * 0,85 = R$ 55.675,00
+Aplicando uma redução de 10% nos custos de hardware:
 
-- **Novo Custo Total**:
-  - **Custo Total Reduzido**: R$ 11.894,96 (hardware) + R$ 55.675,00 (mão de obra) = R$ 67.569,96
+- **Novo Total de Hardware:** R$ 13.216,62 * 0,90 = R$ 11.894,96
 
-#### Margem de Lucro
+Aplicando uma redução de 15% nos custos de mão de obra:
+
+- **Novo Total de Mão de Obra:** R$ 65.500,00 * 0,85 = R$ 55.675,00
+
+**Novo Custo Total:**
+
+- **Custo Total Reduzido:** R$ 11.894,96 (hardware) + R$ 55.675,00 (mão de obra) = R$ 67.569,96
+
+## Margem de Lucro
 
 Para assegurar a viabilidade do projeto e um retorno mínimo aceitável, definimos uma margem de lucro de 10%.
-- **Valor Mínimo com Lucro**: R$ 67.569,96 * 1,10 = R$ 74.326,96
+
+| Descrição                       | Valor Original (R$) | Redução (%) | Novo Valor (R$) |
+|---------------------------------|---------------------|-------------|-----------------|
+| **Custos de Hardware**          | 13.216,62           | 10%         | 11.894,96       |
+| **Custos de Mão de Obra**       | 65.500,00           | 15%         | 55.675,00       |
+| **Custo Total Reduzido**        |                     |             | 67.569,96       |
+| **Margem de Lucro (10%)**       |                     |             | 6.756,996       |
+| **Valor Mínimo com Lucro**      |                     |             | 74.326,96       |
