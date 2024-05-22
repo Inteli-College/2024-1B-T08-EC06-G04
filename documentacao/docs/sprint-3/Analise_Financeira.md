@@ -100,3 +100,6 @@ Para assegurar a viabilidade do projeto e um retorno mínimo aceitável, definim
 | **Custo Total Reduzido**        |                     |             | 67.569,96       |
 | **Margem de Lucro (10%)**       |                     |             | 6.756,996       |
 | **Valor Mínimo com Lucro**      |                     |             | 74.326,96       |
+
+
+> Link para a planilha Excel: https://1drv.ms/x/s!Arzvp0EDtndcgU2XKFVW1CqFbEmL?e=2Scuj8
