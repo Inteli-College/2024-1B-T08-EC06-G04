@@ -12,6 +12,10 @@ import base64
 import numpy as np
 from PIL import Image
 import io
+import queue
+
+# Create a queue to handle UI updates
+ui_queue = queue.Queue()
 
 class RobotController(Node):
     def __init__(self):
@@ -113,11 +117,6 @@ class Listener(Node):
             10)
         self.subscription  # prevent unused variable warning
 
-        # Configuração do Streamlit
-        st.title("Robot Controller via ROS 2 and Streamlit")
-        self.frame_holder = st.empty()
-        self.latency_placeholder = st.empty()
-
     def listener_callback(self, msg):
         timestamp, jpg_as_text = msg.data.split('|', 1)
         timestamp = float(timestamp)
@@ -127,16 +126,16 @@ class Listener(Node):
         jpg_original = base64.b64decode(jpg_as_text)
         jpg_as_np = np.frombuffer(jpg_original, dtype=np.uint8)
         img = cv2.imdecode(jpg_as_np, cv2.IMREAD_COLOR)
+        
         if img is not None:
+            print("Image received and decoded.")
             img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
             pil_image = Image.fromarray(img_rgb)
             img_bytes = io.BytesIO()
             pil_image.save(img_bytes, format="JPEG")
             img_bytes.seek(0)
-            self.frame_holder.image(
-                img_bytes, caption="Webcam Stream", use_column_width=True
-            )
-            self.latency_placeholder.text(f"Latency: {latency:.4f} seconds")
+            # Put the image and latency in the queue for UI update
+            ui_queue.put((img_bytes, latency))
         else:
             self.get_logger().error('Could not decode the image')
 
@@ -149,18 +148,21 @@ def main():
         listener = Listener()
 
         executor = rclpy.executors.MultiThreadedExecutor()
-
         executor.add_node(robot_controller)
         executor.add_node(listener)
 
         def spin_executor():
-            executor.spin()
+            while rclpy.ok():
+                rclpy.spin_once(robot_controller, timeout_sec=0.1)
+                rclpy.spin_once(listener, timeout_sec=0.1)
 
         threading.Thread(target=spin_executor, daemon=True).start()
 
         st.session_state.robot_controller = robot_controller
+        st.session_state.listener = listener
     else:
         robot_controller = st.session_state.robot_controller
+        listener = st.session_state.listener
 
     st.sidebar.title("Control Panel")
 
@@ -195,6 +197,16 @@ def main():
         robot_controller.disconnect()
         rclpy.shutdown()
         st.stop()
+
+    frame_holder = st.empty()
+    latency_placeholder = st.empty()
+
+    while True:
+        while not ui_queue.empty():
+            img_bytes, latency = ui_queue.get()
+            frame_holder.image(img_bytes, caption="Webcam Stream", use_column_width=True)
+            latency_placeholder.text(f"Latency: {latency:.4f} seconds")
+        time.sleep(0.1)  # Sleep for a short time to prevent CPU overuse
 
 if __name__ == '__main__':
     main()
