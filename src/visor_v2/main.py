@@ -13,6 +13,7 @@ import numpy as np
 from PIL import Image
 import io
 import queue
+from streamlit.runtime.scriptrunner import add_script_run_ctx, get_script_run_ctx
 
 # Create a queue to handle UI updates
 ui_queue = queue.Queue()
@@ -27,8 +28,6 @@ class RobotController(Node):
             self.lidar_callback,
             qos_profile=qos_profile_sensor_data
         )
-
-        self.connected = False
         self.linear_speed = 0.0
         self.angular_speed = 0.0
         self.killed = False
@@ -56,21 +55,12 @@ class RobotController(Node):
         elif not self.back_clear and self.linear_speed < 0:
             self.stop_robot()
 
-    def connect(self):
-        self.connected = True
-        print("Robot connected.")
-
-    def disconnect(self):
-        self.connected = False
-        print("Robot disconnected.")
-
     def move_robot(self):
-        if self.connected:
-            msg = Twist()
-            msg.linear.x = self.linear_speed
-            msg.angular.z = self.angular_speed
-            self.publisher.publish(msg)
-            print(f"Moving: linear speed={self.linear_speed} m/s, angular speed={self.angular_speed} rad/s")
+        msg = Twist()
+        msg.linear.x = self.linear_speed
+        msg.angular.z = self.angular_speed
+        self.publisher.publish(msg)
+        print(f"Moving: linear speed={self.linear_speed} m/s, angular speed={self.angular_speed} rad/s")
 
     def stop_robot(self):
         self.linear_speed = 0.0
@@ -139,74 +129,67 @@ class Listener(Node):
         else:
             self.get_logger().error('Could not decode the image')
 
-def main():
-    if 'ros_initialized' not in st.session_state:
-        rclpy.init()
-        st.session_state.ros_initialized = True
+@st.cache_resource
+def init_ros_nodes():
+    rclpy.init()
+    robot_controller = RobotController()
+    listener = Listener()
 
-        robot_controller = RobotController()
-        listener = Listener()
+    executor_thread = threading.Thread(target=spin_nodes, args=(robot_controller, listener), daemon=True)
+    executor_thread.start()
 
-        executor = rclpy.executors.MultiThreadedExecutor()
-        executor.add_node(robot_controller)
-        executor.add_node(listener)
+    return robot_controller, listener
 
-        def spin_executor():
-            while rclpy.ok():
-                rclpy.spin_once(robot_controller, timeout_sec=0.1)
-                rclpy.spin_once(listener, timeout_sec=0.1)
+def spin_nodes(robot_controller, listener):
+    while rclpy.ok():
+        rclpy.spin_once(robot_controller, timeout_sec=0.1)
+        rclpy.spin_once(listener, timeout_sec=0.1)
 
-        threading.Thread(target=spin_executor, daemon=True).start()
+def ui_update():
+    ctx = get_script_run_ctx()
+    add_script_run_ctx(threading.current_thread(), ctx)
+    while True:
+        if not ui_queue.empty():
+            img_bytes, latency = ui_queue.get()
+            st.session_state.img_bytes = img_bytes
+            st.session_state.latency = latency
+        time.sleep(0.1)
 
-        st.session_state.robot_controller = robot_controller
-        st.session_state.listener = listener
-    else:
-        robot_controller = st.session_state.robot_controller
-        listener = st.session_state.listener
+# This must be the first Streamlit command
+st.set_page_config(layout="wide")
 
-    st.sidebar.title("Control Panel")
+if 'img_bytes' not in st.session_state:
+    st.session_state.img_bytes = None
+    st.session_state.latency = None
 
-    if st.sidebar.button("Connect"):
-        robot_controller.connect()
+if 'ui_thread_started' not in st.session_state:
+    ui_thread = threading.Thread(target=ui_update, daemon=True)
+    add_script_run_ctx(ui_thread)
+    ui_thread.start()
+    st.session_state.ui_thread_started = True
 
-    if st.sidebar.button("Disconnect"):
-        robot_controller.disconnect()
+robot_controller, listener = init_ros_nodes()
 
-    if st.sidebar.button("Increase Linear Speed"):
+# Placeholders for image and latency that will be updated
+frame_holder = st.empty()
+latency_placeholder = st.empty()
+
+# Control panel for robot controls
+with st.container():
+    if st.button("Kill Switch"):
+        robot_controller.kill_switch()
+    if st.button("Increase Linear Speed"):
         robot_controller.increase_linear_speed()
-
-    if st.sidebar.button("Decrease Linear Speed"):
+    if st.button("Decrease Linear Speed"):
         robot_controller.decrease_linear_speed()
-
-    if st.sidebar.button("Increase Angular Speed"):
+    if st.button("Increase Angular Speed"):
         robot_controller.increase_angular_speed()
-
-    if st.sidebar.button("Decrease Angular Speed"):
+    if st.button("Decrease Angular Speed"):
         robot_controller.decrease_angular_speed()
 
-    if st.sidebar.button("Stop Robot"):
-        robot_controller.stop_robot()
-
-    if st.sidebar.button("Kill Switch"):
-        robot_controller.kill_switch()
-
-    if st.sidebar.button("Start Switch"):
-        robot_controller.start_switch()
-
-    if st.sidebar.button("Exit"):
-        robot_controller.disconnect()
-        rclpy.shutdown()
-        st.stop()
-
-    frame_holder = st.empty()
-    latency_placeholder = st.empty()
-
-    while True:
-        while not ui_queue.empty():
-            img_bytes, latency = ui_queue.get()
-            frame_holder.image(img_bytes, caption="Webcam Stream", use_column_width=True)
-            latency_placeholder.text(f"Latency: {latency:.4f} seconds")
-        time.sleep(0.1)  # Sleep for a short time to prevent CPU overuse
-
-if __name__ == '__main__':
-    main()
+# Continuous update loop for the image and latency display
+while True:
+    if st.session_state.img_bytes is not None:
+        frame_holder.image(st.session_state.img_bytes, caption="Webcam Stream", use_column_width=True, output_format='JPEG')
+        latency_placeholder.text(f"Latency: {st.session_state.latency:.4f} seconds")
+    time.sleep(0.01)
