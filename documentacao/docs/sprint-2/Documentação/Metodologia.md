@@ -35,6 +35,10 @@ Tópicos
 
 Os tópicos facilitam a comunicação entre os diferentes componentes de um sistema robótico, permitindo a troca de informações de forma eficiente e flexível.
 
+##### Tópicos Utilizados:
+**cmd_vel:**  Este é um tópico crucial no qual o sistema publica mensagens do tipo geometry_msgs/Twist. Ele permite controlar as velocidades lineares e angulares do TurtleBot, essenciais para o seu movimento autônomo e teleoperado.
+**image_raw:** Outro tópico utilizado pode ser image_raw, onde as imagens capturadas pela câmera Dobot Magic são publicadas. Essas imagens são consumidas pelo nó responsável pela detecção de objetos (possivelmente integrado ao YOLO) para processamento e tomada de decisões.
+
 #### Nós (Nodes)
 
 &emsp;Um nó (node) no ROS 2 é um processo executável que realiza uma tarefa específica dentro do sistema robótico. Cada nó é independente e comunica-se com outros nós por meio de tópicos, serviços ou parâmetros.
@@ -44,6 +48,16 @@ Os tópicos facilitam a comunicação entre os diferentes componentes de um sist
 - **Comunicação:** Os nós se comunicam trocando mensagens por meio dos tópicos. Um nó pode ser tanto um publisher (que envia mensagens) quanto um subscriber (que recebe mensagens) em um ou mais tópicos.
 
 - **Flexibilidade:** A arquitetura baseada em nós permite que diferentes partes de um sistema robótico sejam desenvolvidas, testadas e modificadas de forma independente, facilitando a escalabilidade e manutenção do sistema como um todo.
+
+##### Interação como Publisher:
+
+- O nó robot_controller atua como um publisher no tópico cmd_vel. Ele envia mensagens do tipo geometry_msgs/Twist contendo velocidades linear e angular para controlar o movimento do TurtleBot.
+- Se houver outros nós responsáveis por processar imagens (image_raw) ou dados de sensores, eles podem atuar como publishers em diferentes tópicos para compartilhar informações relevantes com outros componentes do sistema.
+
+#### Interação como Subscriber:
+
+- Os nós que precisam receber comandos de movimento do robô se inscrevem no tópico cmd_vel como subscribers. Por exemplo, o subsistema de controle de movimento do TurtleBot irá se inscrever nesse tópico para receber e interpretar as mensagens de velocidade enviadas pelo robot_controller.
+- Outros nós, como os responsáveis pelo processamento de imagens para detecção de objetos, podem ser subscribers de tópicos que publicam dados de sensores ou imagens (image_raw). Isso permite que eles recebam os dados necessários para realizar suas tarefas de processamento.
 
 ---
 
