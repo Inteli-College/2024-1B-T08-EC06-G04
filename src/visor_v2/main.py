@@ -16,7 +16,7 @@ import queue
 from streamlit.runtime.scriptrunner import add_script_run_ctx, get_script_run_ctx
 
 # Create a queue to handle UI updates
-ui_queue = queue.Queue()
+ui_queue = queue.Queue(maxsize=10)  # Small maxsize to prevent high latency
 
 class RobotController(Node):
     def __init__(self):
@@ -125,7 +125,8 @@ class Listener(Node):
             pil_image.save(img_bytes, format="JPEG")
             img_bytes.seek(0)
             # Put the image and latency in the queue for UI update
-            ui_queue.put((img_bytes, latency))
+            if not ui_queue.full():
+                ui_queue.put((img_bytes, latency))
         else:
             self.get_logger().error('Could not decode the image')
 
@@ -142,18 +143,19 @@ def init_ros_nodes():
 
 def spin_nodes(robot_controller, listener):
     while rclpy.ok():
-        rclpy.spin_once(robot_controller, timeout_sec=0.1)
-        rclpy.spin_once(listener, timeout_sec=0.1)
+        rclpy.spin_once(robot_controller, timeout_sec=0.01)
+        rclpy.spin_once(listener, timeout_sec=0.01)
 
 def ui_update():
     ctx = get_script_run_ctx()
     add_script_run_ctx(threading.current_thread(), ctx)
     while True:
-        if not ui_queue.empty():
-            img_bytes, latency = ui_queue.get()
+        try:
+            img_bytes, latency = ui_queue.get(timeout=0.1)
             st.session_state.img_bytes = img_bytes
             st.session_state.latency = latency
-        time.sleep(0.1)
+        except queue.Empty:
+            pass
 
 # This must be the first Streamlit command
 st.set_page_config(layout="wide")
