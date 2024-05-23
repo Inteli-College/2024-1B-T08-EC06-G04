@@ -176,17 +176,29 @@ robot_controller, listener = init_ros_nodes()
 frame_holder = st.empty()
 latency_placeholder = st.empty()
 
-# Control panel for robot controls
-with st.container():
-    if st.button("Kill Switch"):
+# Control panel for robot controls in a joystick layout
+col1, col2, col3 = st.columns([1, 2, 1])
+
+with col1:
+    if st.button("Kill Switch", key="kill_switch"):
         robot_controller.kill_switch()
-    if st.button("Increase Linear Speed"):
+
+with col2:
+    st.write("")
+    st.write("")
+    st.write("")
+    if st.button("Increase Linear Speed", key="increase_linear"):
         robot_controller.increase_linear_speed()
-    if st.button("Decrease Linear Speed"):
+    if st.button("Decrease Linear Speed", key="decrease_linear"):
         robot_controller.decrease_linear_speed()
-    if st.button("Increase Angular Speed"):
+
+with col3:
+    st.write("")
+    st.write("")
+    st.write("")
+    if st.button("Increase Angular Speed", key="increase_angular"):
         robot_controller.increase_angular_speed()
-    if st.button("Decrease Angular Speed"):
+    if st.button("Decrease Angular Speed", key="decrease_angular"):
         robot_controller.decrease_angular_speed()
 
 # Continuous update loop for the image and latency display
