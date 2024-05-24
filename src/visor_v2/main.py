@@ -21,7 +21,12 @@ pygame.init()
 screen = pygame.display.set_mode((1920, 1080))
 pygame.display.set_caption("Robot Teleoperation")
 
-# Define button properties
+# Load arrow images and resize them to fit the button sizes
+arrow_up = pygame.image.load('arrow_up.png').convert_alpha()
+arrow_down = pygame.image.load('arrow_down.png').convert_alpha()
+arrow_left = pygame.image.load('arrow_left.png').convert_alpha()
+arrow_right = pygame.image.load('arrow_right.png').convert_alpha()
+
 button_rects = {
     "kill": pygame.Rect(10, 10, 100, 50),
     "Frente": pygame.Rect(910, 10, 100, 50),
@@ -30,10 +35,21 @@ button_rects = {
     "right": pygame.Rect(1020, 40, 100, 50),
 }
 
-# Function to draw buttons
+arrow_up = pygame.transform.scale(arrow_up, (button_rects["Frente"].width, button_rects["Frente"].height))
+arrow_down = pygame.transform.scale(arrow_down, (button_rects["Tras"].width, button_rects["Tras"].height))
+arrow_left = pygame.transform.scale(arrow_left, (button_rects["left"].width, button_rects["left"].height))
+arrow_right = pygame.transform.scale(arrow_right, (button_rects["right"].width, button_rects["right"].height))
+
+# Function to draw buttons and arrows
 def draw_buttons():
     for label, rect in button_rects.items():
         pygame.draw.rect(screen, (200, 200, 200), rect, border_radius=10)
+
+    # Draw arrow images on buttons
+    screen.blit(arrow_up, (button_rects["Frente"].topleft))
+    screen.blit(arrow_down, (button_rects["Tras"].topleft))
+    screen.blit(arrow_left, (button_rects["left"].topleft))
+    screen.blit(arrow_right, (button_rects["right"].topleft))
 
 # Create a queue to manage UI updates
 ui_queue = queue.Queue(maxsize=10)  # Small maximum size to avoid high latency
