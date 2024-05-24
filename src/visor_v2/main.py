@@ -107,24 +107,24 @@ class RobotController(Node):
 
     def increase_linear_speed(self):
         if self.front_clear:
-            self.linear_speed += 0.1
+            self.linear_speed = 0.1
             self.move_robot()
         else:
             self.stop_robot()
 
     def decrease_linear_speed(self):
         if self.back_clear:
-            self.linear_speed -= 0.1
+            self.linear_speed = -0.1
             self.move_robot()
         else:
             self.stop_robot()
 
     def increase_angular_speed(self):
-        self.angular_speed += 0.1
+        self.angular_speed = 0.4
         self.move_robot()
 
     def decrease_angular_speed(self):
-        self.angular_speed -= 0.1
+        self.angular_speed = -0.4
         self.move_robot()
 
     def kill_switch(self):
@@ -209,6 +209,9 @@ def main():
                 elif event.key == pygame.K_b:
                     robot_controller.kill_switch()
                     running = False
+            elif event.type == pygame.KEYUP:
+                if event.key in [pygame.K_w, pygame.K_s, pygame.K_a, pygame.K_d]:
+                    robot_controller.stop_robot()
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_pos = event.pos
                 if button_rects["kill"].collidepoint(mouse_pos):
