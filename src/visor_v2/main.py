@@ -184,7 +184,7 @@ def ui_update():
             pass
 
 # Este deve ser o primeiro comando do Streamlit
-st.set_page_config(layout="wide")
+#st.set_page_config(layout="wide")
 
 # Inicializa as variáveis de estado da sessão
 if 'img_bytes' not in st.session_state:
@@ -216,18 +216,18 @@ with col2:
     st.write("")
     st.write("")
     st.write("")
-    if st.button("Aumentar Velocidade Linear", key="increase_linear"):
+    if st.button("↑", key="increase_linear"):
         robot_controller.increase_linear_speed()
-    if st.button("Diminuir Velocidade Linear", key="decrease_linear"):
+    if st.button("↓", key="decrease_linear"):
         robot_controller.decrease_linear_speed()
 
 with col3:
     st.write("")
     st.write("")
     st.write("")
-    if st.button("Aumentar Velocidade Angular", key="increase_angular"):
+    if st.button("↶", key="increase_angular"):
         robot_controller.increase_angular_speed()
-    if st.button("Diminuir Velocidade Angular", key="decrease_angular"):
+    if st.button("↷", key="decrease_angular"):
         robot_controller.decrease_angular_speed()
 
 # Loop contínuo de atualização para a exibição da imagem e da latência

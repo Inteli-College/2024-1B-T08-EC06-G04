@@ -31,38 +31,38 @@ class RobotController(Node):
         self.linear_speed = 0.0
         self.angular_speed = 0.0
         self.killed = False
-        self.safety_distance = 0.35  # Reduced the stopping distance to half
+        self.safety_distance = 0.35  # Reduzida a distância de parada pela metade
         self.front_clear = True
         self.back_clear = True
 
     def lidar_callback(self, msg):
         num_ranges = len(msg.ranges)
-        sector_size = num_ranges // 12  # Adjusted to make the cone narrower
+        sector_size = num_ranges // 12  # Ajustado para tornar o cone mais estreito
 
-        # Define sector indices using the division logic
-        front_left_indices = range(num_ranges - sector_size, num_ranges)  # Front left part
-        front_right_indices = range(0, sector_size)  # Front right part
-        back_indices = range(5 * sector_size, 7 * sector_size)  # Back part
+        # Definir índices dos setores usando a lógica de divisão
+        front_left_indices = range(num_ranges - sector_size, num_ranges)  # Parte frontal esquerda
+        front_right_indices = range(0, sector_size)  # Parte frontal direita
+        back_indices = range(5 * sector_size, 7 * sector_size)  # Parte traseira
 
         front_ranges = []
         back_ranges = []
 
-        # Collect front left ranges
+        # Coletar distâncias frontais esquerdas
         for index in front_left_indices:
-            if 0.01 < msg.ranges[index] < 100.0:  # Ensure range is within valid bounds
+            if 0.01 < msg.ranges[index] < 100.0:  # Garantir que a distância esteja dentro dos limites válidos
                 front_ranges.append(msg.ranges[index])
 
-        # Collect front right ranges
+        # Coletar distâncias frontais direitas
         for index in front_right_indices:
-            if 0.01 < msg.ranges[index] < 100.0:  # Ensure range is within valid bounds
+            if 0.01 < msg.ranges[index] < 100.0:  # Garantir que a distância esteja dentro dos limites válidos
                 front_ranges.append(msg.ranges[index])
 
-        # Collect back ranges
+        # Coletar distâncias traseiras
         for index in back_indices:
-            if 0.01 < msg.ranges[index] < 100.0:  # Ensure range is within valid bounds
+            if 0.01 < msg.ranges[index] < 100.0:  # Garantir que a distância esteja dentro dos limites válidos
                 back_ranges.append(msg.ranges[index])
 
-        # Check if any of the distances in the front or back ranges are below the safety threshold
+        # Verificar se alguma das distâncias nos ranges frontais ou traseiros está abaixo do limite de segurança
         if any(r < self.safety_distance for r in front_ranges):
             self.front_clear = False
         else:
@@ -75,23 +75,23 @@ class RobotController(Node):
 
         if not self.front_clear and self.linear_speed > 0:
             self.stop_robot()
-            print(f"Obstacle detected close to robot, stopping. Closest obstacle at {min(r for r in front_ranges if r < self.safety_distance)} meters.")
+            print(f"Obstáculo detectado perto do robô, parando. Obstáculo mais próximo a {min(r for r in front_ranges if r < self.safety_distance)} metros.")
         elif not self.back_clear and self.linear_speed < 0:
             self.stop_robot()
-            print(f"Obstacle detected close to robot while reversing, stopping. Closest obstacle at {min(r for r in back_ranges if r < self.safety_distance)} meters.")
+            print(f"Obstáculo detectado perto do robô ao reverter, parando. Obstáculo mais próximo a {min(r for r in back_ranges if r < self.safety_distance)} metros.")
         # else:
-            #print("Path is clear.")
+            #print("Caminho está livre.")
 
 
     def connect(self):
         if not self.connected:
             self.connected = True
-            print("Robot connected and ready to publish.")
+            print("Robô conectado e pronto para publicar.")
 
     def disconnect(self):
         if self.connected:
             self.connected = False
-            print("Robot disconnected, please reconnect to use.")
+            print("Robô desconectado, por favor reconecte para usar.")
 
     def move_robot(self):
         if self.connected:
@@ -99,13 +99,13 @@ class RobotController(Node):
             msg.linear.x = self.linear_speed
             msg.angular.z = self.angular_speed
             self.publisher.publish(msg)
-            print(f"Moving: linear speed={self.linear_speed} m/s, angular speed={self.angular_speed} rad/s")
+            print(f"Movendo: velocidade linear={self.linear_speed} m/s, velocidade angular={self.angular_speed} rad/s")
 
     def stop_robot(self):
         self.linear_speed = 0.0
         self.angular_speed = 0.0
         self.move_robot()
-        print("Stopping robot.")
+        print("Parando robô.")
 
     def increase_linear_speed(self):
         if self.front_clear:
@@ -113,7 +113,7 @@ class RobotController(Node):
             self.move_robot()
         else:
             self.stop_robot()
-            print("Movement blocked in front! Unable to move forward.")
+            print("Movimento bloqueado na frente! Incapaz de mover para frente.")
 
     def decrease_linear_speed(self):
         if self.back_clear:
@@ -121,7 +121,7 @@ class RobotController(Node):
             self.move_robot()
         else:
             self.stop_robot()
-            print("Movement blocked in back! Unable to move backward.")
+            print("Movimento bloqueado atrás! Incapaz de mover para trás.")
 
     def increase_angular_speed(self):
         self.angular_speed += 0.1
@@ -154,15 +154,15 @@ def teleop_mode(robot_controller):
     try:
         if os.name != 'nt':
             settings = termios.tcgetattr(sys.stdin)
-        print("Entering teleoperation mode. Use the following keys to control the robot:")
+        print("Entrando em modo de teleoperação. Use as seguintes teclas para controlar o robô:")
         print("  _______ ")
         print(" |   w   |")
         print(" | a s d |")
         print(" |_______|")
-        print(" Use 'w', 's', 'a', 'd' for movement.")
-        print(" Use 'space' to stop.")
-        print(" Use 'q' to quit.")
-        print(" Use 'b' to trigger the kill switch and stop.")
+        print(" Use 'w', 's', 'a', 'd' para movimento.")
+        print(" Use 'espaço' para parar.")
+        print(" Use 'q' para sair.")
+        print(" Use 'b' para acionar o interruptor de emergência e parar.")
         while True:
             key = get_key(settings)  
             if key == 'w':
@@ -188,23 +188,23 @@ def teleop_mode(robot_controller):
 def user_interaction(robot_controller):
     questions = [
         inquirer.List('action',
-                    message="What action would you like to perform? (Note: you must connect before teleoperating)",
-                    choices=['Teleoperate', 'Connect', 'Disconnect', "Emergency Stop",'Exit'])
+                    message="Que ação você gostaria de realizar? (Nota: você deve conectar antes de teleoperar)",
+                    choices=['Teleoperar', 'Conectar', 'Desconectar', "Parada de Emergência",'Sair'])
     ]
     
     while True:
         answers = inquirer.prompt(questions)
         action = answers['action']
-        if action == 'Teleoperate':
+        if action == 'Teleoperar':
             teleop_mode(robot_controller)
-        elif action == 'Connect':
+        elif action == 'Conectar':
             robot_controller.connect()
-        elif action == 'Disconnect':
+        elif action == 'Desconectar':
             robot_controller.disconnect()
-        elif action == 'Emergency Stop':
+        elif action == 'Parada de Emergência':
             robot_controller.kill_switch()
-        elif action == 'Exit':
-            break  # Exit the program
+        elif action == 'Sair':
+            break  # Sair do programa
     robot_controller.disconnect()
     rclpy.shutdown()
     exit(1)
