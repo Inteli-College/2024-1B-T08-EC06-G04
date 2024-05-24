@@ -4,6 +4,7 @@ from rclpy.qos import qos_profile_sensor_data
 from geometry_msgs.msg import Twist
 from sensor_msgs.msg import LaserScan
 from std_msgs.msg import String
+from std_srvs.srv import Empty
 import threading
 import pygame
 import cv2
@@ -65,6 +66,7 @@ class RobotController(Node):
             self.lidar_callback,
             qos_profile=qos_profile_sensor_data
         )
+        self.emergency_client = self.create_client(Empty, 'emergency_stop') # New ROS2 topic made to stop execution of the bringup in the Robot
         self.linear_speed = 0.0
         self.angular_speed = 0.0
         self.killed = False
@@ -127,12 +129,26 @@ class RobotController(Node):
         self.angular_speed = -0.4
         self.move_robot()
 
-    def kill_switch(self):
-        self.killed = True
-        self.stop_robot()
+    def send_emergency_stop(self):
+        if self.emergency_client.wait_for_service(timeout_sec=1.0):
+            req = Empty.Request()
+            future = self.emergency_client.call_async(req)
+            future.add_done_callback(self.emergency_stop_callback)
+        else:
+            print('Emergency service not available, SHUTDOWN THE ROBOTTTT')
 
-    def start_switch(self):
-        self.killed = False
+    def emergency_stop_callback(self, future):
+        try:
+            future.result()
+            print('Emergency stop signal sent successfully, robot process terminated.')
+        except Exception as e:
+            print(f'Failed to call emergency stop service: {e}, REMOVE THE BATTERY FROM THE ROBOT!!!')
+
+    def kill_switch(self):
+        print("Emergency process stop forced.")
+        self.stop_robot()
+        self.send_emergency_stop()
+        rclpy.shutdown()
 
 class Listener(Node):
     def __init__(self):
