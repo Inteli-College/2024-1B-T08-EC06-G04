@@ -48,15 +48,15 @@ A câmera do Dobot Magician é usada para captura de imagens e vídeos, permitin
 - **Vídeo em Tempo Real:** Transmissão de vídeo ao vivo para monitoramento e controle.
 - **Integração com Visão Computacional:** Utilizada junto com bibliotecas como OpenCV para detecção e reconhecimento de objetos.
 
-### 🌐 Streamlit
-Streamlit é uma biblioteca de código aberto para criação de aplicativos web interativos em Python, facilitando a visualização de dados e a criação de interfaces de usuário.
+### 🎮 Pygame
+Pygame é uma biblioteca de código aberto para desenvolvimento de interfaces gráficas e jogos em Python, proporcionando funcionalidades para criação de gráficos, sons e interações de usuário em tempo real.
 
-**Principais Funções do Streamlit:**
+**Principais Funções do Pygame:**
 
-- **Criação de Interfaces de Usuário:** Ferramentas simples para construir interfaces de usuário interativas.
-- **Visualização de Dados:** Integração fácil com bibliotecas de visualização como Matplotlib, Plotly e Altair.
-- **Desenvolvimento Rápido:** Facilita o desenvolvimento rápido de protótipos e aplicativos.
-- **Interatividade:** Permite a criação de widgets interativos para manipulação de dados em tempo real.
+- **Desenvolvimento de Interfaces Gráficas:** Ferramentas completas para criação de interfaces 2D interativas.
+- **Gráficos:** Suporte para renderização de gráficos em várias resoluções e formatos.
+- **Áudio:** Manipulação e reprodução de sons e músicas em diferentes formatos.
+- **Interatividade:** Permite a captura e manipulação de eventos de entrada do usuário, como teclado, mouse e joystick.
 
 :::info Nota
 Como ainda na Sprint 3, o projeto não foi concluído, as tecnologias ainda podem ser mudadas posteriormente.
@@ -251,23 +251,23 @@ elif not self.back_clear and self.linear_speed < 0:
 
 Finalmente, se um obstáculo for detectado e o robô estiver se movendo na direção do obstáculo (para frente ou para trás), o robô será parado chamando o método `stop_robot()`. Uma mensagem é impressa no console informando a presença do obstáculo e a distância do obstáculo mais próximo.
 
-### Adição do Streamlit e Processamento de Imagens
+### Adição do Pygame e Processamento de Imagens
 
 Para proporcionar uma melhor visualização do robô, além de um sistema de controle mais otimizado e com uma UX aprimorada, desenvolvemos uma interface de usuário mais intuitiva e direta. Esta nova interface inclui:
 
 - **Visualização em Tempo Real**: Uma câmera acoplada ao robô permite gravar e transmitir em tempo real o que o robô está fazendo, oferecendo uma visão completa das operações.
 - **Botões de Controle Intuitivos**: Foram adicionados botões de controle mais intuitivos e fáceis de usar, facilitando a interação e o controle do robô.
 
-A interface foi desenvolvida utilizando o Streamlit, que oferece uma plataforma eficiente para criar aplicações web interativas com Python.
+A interface foi desenvolvida utilizando o Pygame, que oferece uma plataforma eficiente para criar aplicações gráficas interativas com Python.
 
-### Bibliotecas Referentes ao Streamlit
+### Bibliotecas Referentes ao Pygame
 
-Abaixo estão listadas as bibliotecas utilizadas para o funcionamento do Streamlit e para o processamento de imagens em tempo real:
+Abaixo estão listadas as bibliotecas utilizadas para o funcionamento do Pygame e para o processamento de imagens em tempo real:
 
 - **cv2**: Utilizada para o processamento de imagens em tempo real.
 - **base64**: Utilizada para codificação e decodificação de imagens.
 - **numpy (np)**: Utilizada para operações matemáticas e manipulação de arrays.
-- **streamlit (st)**: Utilizada para criar a interface web interativa.
+- **pygame**: Utilizada para criar a interface gráfica interativa.
 - **PIL (Image)**: Utilizada para manipulação de imagens.
 - **io**: Utilizada para operações de entrada e saída.
 
@@ -279,7 +279,7 @@ Segue abaixo o código de importação dessas bibliotecas em Python:
 import cv2
 import base64
 import numpy as np
-import streamlit as st
+import pygame
 from PIL import Image
 import io
 ```
@@ -446,23 +446,13 @@ def main(args=None):
 
 ### Código referente ao recebimento das imagens adquiridas pelo robô e exibição na interface
 
-O código abaixo deve ser executado na máquina atribuída ao robô. O mesmo irá ser responsável por exibir a interface visual ao operador, junto com os controles para operação do robô.
+O código abaixo deve ser executado na máquina atribuída ao robô. O mesmo irá ser responsável por exibir a interface visual ao operador, junto com os controles para operação do robô. A parte abaixo representa apenas o trecho onde é processada a imagem. Pois o código completo chega a ocupar mais de 300 linhas.
 
 :::warning
 Lembrando, deve-se estar conectado na mesma rede __Wi-Fi__ que o robô, caso contrário não irá funcionar.
 :::
 
 ```python
-import rclpy
-from rclpy.node import Node
-from std_msgs.msg import String
-import cv2
-import base64
-import numpy as np
-import streamlit as st
-from PIL import Image
-import io
-
 class Listener(Node):
     def __init__(self):
         super().__init__('listener')
@@ -471,54 +461,34 @@ class Listener(Node):
             'chatter',
             self.listener_callback,
             10)
-        self.subscription  # prevent unused variable warning
+        self.subscription
 
-        # Configuração do Streamlit
-        st.title("Visualização da Webcam via ROS 2")
-        self.frame_holder = st.empty()
-
+    # Callback do ouvinte para processar mensagens recebidas
     def listener_callback(self, msg):
-        jpg_original = base64.b64decode(msg.data)
+        timestamp, jpg_as_text = msg.data.split('|', 1)
+        timestamp = float(timestamp)
+        current_time = time.time()
+        latency = current_time - timestamp
+
+        jpg_original = base64.b64decode(jpg_as_text)
         jpg_as_np = np.frombuffer(jpg_original, dtype=np.uint8)
         img = cv2.imdecode(jpg_as_np, cv2.IMREAD_COLOR)
+        
         if img is not None:
             img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
             pil_image = Image.fromarray(img_rgb)
             img_bytes = io.BytesIO()
             pil_image.save(img_bytes, format="JPEG")
             img_bytes.seek(0)
-            self.frame_holder.image(
-                img_bytes, caption="Webcam Stream", use_column_width=True
-            )
+            if not ui_queue.full():
+                ui_queue.put((img_bytes, latency))
         else:
-            self.get_logger().error('Could not decode the image')
-
-def main(args=None):
-    rclpy.init(args=args)
-    node = Listener()
-    rclpy.spin(node)
-    node.destroy_node()
-    rclpy.shutdown()
-
-if __name__ == '__main__':
-    main()
+            self.get_logger().error('Não foi possível decodificar a imagem')
 ```
 
-#### Importação das bibliotecas
-
-As bibliotecas usadas nesta parte do código são as seguintes:
-
-```python
-import rclpy
-from rclpy.node import Node
-from std_msgs.msg import String
-import cv2
-import base64
-import numpy as np
-import streamlit as st
-from PIL import Image
-import io
-```
+:::info
+Afim de analisar o código completo, o mesmo está disponível no seguinte local: `2024-1B-T08-EC06-G04/src/visor_v2/main.py` o mesmo possui comentários e está facilmente legível.
+:::
 
 #### Classe principal
 
@@ -595,10 +565,6 @@ Métodos são funções definidas dentro de uma classe que descrevem os comporta
 - `img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)`: Converte a imagem de BGR para RGB.
 - `pil_image = Image.fromarray(img_rgb)`: Converte a imagem para o formato PIL.
 - `self.frame_holder.image(img_bytes, caption="Webcam Stream", use_column_width=True)`: Exibe a imagem na interface Streamlit.
-
-**Função principal**
-
-A função `main` inicializa o nó ROS, instancia a classe `Listener` e mantém o nó em execução até ser interrompido.
 
 :::warning
 Lembre-se de encerrar corretamente o nó ROS2 para evitar problemas de recursos.
