@@ -1,3 +1,4 @@
+# Importações de bibliotecas necessárias para o funcionamento do código
 import rclpy
 from rclpy.node import Node
 from rclpy.qos import qos_profile_sensor_data
@@ -14,20 +15,22 @@ from PIL import Image
 import io
 import queue
 import time
+import collections
 
-# Initialize Pygame
+# Inicializa a biblioteca Pygame
 pygame.init()
 
-# Set up the display
+# Configuração da janela de exibição do Pygame
 screen = pygame.display.set_mode((1920, 1080))
-pygame.display.set_caption("Robot Teleoperation")
+pygame.display.set_caption("Teleoperação do Robô")
 
-# Load arrow images and resize them to fit the button sizes
+# Carrega e redimensiona imagens de setas para os botões
 arrow_up = pygame.image.load('arrow_up.png').convert_alpha()
 arrow_down = pygame.image.load('arrow_down.png').convert_alpha()
 arrow_left = pygame.image.load('arrow_left.png').convert_alpha()
 arrow_right = pygame.image.load('arrow_right.png').convert_alpha()
 
+# Define retângulos para os botões na interface gráfica
 button_rects = {
     "kill": pygame.Rect(10, 10, 100, 50),
     "Frente": pygame.Rect(910, 10, 100, 50),
@@ -36,26 +39,25 @@ button_rects = {
     "right": pygame.Rect(1020, 40, 100, 50),
 }
 
+# Redimensiona as imagens das setas para se ajustarem aos botões
 arrow_up = pygame.transform.scale(arrow_up, (button_rects["Frente"].width, button_rects["Frente"].height))
 arrow_down = pygame.transform.scale(arrow_down, (button_rects["Tras"].width, button_rects["Tras"].height))
 arrow_left = pygame.transform.scale(arrow_left, (button_rects["left"].width, button_rects["left"].height))
 arrow_right = pygame.transform.scale(arrow_right, (button_rects["right"].width, button_rects["right"].height))
 
-# Function to draw buttons and arrows
+# Função para desenhar botões e setas na tela
 def draw_buttons():
     for label, rect in button_rects.items():
         pygame.draw.rect(screen, (200, 200, 200), rect, border_radius=10)
-
-    # Draw arrow images on buttons
     screen.blit(arrow_up, (button_rects["Frente"].topleft))
     screen.blit(arrow_down, (button_rects["Tras"].topleft))
     screen.blit(arrow_left, (button_rects["left"].topleft))
     screen.blit(arrow_right, (button_rects["right"].topleft))
 
-# Create a queue to manage UI updates
-ui_queue = queue.Queue(maxsize=10)  # Small maximum size to avoid high latency
+# Cria uma fila para gerenciar atualizações da interface do usuário
+ui_queue = queue.Queue(maxsize=10)  # Tamanho máximo pequeno para evitar alta latência
 
-# Class that controls the robot
+# Classe que controla o robô
 class RobotController(Node):
     def __init__(self):
         super().__init__('robot_controller')
@@ -66,7 +68,7 @@ class RobotController(Node):
             self.lidar_callback,
             qos_profile=qos_profile_sensor_data
         )
-        self.emergency_client = self.create_client(Empty, 'emergency_stop') # New ROS2 topic made to stop execution of the bringup in the Robot
+        self.emergency_client = self.create_client(Empty, 'emergency_stop')  # Novo tópico ROS2 feito para interromper a execução do robô
         self.linear_speed = 0.0
         self.angular_speed = 0.0
         self.killed = False
@@ -74,6 +76,7 @@ class RobotController(Node):
         self.front_clear = True
         self.back_clear = True
 
+    # Callback do sensor LiDAR
     def lidar_callback(self, msg):
         num_ranges = len(msg.ranges)
         sector_size = num_ranges // 12
@@ -94,6 +97,7 @@ class RobotController(Node):
         elif not self.back_clear and self.linear_speed < 0:
             self.stop_robot()
 
+    # Movimenta o robô
     def move_robot(self):
         msg = Twist()
         msg.linear.x = self.linear_speed
@@ -101,12 +105,14 @@ class RobotController(Node):
         self.publisher.publish(msg)
         print(f"Movendo: velocidade linear={self.linear_speed} m/s, velocidade angular={self.angular_speed} rad/s")
 
+    # Para o robô
     def stop_robot(self):
         self.linear_speed = 0.0
         self.angular_speed = 0.0
         self.move_robot()
         print("Parando o robô.")
 
+    # Aumenta a velocidade linear
     def increase_linear_speed(self):
         if self.front_clear:
             self.linear_speed = 0.1
@@ -114,6 +120,7 @@ class RobotController(Node):
         else:
             self.stop_robot()
 
+    # Diminui a velocidade linear
     def decrease_linear_speed(self):
         if self.back_clear:
             self.linear_speed = -0.1
@@ -121,31 +128,36 @@ class RobotController(Node):
         else:
             self.stop_robot()
 
+    # Aumenta a velocidade angular
     def increase_angular_speed(self):
         self.angular_speed = 0.4
         self.move_robot()
 
+    # Diminui a velocidade angular
     def decrease_angular_speed(self):
         self.angular_speed = -0.4
         self.move_robot()
 
+    # Envia um sinal de parada de emergência
     def send_emergency_stop(self):
         if self.emergency_client.wait_for_service(timeout_sec=1.0):
             req = Empty.Request()
             future = self.emergency_client.call_async(req)
             future.add_done_callback(self.emergency_stop_callback)
         else:
-            print('Emergency service not available, SHUTDOWN THE ROBOTTTT')
+            print('Serviço de emergência não disponível, DESLIGUE O ROBÔ')
 
+    # Callback para a parada de emergência
     def emergency_stop_callback(self, future):
         try:
             future.result()
-            print('Emergency stop signal sent successfully, robot process terminated.')
+            print('Sinal de parada de emergência enviado com sucesso, processo do robô terminado.')
         except Exception as e:
-            print(f'Failed to call emergency stop service: {e}, REMOVE THE BATTERY FROM THE ROBOT!!!')
+            print(f'Falha ao chamar o serviço de parada de emergência: {e}, RETIRE A BATERIA DO ROBÔ!!!')
 
+    # Interrupção de emergência
     def kill_switch(self):
-        print("Emergency process stop forced.")
+        print("Parada de emergência forçada do processo.")
         self.stop_robot()
         self.send_emergency_stop()
         rclpy.shutdown()
@@ -160,6 +172,7 @@ class Listener(Node):
             10)
         self.subscription
 
+    # Callback do ouvinte para processar mensagens recebidas
     def listener_callback(self, msg):
         timestamp, jpg_as_text = msg.data.split('|', 1)
         timestamp = float(timestamp)
@@ -179,7 +192,7 @@ class Listener(Node):
             if not ui_queue.full():
                 ui_queue.put((img_bytes, latency))
         else:
-            self.get_logger().error('Could not decode the image')
+            self.get_logger().error('Não foi possível decodificar a imagem')
 
 def init_ros_nodes():
     rclpy.init()
@@ -202,7 +215,7 @@ def main():
     running = True
     clock = pygame.time.Clock()
 
-    # Font setup
+    # Configuração da fonte
     font = pygame.font.Font(None, 36)
     
     while running:
@@ -242,6 +255,9 @@ def main():
                 elif button_rects["right"].collidepoint(mouse_pos):
                     robot_controller.decrease_angular_speed()
 
+        # Monitoramento de latência
+        latency_values = collections.deque(maxlen=10) 
+
         if not ui_queue.empty():
             img_bytes, latency = ui_queue.get()
             img_np = np.array(Image.open(img_bytes))
@@ -249,10 +265,14 @@ def main():
             img_np = cv2.resize(img_np, (1080, 1920))
             img_surface = pygame.surfarray.make_surface(img_np)
             screen.blit(img_surface, (0, 0))
+
+            latency_ms = latency * 1000
+            latency_values.append(latency_ms)
             
-            # Display latency text
-            latency_text = font.render(f"Latency: {latency:.4f} seconds", True, (255, 255, 255))
-            screen.blit(latency_text, (1600, 10))  # Adjust position as needed
+            # Exibe texto da latência
+            avg_latency = sum(latency_values) / len(latency_values)
+            latency_text = font.render(f"Latência: {avg_latency:.2f} ms", True, (255, 255, 255))
+            screen.blit(latency_text, (1600, 10))  # Ajuste de posição conforme necessário
         
         draw_buttons()
         pygame.display.flip()
