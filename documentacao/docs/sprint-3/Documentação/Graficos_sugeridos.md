@@ -15,8 +15,10 @@ A API fornece acesso aos seguintes dados:
 
 ### 2. Endpoints Disponíveis
 - **GET /all_reboilers**: Retorna uma lista com os resultados da limpeza de todos os reboilers.
-  - Resposta:
-  ```json
+  <details> 
+<summary mdxType="summary">Resposta</summary>
+
+```json
       [
     {
       "reboiler_id": "string",
@@ -33,10 +35,14 @@ A API fornece acesso aos seguintes dados:
   ]
   ```
 
+</details>
+
 - **GET /reboilerX/monthly**: Retorna uma lista com os resultados das limpezas do último mês para um reboiler específico.
   - Parâmetros: `reboiler_id` - ID do reboiler específico (substituir X pelo ID do reboiler).
-  - Resposta:
-  ```json
+  <details> 
+<summary mdxType="summary">Resposta</summary>
+
+```json
      {
   "reboiler_id": "string",
   "monthly_cleanings": [
@@ -54,12 +60,15 @@ A API fornece acesso aos seguintes dados:
     ]
   }
   ```
-  
 
+</details>
+  
 - **GET /reboilerX/last_clean**: Retorna os detalhes da última limpeza de um reboiler específico.
   - Parâmetros: `reboiler_id` ID do reboiler específico (substituir X pelo ID do reboiler).
-  - Resposta:
-  ```json
+  <details> 
+<summary mdxType="summary">Resposta</summary>
+
+```json
      {
   "reboiler_id": "string",
   "last_clean_date": "YYYY-MM-DD",
@@ -74,10 +83,14 @@ A API fornece acesso aos seguintes dados:
   }
   ```
 
+</details>
+  
 - **POST /reboilerX/add_cleaning**: Adiciona um registro de limpeza para um reboiler específico.
   - Parâmetros: `reboiler_id` - ID do reboiler específico (substituir X pelo ID do reboiler).
-  - Corpo da requisição:
-  ```json
+  <details> 
+<summary mdxType="summary">Corpo da requisição</summary>
+
+```json
     {
   "date": "YYYY-MM-DD",
   "clean_status": [
@@ -90,15 +103,22 @@ A API fornece acesso aos seguintes dados:
   "double_clean_needed": "true" | "false"
   }
   ```
-  - Resposta
-  ```json
+
+</details>
+  
+  <details> 
+<summary mdxType="summary">Resposta</summary>
+
+```json
    {
   "message": "Cleaning record added successfully",
   "reboiler_id": "string",
   "date": "YYYY-MM-DD"
   }
   ```
-  
+
+</details>
+
 :::info
 Os formatos de resposta apresentados são apenas sugestões primárias e podem ser ajustados conforme necessário nas próximas sprints.
 :::
