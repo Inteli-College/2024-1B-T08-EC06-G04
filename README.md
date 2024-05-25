@@ -117,6 +117,11 @@ cd 2024-1B-T08-EC06-G04
   - Sistema de emergência
   - Metodologia
   - Instruções para execução
+- 0.3.0 - 24/04/2024
+  - Adição do **Lidar**
+  - Adição da **Câmera**
+  - Análise financeira
+  - Primeira versão da UI
 
 #  Licença/License
 
