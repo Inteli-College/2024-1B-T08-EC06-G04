@@ -394,9 +394,9 @@ class Talker(Node):
             msg = String()
             msg.data = jpg_as_text
             self.publisher_.publish(msg)
-            self.get_logger().info('Publishing image as base64 string')
+            self.get_logger().info('Publicando imagem')
         else:
-            self.get_logger().error('Could not read image from webcam')
+            self.get_logger().error('Não foi possível ler imagem da webcam')
 
     # Método para finalizar a execução da classe
     def destroy_node(self):
@@ -503,33 +503,34 @@ class Listener(Node):
             'chatter',
             self.listener_callback,
             10)
-        self.subscription  # prevent unused variable warning
+        self.subscription
 
-        # Configuração do Streamlit
-        st.title("Visualização da Webcam via ROS 2")
-        self.frame_holder = st.empty()
-
+    # Callback do ouvinte para processar mensagens recebidas
     def listener_callback(self, msg):
-        jpg_original = base64.b64decode(msg.data)
+        timestamp, jpg_as_text = msg.data.split('|', 1)
+        timestamp = float(timestamp)
+        current_time = time.time()
+        latency = current_time - timestamp
+
+        jpg_original = base64.b64decode(jpg_as_text)
         jpg_as_np = np.frombuffer(jpg_original, dtype=np.uint8)
         img = cv2.imdecode(jpg_as_np, cv2.IMREAD_COLOR)
+        
         if img is not None:
             img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
             pil_image = Image.fromarray(img_rgb)
             img_bytes = io.BytesIO()
             pil_image.save(img_bytes, format="JPEG")
             img_bytes.seek(0)
-            self.frame_holder.image(
-                img_bytes, caption="Webcam Stream", use_column_width=True
-            )
+            if not ui_queue.full():
+                ui_queue.put((img_bytes, latency))
         else:
-            self.get_logger().error('Could not decode the image')
+            self.get_logger().error('Não foi possível decodificar a imagem')
 ```
 
 #### Atributos
 
 - `subscription`: Inscrição no tópico `chatter` para receber mensagens do tipo `String`.
-- `frame_holder`: Elemento de espaço reservado no Streamlit para exibir as imagens.
 
 :::info
 Atributos são variáveis que pertencem a um objeto ou classe em programação orientada a objetos. Eles armazenam dados ou informações que são relevantes para o objeto ou classe. No contexto da classe `Listener`, os atributos são usados para manter referências a elementos importantes, como o publicador ROS e o espaço reservado para as imagens no Streamlit.
@@ -553,6 +554,8 @@ Métodos são funções definidas dentro de uma classe que descrevem os comporta
 - Exibe a imagem na interface Streamlit.
 
 #### Explicações Adicionais
+
+Segue abaixo algumas explicações extras a respeito do código, afim de não deixar quaisquer dúvidas.
 
 ##### Decodificação da Imagem
 
@@ -579,7 +582,7 @@ No código do processamento e aquisição de imagens
 ```python
 # Trecho do código para tratamento de erros
         else:
-            self.get_logger().error('Could not read image from webcam')
+            self.get_logger().error('Não foi possível ler imagem da webcam')
 ```
 
 No código da interface visual e processamento de imagens
@@ -587,7 +590,7 @@ No código da interface visual e processamento de imagens
 ```python
 # Trecho do código para tratamento de erros
         else:
-            self.get_logger().error('Could not decode the image')
+            self.get_logger().error('Não foi possível decodificar a imagem')
 ```
 
 Já no código referente ao LiDAR, se ele ler algum valor abaixo de 0,35 u.m, o robo irá parar no exato momento, se movimentando apenas para outras direções sem ser a que estava indo anteriormente para prevenir a batida.
@@ -681,3 +684,8 @@ if __name__ == '__main__':
 
 3. **main Function**:
    Função principal que inicializa o nó ROS2, inicia o bringup do TurtleBot3, mantém o nó em execução e lida com a destruição do nó e encerramento do ROS2 quando o programa é interrompido.
+
+
+:::warning
+Lembrando novamente, para inicializar o projeto realizado até a Sprint 3, siga as instruções disponíveis [**aqui**](../Documentação/Instruções%20de%20Execução.md)
+:::

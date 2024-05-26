@@ -15,7 +15,7 @@ A API fornece acesso aos seguintes dados:
 
 ### 2. Endpoints Disponíveis
 - **GET /all_reboilers**: Retorna uma lista com os resultados da limpeza de todos os reboilers.
-  <details> 
+<details> 
 <summary mdxType="summary">Resposta</summary>
 
 ```json
@@ -39,7 +39,7 @@ A API fornece acesso aos seguintes dados:
 
 - **GET /reboilerX/monthly**: Retorna uma lista com os resultados das limpezas do último mês para um reboiler específico.
   - Parâmetros: `reboiler_id` - ID do reboiler específico (substituir X pelo ID do reboiler).
-  <details> 
+<details> 
 <summary mdxType="summary">Resposta</summary>
 
 ```json
@@ -65,7 +65,7 @@ A API fornece acesso aos seguintes dados:
   
 - **GET /reboilerX/last_clean**: Retorna os detalhes da última limpeza de um reboiler específico.
   - Parâmetros: `reboiler_id` ID do reboiler específico (substituir X pelo ID do reboiler).
-  <details> 
+<details> 
 <summary mdxType="summary">Resposta</summary>
 
 ```json
@@ -87,7 +87,7 @@ A API fornece acesso aos seguintes dados:
   
 - **POST /reboilerX/add_cleaning**: Adiciona um registro de limpeza para um reboiler específico.
   - Parâmetros: `reboiler_id` - ID do reboiler específico (substituir X pelo ID do reboiler).
-  <details> 
+<details> 
 <summary mdxType="summary">Corpo da requisição</summary>
 
 ```json
@@ -106,7 +106,7 @@ A API fornece acesso aos seguintes dados:
 
 </details>
   
-  <details> 
+<details> 
 <summary mdxType="summary">Resposta</summary>
 
 ```json
