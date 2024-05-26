@@ -1,14 +1,27 @@
+---
+sidebar_position: 4
+custom_edit_url: null
+title: "Análise Financeira da Prova de Conceito (PoC)"
+---
+
+
 # Análise Financeira da Prova de Conceito (PoC)
 
 A Prova de Conceito (PoC) na análise financeira é uma abordagem utilizada para demonstrar a viabilidade prática de uma ideia ou projeto financeiro. Esta metodologia envolve a implementação inicial de um conceito ou estratégia financeira em uma escala limitada para testar sua eficácia e potencial de sucesso antes de uma implementação mais ampla.
 
 A PoC é uma ferramenta valiosa para reduzir os riscos e incertezas associados a novas iniciativas financeiras, permitindo que as empresas coletem dados reais antes de realizar investimentos significativos.
 
+:::danger
+Esta POC foi realizada em `21/05/2024`. É importante ressaltar que, após essa data, os preços e os impostos aplicáveis podem ter sofrido alterações significativas. As condições de mercado estão em constante mudança, e fatores como variações cambiais, mudanças na legislação fiscal, e flutuações na oferta e demanda podem impactar os custos e impostos associados. 
+:::
+
 ## Introdução
 
 Esta análise financeira detalha os custos e considerações econômicas relacionados à Prova de Conceito (PoC) de um robô operado à distância, projetado para verificar a limpeza dos reboilers da empresa Atvos. A análise abrange custos diretos e indiretos, possíveis reduções de custos e estabelece uma base para determinar o preço mínimo aceitável para venda.
 
 ## Análise de Custos
+
+Segue abaixo a análise de custos realizada, detalhando os diversos componentes e suas respectivas despesas. Para uma melhor compreensão e transparência dos dados apresentados, disponibilizamos também os arquivos Excel correspondentes. Estes arquivos incluem todas as informações necessárias para uma análise mais aprofundada e podem ser acessados através do link fornecido após as tabelas.
 
 ### Custos de Hardware
 
@@ -22,7 +35,7 @@ Esta análise financeira detalha os custos e considerações econômicas relacio
 
 > Nota: A coluna “Valor Final” inclui valores de frete e impostos (considerando ICMS de 18% e IPI de 10%).
 
-> Link para a planilha Excel: https://1drv.ms/x/s!Arzvp0EDtndcgUcPq0qq6VL_te33?e=FgOShB
+> Clique [aqui](https://1drv.ms/x/s!Arzvp0EDtndcgUcPq0qq6VL_te33?e=FgOShB) para abrir a planilha Excel
 
 ### Custos de Mão de Obra
 
@@ -33,7 +46,7 @@ Esta análise financeira detalha os custos e considerações econômicas relacio
 | Gestor de Projetos    | 1          | 2     | R$ 7.500,00    | R$ 13.500,00   | Glassdoor|
 | **Total**             |            |       |                | **R$ 65.500,00** |                    |
 
-> Link para a planilha Excel: https://1drv.ms/x/s!Arzvp0EDtndcgUl5MVMSg7RRGoXL?e=mLwYJj
+> Clique [aqui](https://1drv.ms/x/s!Arzvp0EDtndcgUl5MVMSg7RRGoXL?e=mLwYJj) para abrir a planilha Excel 
 
 ### Custos Totais
 
@@ -43,7 +56,7 @@ Esta análise financeira detalha os custos e considerações econômicas relacio
 | Custos de Mão de Obra | R$ 65.500,00  |
 | **Total**             | **R$ 78.716,62** |
 
-> Link para a planilha Excel: https://1drv.ms/x/s!Arzvp0EDtndcgUuV7u5yx5Di6jn5?e=wWhbzP
+> Clique [aqui](https://1drv.ms/x/s!Arzvp0EDtndcgUuV7u5yx5Di6jn5?e=wWhbzP) para abrir a planilha Excel
 
 ### Impostos e CNAE
 
@@ -102,4 +115,4 @@ Para assegurar a viabilidade do projeto e um retorno mínimo aceitável, definim
 | **Valor Mínimo com Lucro**      |                     |             | 74.326,96       |
 
 
-> Link para a planilha Excel: https://1drv.ms/x/s!Arzvp0EDtndcgU2XKFVW1CqFbEmL?e=2Scuj8
+> Clique [aqui](https://1drv.ms/x/s!Arzvp0EDtndcgU2XKFVW1CqFbEmL?e=2Scuj8) para acessar a planilha Excel 
