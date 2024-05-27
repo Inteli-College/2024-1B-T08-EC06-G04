@@ -8,18 +8,26 @@ const MainPage = () => {
   const [imgSrc, setImgSrc] = useState(null);
   const [connected, setConnected] = useState(false);
   const [cmdVel, setCmdVel] = useState(null);
+  const [frontClear, setFrontClear] = useState(true);
+  const [backClear, setBackClear] = useState(true);
+  const [pressedKeys, setPressedKeys] = useState({});
 
   useEffect(() => {
-    const ros = new ROSLIB.Ros({ url: 'ws://localhost:9090' });
+    const ros = new ROSLIB.Ros({ url: 'ws://10.128.0.9:9090' });
     const cmdVelTopic = new ROSLIB.Topic({
       ros,
       name: '/cmd_vel',
       messageType: 'geometry_msgs/Twist'
     });
-    const imageTopic = new ROSLIB.Topic({
+    const videoTopic = new ROSLIB.Topic({
       ros,
-      name: '/camera/image',
-      messageType: 'sensor_msgs/Image'
+      name: '/chatter',
+      messageType: 'std_msgs/String'
+    });
+    const lidarTopic = new ROSLIB.Topic({
+      ros,
+      name: '/scan',
+      messageType: 'sensor_msgs/LaserScan'
     });
 
     ros.on('connection', () => {
@@ -34,94 +42,117 @@ const MainPage = () => {
       console.log('Connection to websocket server closed.');
       setConnected(false);
     });
-    imageTopic.subscribe(message => {
-      const base64Image = `data:image/jpeg;base64,${message.data}`;
-      setImgSrc(base64Image);
+
+    videoTopic.subscribe(message => {
+      try {
+        const base64Image = `data:image/jpeg;base64,${message.data.replace(/\s/g, '')}`;
+        setImgSrc(base64Image);
+      } catch (error) {
+        console.error('Error processing image message:', error);
+      }
+    });
+
+    lidarTopic.subscribe(message => {
+      lidarCallback(message.ranges);
     });
 
     setCmdVel(cmdVelTopic);
 
+    const handleKeyDown = (e) => {
+      setPressedKeys(prevKeys => ({ ...prevKeys, [e.key]: true }));
+    };
+
+    const handleKeyUp = (e) => {
+      setPressedKeys(prevKeys => ({ ...prevKeys, [e.key]: false }));
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('keyup', handleKeyUp);
+
     return () => {
-      imageTopic.unsubscribe();
-      ros.close();
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('keyup', handleKeyUp);
     };
   }, []);
 
-  const handleKeyDown = (e) => {
-    if (!cmdVel) return;
+  useEffect(() => {
+    const interval = setInterval(() => {
+      updateMovement();
+    }, 10);
 
-    const twist = new ROSLIB.Message({
-      linear: { x: 0.0, y: 0.0, z: 0.0 },
-      angular: { x: 0.0, y: 0.0, z: 0.0 }
-    });
+    return () => {
+      clearInterval(interval);
+    };
+  }, [frontClear, backClear, pressedKeys]);
 
-    switch (e.key) {
-      case 'w':
-        twist.linear.x = 0.1;
-        break;
-      case 's':
-        twist.linear.x = -0.1;
-        break;
-      case 'a':
-        twist.angular.z = 0.1;
-        break;
-      case 'd':
-        twist.angular.z = -0.1;
-        break;
-      case ' ':
-        twist.linear.x = 0.0;
-        twist.angular.z = 0.0;
-        break;
-      default:
-        break;
-    }
+  const lidarCallback = (ranges) => {
+    const numRanges = ranges.length;
+    const sectorSize = Math.floor(numRanges / 12);
+    const safetyDistance = 0.35;
 
-    cmdVel.publish(twist);
+    const frontLeftIndices = Array.from({ length: sectorSize }, (_, i) => numRanges - sectorSize + i);
+    const frontRightIndices = Array.from({ length: sectorSize }, (_, i) => i);
+    const backIndices = Array.from({ length: sectorSize * 2 }, (_, i) => 5 * sectorSize + i);
+
+    const frontRanges = frontLeftIndices.concat(frontRightIndices).map(index => ranges[index]).filter(range => range > 0.01 && range < 100.0);
+    const backRanges = backIndices.map(index => ranges[index]).filter(range => range > 0.01 && range < 100.0);
+
+    const frontIsClear = !frontRanges.some(range => range < safetyDistance);
+    const backIsClear = !backRanges.some(range => range < safetyDistance);
+
+    setFrontClear(frontIsClear);
+    setBackClear(backIsClear);
   };
 
-  const handleButtonClick = (direction) => {
+  const updateMovement = () => {
+    let linear = 0.0;
+    let angular = 0.0;
+
+    if (frontClear && pressedKeys['w']) {
+      linear = 0.2;
+    } else if (backClear && pressedKeys['s']) {
+      linear = -0.2;
+    }
+
+    if (pressedKeys['a']) {
+      angular = 0.5;
+    } else if (pressedKeys['d']) {
+      angular = -0.5;
+    }
+
+    // If front or back is not clear, stop the robot
+    if (!frontClear && linear > 0) {
+      linear = 0.0;
+    }
+    if (!backClear && linear < 0) {
+      linear = 0.0;
+    }
+
+    moveRobot(linear, angular);
+  };
+
+  const moveRobot = (linear, angular) => {
     if (!cmdVel) return;
 
     const twist = new ROSLIB.Message({
-      linear: { x: 0.0, y: 0.0, z: 0.0 },
-      angular: { x: 0.0, y: 0.0, z: 0.0 }
+      linear: { x: linear, y: 0.0, z: 0.0 },
+      angular: { x: 0.0, y: 0.0, z: angular }
     });
-
-    switch (direction) {
-      case 'up':
-        twist.linear.x = 0.1;
-        break;
-      case 'down':
-        twist.linear.x = -0.1;
-        break;
-      case 'left':
-        twist.angular.z = 0.1;
-        break;
-      case 'right':
-        twist.angular.z = -0.1;
-        break;
-      case 'stop':
-        twist.linear.x = 0.0;
-        twist.angular.z = 0.0;
-        break;
-      default:
-        break;
-    }
 
     cmdVel.publish(twist);
   };
 
   return (
-    <div className="App flex flex-col justify-center min-h-screen bg-white w-full" onKeyDown={e => handleKeyDown(e, cmdVel)} tabIndex="0">
+    <div className="App flex flex-col justify-center min-h-screen bg-white w-full" tabIndex="0">
       <div className="grid grid-cols-8 gap-4 w-full p-4">
         <div className="col-start-2 col-span-1">
           <Camera imgSrc={imgSrc} />
         </div>
-        <div className="col-start-4 col-span-1 mt-[-2rem]"> {/* Moves the Header up */}
+        <div className="col-start-4 col-span-1 mt-[-2rem]">
           <Header connected={connected} />
         </div>
-        <div className="col-start-5 col-span-1 mt-20"> {/* Moves the Controls further down */}
-          <Controls handleButtonClick={direction => handleButtonClick(direction, cmdVel)} />
+        <div className="col-start-5 col-span-1 mt-20">
+          <Controls handleButtonClick={(direction) => setPressedKeys({ [direction]: true })} />
         </div>
       </div>
     </div>

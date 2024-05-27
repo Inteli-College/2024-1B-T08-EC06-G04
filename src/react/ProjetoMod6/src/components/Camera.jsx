@@ -1,13 +1,17 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 
 const Camera = ({ imgSrc }) => {
+  const imgRef = useRef(null);
+
+  useEffect(() => {
+    if (imgRef.current && imgSrc) {
+      imgRef.current.src = imgSrc;
+    }
+  }, [imgSrc]);
+
   return (
     <div className="camera w-80 h-96 bg-gray-300 border-4 border-gray-500 rounded-lg flex items-center justify-center overflow-hidden">
-      {imgSrc ? (
-        <img src={imgSrc} alt="Video Stream" className="max-w-full max-h-full" />
-      ) : (
-        <div className="camera-placeholder text-gray-700">Câmera não conectada</div>
-      )}
+      <img ref={imgRef} alt="Video Stream" className="max-w-full max-h-full object-cover" />
     </div>
   );
 };
