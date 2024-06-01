@@ -28,6 +28,8 @@ export PYTHONPATH="$PYTHONPATH:$TYPER_PATH"
 
 echo "Updated PYTHONPATH: $PYTHONPATH"
 
+echo 'export ROS_DOMAIN_ID=86 #TURTLEBOT3' >> ~/.bashrc
+
 # Builda e roda o ros2
 colcon build
 
