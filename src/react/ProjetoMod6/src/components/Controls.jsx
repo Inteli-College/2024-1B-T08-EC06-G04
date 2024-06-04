@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import ROSLIB from 'roslib';
-import { FaArrowUp, FaArrowDown, FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 
 const Controls = ({ ros }) => {
   const [cmdVel, setCmdVel] = useState(null);
@@ -114,22 +113,53 @@ const Controls = ({ ros }) => {
 
   return (
     <div className="controls flex flex-col items-center space-y-2 ml-10">
-      <button onClick={() => setPressedKeys({ 'w': true })} className="bg-blue-500 hover:bg-blue-700 text-white p-4 rounded-full">
-        <FaArrowUp />
+      <button
+        onMouseDown={() => setPressedKeys({ ...pressedKeys, 'w': true })}
+        onMouseUp={() => setPressedKeys({ ...pressedKeys, 'w': false })}
+        className="w-[100px] h-[100px] relative bg-green-300 rounded-[20px] border-2 border-neutral-500 hover:bg-green-400"
+      >
+        <div className="origin-top-left rotate-45 w-[25px] h-[25px] left-[49.68px] top-[32px] absolute">
+          <div className="w-[25px] h-[0px] left-[-14.14px] top-[21.21px] absolute origin-top-left -rotate-45 border-4 border-stone-800"></div>
+          <div className="w-[25px] h-[0px] left-[-3.54px] top-[3.54px] absolute origin-top-left rotate-45 border-4 border-stone-800"></div>
+        </div>
       </button>
       <div className="flex space-x-2">
-        <button onClick={() => setPressedKeys({ 'a': true })} className="bg-blue-500 hover:bg-blue-700 text-white p-4 rounded-full">
-          <FaArrowLeft />
+        <button
+          onMouseDown={() => setPressedKeys({ ...pressedKeys, 'a': true })}
+          onMouseUp={() => setPressedKeys({ ...pressedKeys, 'a': false })}
+          className="w-[100px] h-[100px] relative bg-green-300 rounded-[20px] border-2 border-neutral-500 hover:bg-green-400"
+        >
+          <div className="origin-top-left -rotate-45 w-[25px] h-[25px] left-[32px] top-[49.68px] absolute">
+            <div className="w-[25px] h-[0px] left-[21.21px] top-[14.14px] absolute origin-top-left rotate-[-135deg] border-4 border-stone-800"></div>
+            <div className="w-[25px] h-[0px] left-[3.54px] top-[3.54px] absolute origin-top-left -rotate-45 border-4 border-stone-800"></div>
+          </div>
         </button>
-        <button onClick={() => setPressedKeys({ 'stop': true })} className="bg-blue-500 hover:bg-blue-700 text-white p-4 rounded-full">
+        <button
+          onMouseDown={() => setPressedKeys({})}
+          className="w-[100px] h-[100px] relative bg-red-500 rounded-[20px] border-2 border-neutral-500 text-white flex items-center justify-center hover:bg-red-600"
+        >
           Parar
         </button>
-        <button onClick={() => setPressedKeys({ 'd': true })} className="bg-blue-500 hover:bg-blue-700 text-white p-4 rounded-full">
-          <FaArrowRight />
+        <button
+          onMouseDown={() => setPressedKeys({ ...pressedKeys, 'd': true })}
+          onMouseUp={() => setPressedKeys({ ...pressedKeys, 'd': false })}
+          className="w-[100px] h-[100px] relative bg-green-300 rounded-[20px] border-2 border-neutral-500 hover:bg-green-400"
+        >
+          <div className="origin-top-left rotate-[135deg] w-[25px] h-[25px] left-[67.36px] top-[49.68px] absolute">
+            <div className="w-[25px] h-[0px] left-[-21.21px] top-[-14.14px] absolute origin-top-left rotate-45 border-4 border-stone-800"></div>
+            <div className="w-[25px] h-[0px] left-[-3.54px] top-[-3.54px] absolute origin-top-left rotate-[135deg] border-4 border-stone-800"></div>
+          </div>
         </button>
       </div>
-      <button onClick={() => setPressedKeys({ 's': true })} className="bg-blue-500 hover:bg-blue-700 text-white p-4 rounded-full">
-        <FaArrowDown />
+      <button
+        onMouseDown={() => setPressedKeys({ ...pressedKeys, 's': true })}
+        onMouseUp={() => setPressedKeys({ ...pressedKeys, 's': false })}
+        className="w-[100px] h-[100px] relative bg-green-300 rounded-[20px] border-2 border-neutral-500 hover:bg-green-400"
+      >
+        <div className="origin-top-left rotate-[-135deg] w-[25px] h-[25px] left-[49.68px] top-[67.36px] absolute">
+          <div className="w-[25px] h-[0px] left-[14.14px] top-[-21.21px] absolute origin-top-left rotate-[135deg] border-4 border-stone-800"></div>
+          <div className="w-[25px] h-[0px] left-[3.54px] top-[-3.54px] absolute origin-top-left rotate-[-135deg] border-4 border-stone-800"></div>
+        </div>
       </button>
     </div>
   );
