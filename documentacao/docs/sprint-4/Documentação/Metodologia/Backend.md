@@ -59,3 +59,4 @@ A criação do backend com FastAPI e TinyDB resultou em uma solução robusta e 
 :::info
 O projeto foi criado levando em consideração a **escalabilidade** do código, permitindo fácil manutenção e expansão.
 :::
+
