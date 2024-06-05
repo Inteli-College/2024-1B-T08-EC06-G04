@@ -1,6 +1,6 @@
 import tinydb
 
-db = tinydb.TinyDB("../../../../../database/db.json")
+db = tinydb.TinyDB("../database/db.json")
 
 
 async def create(version, image, result):

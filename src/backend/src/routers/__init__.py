@@ -1,9 +1,8 @@
 from fastapi import APIRouter
-from . import hello
-from . import crud
+from .hello import router as hello
+from .crud import router as crud
 
 router = APIRouter()
 
-router.include_router(hello.router, prefix="/hello")
-
-router.include_router(crud.router, prefix="/crud")
+router.include_router(hello, prefix="/hello")
+router.include_router(crud, prefix="/crud")
