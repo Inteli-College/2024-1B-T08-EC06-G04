@@ -118,9 +118,8 @@ const Controls = ({ ros }) => {
         onMouseUp={() => setPressedKeys({ ...pressedKeys, 'w': false })}
         className="w-[100px] h-[100px] relative bg-green-300 rounded-[20px] border-2 border-neutral-500 hover:bg-green-400"
       >
-        <div className="origin-top-left rotate-45 w-[25px] h-[25px] left-[49.68px] top-[32px] absolute">
-          <div className="w-[25px] h-[0px] left-[-14.14px] top-[21.21px] absolute origin-top-left -rotate-45 border-4 border-stone-800"></div>
-          <div className="w-[25px] h-[0px] left-[-3.54px] top-[3.54px] absolute origin-top-left rotate-45 border-4 border-stone-800"></div>
+        <div className="rotate-[180deg] h-20 w-20 flex items-center justify-center">
+          <img src="/images/arrow.svg" alt="UP" className='fl'/>
         </div>
       </button>
       <div className="flex space-x-2">
@@ -129,10 +128,9 @@ const Controls = ({ ros }) => {
           onMouseUp={() => setPressedKeys({ ...pressedKeys, 'a': false })}
           className="w-[100px] h-[100px] relative bg-green-300 rounded-[20px] border-2 border-neutral-500 hover:bg-green-400"
         >
-          <div className="origin-top-left -rotate-45 w-[25px] h-[25px] left-[32px] top-[49.68px] absolute">
-            <div className="w-[25px] h-[0px] left-[21.21px] top-[14.14px] absolute origin-top-left rotate-[-135deg] border-4 border-stone-800"></div>
-            <div className="w-[25px] h-[0px] left-[3.54px] top-[3.54px] absolute origin-top-left -rotate-45 border-4 border-stone-800"></div>
-          </div>
+          <div className="rotate-[90deg] h-20 w-20 flex items-center justify-center">
+          <img src="/images/arrow.svg" alt="UP" className='fl'/>
+        </div>
         </button>
         <button
           onMouseDown={() => setPressedKeys({})}
@@ -145,10 +143,9 @@ const Controls = ({ ros }) => {
           onMouseUp={() => setPressedKeys({ ...pressedKeys, 'd': false })}
           className="w-[100px] h-[100px] relative bg-green-300 rounded-[20px] border-2 border-neutral-500 hover:bg-green-400"
         >
-          <div className="origin-top-left rotate-[135deg] w-[25px] h-[25px] left-[67.36px] top-[49.68px] absolute">
-            <div className="w-[25px] h-[0px] left-[-21.21px] top-[-14.14px] absolute origin-top-left rotate-45 border-4 border-stone-800"></div>
-            <div className="w-[25px] h-[0px] left-[-3.54px] top-[-3.54px] absolute origin-top-left rotate-[135deg] border-4 border-stone-800"></div>
-          </div>
+          <div className="rotate-[270deg] h-20 w-20 flex items-center justify-center">
+          <img src="/images/arrow.svg" alt="UP" className='fl'/>
+        </div>
         </button>
       </div>
       <button
@@ -156,9 +153,8 @@ const Controls = ({ ros }) => {
         onMouseUp={() => setPressedKeys({ ...pressedKeys, 's': false })}
         className="w-[100px] h-[100px] relative bg-green-300 rounded-[20px] border-2 border-neutral-500 hover:bg-green-400"
       >
-        <div className="origin-top-left rotate-[-135deg] w-[25px] h-[25px] left-[49.68px] top-[67.36px] absolute">
-          <div className="w-[25px] h-[0px] left-[14.14px] top-[-21.21px] absolute origin-top-left rotate-[135deg] border-4 border-stone-800"></div>
-          <div className="w-[25px] h-[0px] left-[3.54px] top-[-3.54px] absolute origin-top-left rotate-[-135deg] border-4 border-stone-800"></div>
+        <div className="h-20 w-20 flex items-center justify-center">
+          <img src="/images/arrow.svg" alt="UP" className='fl'/>
         </div>
       </button>
     </div>
