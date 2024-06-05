@@ -91,9 +91,4 @@ Para o desenvolvimento e validação do modelo YoloV8, utilizamos um conjunto es
    - Proporciona funcionalidades avançadas para operações tensoriais e algoritmos de aprendizado de máquina.
    - Essencial para o backend do YoloV8, permitindo o treinamento eficiente e a inferência rápida.
 
-### 3. Roboflow
-   - Utilizada para preparar e gerenciar o dataset, facilitando a anotação e organização das imagens de treino.
-   - Fornece ferramentas de pré-processamento de dados e exportação em formatos compatíveis com diferentes frameworks de machine learning.
-   - Crucial para garantir um dataset de alta qualidade, ajustado especificamente para o problema de detecção de sujeira nos tubos.
-
 Essas bibliotecas foram escolhidas por suas funcionalidades avançadas e sua capacidade de integrar-se perfeitamente com o nosso pipeline de desenvolvimento, garantindo uma solução robusta e eficiente para a detecção de obstruções nos tubos.
