@@ -46,8 +46,9 @@ const Camera = ({ ros }) => {
 
   return (
     <div className="camera flex-grow h-screen bg-gray-300 border-4 border-gray-500 rounded-lg flex items-center justify-center overflow-hidden">
-      <img id="videoStream" src={frames[frames.length - 1]} alt="Video Stream" className="w-full h-full object-cover" />
-      <div className="absolute bottom-2 left-2 text-white bg-black bg-opacity-50 p-1 rounded">
+      <img id="videoStream" src={frames[frames.length - 1]} alt="Video Stream" className="w-full h-full object-cover " />
+
+      <div className="absolute top-3 left-3 text-white bg-black bg-opacity-50 p-1 rounded">
         {timestamp && <div className="timestamp text-sm">{`Timestamp: ${timestamp}`}</div>}
         {latency !== null && <div className="latency text-sm">{`Latency: ${latency.toFixed(2)} ms`}</div>}
       </div>
