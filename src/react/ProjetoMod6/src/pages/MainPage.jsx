@@ -13,7 +13,7 @@ const MainPage = () => {
   const latestFrame = useRef(null);
 
   useEffect(() => {
-    const rosInstance = new ROSLIB.Ros({ url: 'ws://10.128.0.9:9090' });
+    const rosInstance = new ROSLIB.Ros({ url: 'ws://localhost:9090' });
 
     rosInstance.on('connection', () => {
       console.log('Connected to rosbridge websocket server.');

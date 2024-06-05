@@ -1,7 +1,9 @@
+// Em Camera.js
+
 import React, { useEffect, useState } from 'react';
 import ROSLIB from 'roslib';
 
-const Camera = ({ ros }) => {
+const Camera = ({ ros, onUpdateFrame }) => {
   const [frames, setFrames] = useState([]);
   const [timestamp, setTimestamp] = useState(null);
   const [latency, setLatency] = useState(null);
@@ -32,6 +34,9 @@ const Camera = ({ ros }) => {
         });
         setTimestamp(new Date(messageTimestamp).toLocaleString());
         setLatency(latency);
+        if (onUpdateFrame) {
+          onUpdateFrame(base64Image); // Passe o base64Image para a função onUpdateFrame
+        }
       } catch (error) {
         console.error('Error processing image message:', error);
       }
@@ -42,7 +47,7 @@ const Camera = ({ ros }) => {
     return () => {
       videoTopic.unsubscribe(handleMessage);
     };
-  }, [ros]);
+  }, [ros, onUpdateFrame]);
 
   return (
     <div className="camera flex-grow h-screen bg-gray-300 border-4 border-gray-500 rounded-lg flex items-center justify-center overflow-hidden">
