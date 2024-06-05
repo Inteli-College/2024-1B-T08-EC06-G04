@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from 'react';
+// Em MainPage.js
+
+import React, { useEffect, useState, useRef } from 'react';
 import ROSLIB from 'roslib';
 import Header from '../components/Header';
 import Camera from '../components/Camera';
@@ -8,6 +10,7 @@ import PhotoButton from '../components/PhotoButton';
 const MainPage = () => {
   const [ros, setRos] = useState(null);
   const [connected, setConnected] = useState(false);
+  const latestFrame = useRef(null);
 
   useEffect(() => {
     const rosInstance = new ROSLIB.Ros({ url: 'ws://10.128.0.9:9090' });
@@ -34,16 +37,25 @@ const MainPage = () => {
     };
   }, []);
 
+  const handleTakePhoto = () => {
+    if (latestFrame.current) {
+      const base64image = latestFrame.current;
+      console.log('Base64 Image:', base64image);
+    } else {
+      console.log('No image available.');
+    }
+  };
+
   return (
     <div className="App flex flex-col justify-center min-h-screen bg-white w-full" tabIndex="0">
       <Header connected={connected} />
       <div className="relative flex flex-grow">
-        <Camera ros={ros} />
+        <Camera ros={ros} onUpdateFrame={(frame) => (latestFrame.current = frame)} />
         <div className="absolute bottom-5 left-5">
           <Controls ros={ros} />
         </div>
         <div className="absolute bottom-10 right-10">
-          <PhotoButton />
+          <PhotoButton onClick={handleTakePhoto} />
         </div>
       </div>
     </div>
