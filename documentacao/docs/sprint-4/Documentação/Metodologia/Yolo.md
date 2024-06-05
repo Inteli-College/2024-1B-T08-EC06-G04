@@ -92,3 +92,110 @@ Para o desenvolvimento e validação do modelo YoloV8, utilizamos um conjunto es
    - Essencial para o backend do YoloV8, permitindo o treinamento eficiente e a inferência rápida.
 
 Essas bibliotecas foram escolhidas por suas funcionalidades avançadas e sua capacidade de integrar-se perfeitamente com o nosso pipeline de desenvolvimento, garantindo uma solução robusta e eficiente para a detecção de obstruções nos tubos.
+
+## **Estrutura e Explicação do Código YoloV8**
+
+A seguir, detalharemos a estrutura do código YoloV8 utilizado no projeto, separando-o em diferentes seções: `Preparação do Ambiente`, `Treinamento` e `Validação`. Cada parte será explicada para facilitar a compreensão da sua funcionalidade e organização.
+
+### 1. Preparação do Ambiente
+A preparação do ambiente é uma etapa crucial para garantir que todas as dependências e bibliotecas necessárias estejam instaladas e configuradas corretamente. Utilizamos o seguinte código para essa etapa:
+
+```python
+from ultralytics import YOLO
+import cv2
+import os
+```
+
+- **ultralytics:** Importamos a biblioteca Ultralytics para acessar e implementar o modelo YoloV8.
+- **cv2:** Utilizamos a biblioteca OpenCV (cv2) para manipulação de imagens e processamento visual.
+
+### 2. Treinamento do Modelo
+
+Nesta seção, configuramos e treinamos o modelo YoloV8 usando nosso dataset específico. O código a seguir foi utilizado:
+
+```python
+model = YOLO("yolov8n.pt")
+
+result = model.train(data="Tacomare.v1i.yolov8/data.yaml", epochs=100, device="mps")
+```
+
+- **Modelo YoloV8:** Inicializamos o modelo YoloV8 utilizando um modelo pré-treinado (yolov8n.pt).
+- **Treinamento:** Configuramos o treinamento do modelo, especificando o caminho para o arquivo de configuração do dataset (data.yaml), o número de épocas (epochs=100) e o dispositivo de treinamento (device="mps").
+
+:::info
+O dispositivio de treinamento `device="mps"` é referente a GPU de dispositivos Apple com Chip **Apple Silicon**, para outros dipositivos cheque a documentação do Yolo [aqui](https://docs.ultralytics.com/yolov5/tutorials/multi_gpu_training/#training)
+:::
+
+### 3. Validação do Modelo
+
+Após o treinamento, validamos o modelo para assegurar que ele performa conforme o esperado. Utilizamos o seguinte código para essa etapa:
+
+```python
+model = YOLO("runs/detect/train/weights/best.pt")
+
+metrics = model.val() 
+metrics.box.map 
+metrics.box.map50 
+metrics.box.map75 
+metrics.box.maps  
+```
+
+- **Carregar Modelo Treinado:** Carregamos o modelo treinado a partir do caminho onde os pesos do melhor modelo foram salvos (best.pt).
+- **Validação:** Realizamos a validação do modelo utilizando o método val(), que avalia o desempenho do modelo em um conjunto de dados de validação.
+- **Métricas de Desempenho:** Extraímos diversas métricas de desempenho, como map50-95, map50, map75, que indicam a precisão média do modelo em diferentes limiares de interseção sobre união (IoU).
+
+### **Resumo**
+
+A estrutura do código YoloV8 é organizada em etapas claras e sequenciais para garantir um fluxo de trabalho eficiente e eficaz. Desde a preparação do ambiente até o treinamento e validação do modelo, cada seção desempenha um papel crucial no desenvolvimento de uma solução robusta para a detecção de obstruções nos tubos.
+
+## **Conclusão**
+
+O desenvolvimento do nosso sistema de detecção de sujeira em tubos utilizando YoloV8, integrado com um backend robusto e tecnologias de gerenciamento de dados avançadas, resultou em uma solução eficaz e eficiente. Todo o processo, desde a preparação do dataset até o treinamento e validação do modelo, foi cuidadosamente planejado e executado para garantir a precisão e confiabilidade do sistema.
+
+### Principais Motivos para Utilizar o YoloV8
+
+1. **Alta Precisão**:
+   - O YoloV8 é reconhecido por sua alta precisão na detecção de objetos, o que é essencial para identificar obstruções nos tubos com exatidão.
+
+2. **Rapidez no Processamento**:
+   - A arquitetura do YoloV8 é otimizada para processamento rápido, permitindo a análise em tempo real das imagens capturadas pelo robô.
+
+3. **Facilidade de Integração**:
+   - YoloV8 oferece uma interface amigável e flexível, facilitando a integração com outras tecnologias e sistemas, como o backend desenvolvido com FastAPI e TinyDB.
+
+4. **Adaptabilidade**:
+   - O YoloV8 pode ser treinado com datasets personalizados, como o nosso dataset específico de sujeira em tubos, resultando em um modelo altamente ajustado para as necessidades do projeto.
+
+5. **Escalabilidade**:
+   - A estrutura modular do YoloV8 e suas bibliotecas associadas permitem uma fácil manutenção e expansão do sistema, garantindo sua longevidade e capacidade de evolução conforme as necessidades crescem.
+
+### Resumo do Projeto
+
+1. **Preparação do Ambiente**:
+   - Configuramos um ambiente de desenvolvimento robusto, instalando todas as bibliotecas e dependências necessárias para o treinamento do YoloV8.
+
+2. **Treinamento do Modelo**:
+   - Utilizamos o YoloV8, treinado com um dataset preparado via Roboflow, para detectar com precisão as obstruções nos tubos.
+
+3. **Validação e Testes**:
+   - Realizamos uma validação rigorosa do modelo, assegurando sua precisão e eficiência em diferentes cenários.
+
+4. **Integração com o Sistema**:
+   - O modelo treinado foi integrado ao nosso backend, onde processa imagens em tempo real e armazena os resultados e uma base de dados para análise posterior.
+
+### Benefícios Obtidos
+
+- **Eficiência Operacional**:
+  - A detecção precisa de obstruções nos tubos melhora significativamente a eficiência operacional da planta, evitando paralisações e reduzindo o tempo de manutenção.
+
+- **Tomada de Decisão Informada**:
+  - Com acesso a dados precisos e em tempo real, os funcionários da Atvos podem tomar decisões rápidas e informadas sobre a necessidade de manutenção.
+
+- **Aprimoramento Contínuo**:
+  - As imagens e dados armazenados não só ajudam na detecção imediata de problemas, mas também contribuem para o contínuo aprimoramento do modelo de I.A., tornando-o cada vez mais preciso e eficiente.
+
+Em conclusão, a utilização do YoloV8, suportada por um backend bem estruturado e um dataset de alta qualidade, proporcionou uma solução robusta e escalável para a detecção de obstruções em tubos. Essa abordagem não só atende às necessidades atuais da planta da Atvos, mas também prepara o terreno para melhorias contínuas e futuras expansões do sistema.
+
+```danger Aviso
+Vale ressaltar que futuramente a Atvos poderá estár adicionando imagens que abrangem melhor o problema descrito, fazendo com que a solução fique melhor adaptada ao problema proposto.
+```
