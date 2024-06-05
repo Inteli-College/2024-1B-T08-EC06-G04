@@ -35,14 +35,10 @@ const MainPage = () => {
 
   return (
     <div className="App flex flex-col justify-center min-h-screen bg-white w-full" tabIndex="0">
-      <div className="grid grid-cols-8 gap-4 w-full p-4">
-        <div className="col-start-2 col-span-1">
-          <Camera ros={ros} />
-        </div>
-        <div className="col-start-4 col-span-1 mt-[-2rem]">
-          <Header connected={connected} />
-        </div>
-        <div className="col-start-5 col-span-1 mt-20">
+      <Header connected={connected} />
+      <div className="relative flex flex-grow">
+        <Camera ros={ros} />
+        <div className="absolute bottom-5 left-5">
           <Controls ros={ros} />
         </div>
       </div>
