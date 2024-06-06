@@ -116,7 +116,7 @@ const Controls = ({ ros }) => {
       <button
         onMouseDown={() => setPressedKeys({ ...pressedKeys, 'w': true })}
         onMouseUp={() => setPressedKeys({ ...pressedKeys, 'w': false })}
-        className="w-[90px] h-[90px] relative bg-green-300 rounded-lg border-2 border-neutral-500 hover:bg-green-400 shadow-md hover:shadow-lg transition-all duration-300 ease-in-out"
+        className="w-[90px] h-[90px] relative bg-green-400 rounded-lg border-2 border-neutral-500 hover:bg-green-700 shadow-md hover:shadow-lg transition-all duration-300 ease-in-out"
       >
         <div className="rotate-180 h-full w-full flex items-center justify-center">
           <svg className="w-8 h-8 text-black" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -128,7 +128,7 @@ const Controls = ({ ros }) => {
         <button
           onMouseDown={() => setPressedKeys({ ...pressedKeys, 'a': true })}
           onMouseUp={() => setPressedKeys({ ...pressedKeys, 'a': false })}
-          className="w-[90px] h-[90px] relative bg-green-300 rounded-lg border-2 border-neutral-500 hover:bg-green-400 shadow-md hover:shadow-lg transition-all duration-300 ease-in-out"
+          className="w-[90px] h-[90px] relative bg-green-400 rounded-lg border-2 border-neutral-500 hover:bg-green-700 shadow-md hover:shadow-lg transition-all duration-300 ease-in-out"
         >
           <div className="rotate-90 h-full w-full flex items-center justify-center">
             <svg className="w-8 h-8 text-black" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -138,14 +138,14 @@ const Controls = ({ ros }) => {
         </button>
         <button
           onMouseDown={() => setPressedKeys({})}
-          className="w-[90px] h-[90px] relative bg-red-500 rounded-lg border-2 border-neutral-500 text-white flex items-center justify-center hover:bg-red-600 shadow-md hover:shadow-lg transition-all duration-300 ease-in-out"
+          className="w-[90px] h-[90px] relative bg-red-500 rounded-lg border-2 border-neutral-700 text-white flex items-center justify-center hover:bg-red-700 shadow-md hover:shadow-lg transition-all duration-300 ease-in-out"
         >
           Parar
         </button>
         <button
           onMouseDown={() => setPressedKeys({ ...pressedKeys, 'd': true })}
           onMouseUp={() => setPressedKeys({ ...pressedKeys, 'd': false })}
-          className="w-[90px] h-[90px] relative bg-green-300 rounded-lg border-2 border-neutral-500 hover:bg-green-400 shadow-md hover:shadow-lg transition-all duration-300 ease-in-out"
+          className="w-[90px] h-[90px] relative bg-green-400 rounded-lg border-2 border-neutral-500 hover:bg-green-700 shadow-md hover:shadow-lg transition-all duration-300 ease-in-out"
         >
           <div className="rotate-[270deg] h-full w-full flex items-center justify-center">
             <svg className="w-8 h-8 text-black" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -157,7 +157,7 @@ const Controls = ({ ros }) => {
       <button
         onMouseDown={() => setPressedKeys({ ...pressedKeys, 's': true })}
         onMouseUp={() => setPressedKeys({ ...pressedKeys, 's': false })}
-        className="w-[90px] h-[90px] relative bg-green-300 rounded-lg border-2 border-neutral-500 hover:bg-green-400 shadow-md hover:shadow-lg transition-all duration-300 ease-in-out"
+        className="w-[90px] h-[90px] relative bg-green-400 rounded-lg border-2 border-neutral-500 hover:bg-green-700 shadow-md hover:shadow-lg transition-all duration-300 ease-in-out"
       >
         <div className="h-full w-full flex items-center justify-center">
           <svg className="w-8 h-8 text-black" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
