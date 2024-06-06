@@ -152,6 +152,12 @@ Foi desenvolvido para a aplicação também operações CRUD afim de ter o poder
 }
 ```
 
+#### Teste com Postman
+
+Segue abaixo uma imagem do mesmo endpoint testado utilizando o Postman
+
+![Create-Postman](../../../../static/img/create.png)
+
 #### Atualizar dado
 
 **Endpoint:** `http://http://127.0.0.1:8000/api/update/{id}`
@@ -192,6 +198,8 @@ Foi desenvolvido para a aplicação também operações CRUD afim de ter o poder
 A resposta no endpoint de atualizar registro retornará o registro já atualizado, logo a requisição e resposta serão **iguais**
 :::
 
+![Update-Postman](../../../../static/img/update.png)
+
 #### Deletar dado
 
 **Endpoint:** `http://http://127.0.0.1:8000/api/delete/{id}`
@@ -211,6 +219,8 @@ A resposta no endpoint de atualizar registro retornará o registro já atualizad
    "message": "Registro deletado com sucesso.",
 }
 ```
+
+![Delete-Postman](../../../../static/img/delete.png)
 
 #### Ler dado
 
@@ -234,8 +244,9 @@ A resposta no endpoint de atualizar registro retornará o registro já atualizad
   "image": "String em formato base64",
   "result": "True/False"
 }
-
 ```
+
+![Read-Postman](../../../../static/img/read.png)
 
 ## **Estruturação do backend**
 
