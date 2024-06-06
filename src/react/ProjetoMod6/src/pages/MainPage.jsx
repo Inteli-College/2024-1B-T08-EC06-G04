@@ -13,7 +13,7 @@ const MainPage = () => {
   const latestFrame = useRef(null);
 
   useEffect(() => {
-    const rosInstance = new ROSLIB.Ros({ url: 'ws://localhost:9090' });
+    const rosInstance = new ROSLIB.Ros({ url: 'ws://10.128.0.9:9090' });
 
     rosInstance.on('connection', () => {
       console.log('Connected to rosbridge websocket server.');
@@ -40,9 +40,8 @@ const MainPage = () => {
   const handleTakePhoto = () => {
     if (latestFrame.current) {
       const base64image = latestFrame.current;
-      console.log('Base64 Image:', base64image);
 
-      fetch('http://localhost:8000/process_image', {
+      fetch('http://127.0.0.1:8000/api/image_processing/process_image', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -51,7 +50,8 @@ const MainPage = () => {
       })
       .then(response => response.json())
       .then(data => {
-        history.push('/result', { processedImage: data });
+        // Imagem processada
+        console.log(data.processed_image)
       })
       .catch(error => console.error('Error processing image:', error));
       
