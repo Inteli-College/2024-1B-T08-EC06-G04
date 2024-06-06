@@ -6,6 +6,7 @@ import Header from '../components/Header';
 import Camera from '../components/Camera';
 import Controls from '../components/Controls';
 import PhotoButton from '../components/PhotoButton';
+import KillSwitch from '../components/KillSwitch';
 
 const MainPage = () => {
   const [ros, setRos] = useState(null);
@@ -29,6 +30,7 @@ const MainPage = () => {
       console.log('Connection to websocket server closed.');
       setConnected(false);
     });
+
 
     setRos(rosInstance);
 
@@ -68,7 +70,8 @@ const MainPage = () => {
         <div className="absolute bottom-5 left-5">
           <Controls ros={ros} />
         </div>
-        <div className="absolute bottom-10 right-10">
+        <div className="flex flex-col gap-10 absolute bottom-10 right-10">
+          <KillSwitch/>
           <PhotoButton onClick={handleTakePhoto} />
         </div>
       </div>
