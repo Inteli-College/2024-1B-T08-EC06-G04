@@ -116,45 +116,53 @@ const Controls = ({ ros }) => {
       <button
         onMouseDown={() => setPressedKeys({ ...pressedKeys, 'w': true })}
         onMouseUp={() => setPressedKeys({ ...pressedKeys, 'w': false })}
-        className="w-[100px] h-[100px] relative bg-green-300 rounded-[20px] border-2 border-neutral-500 hover:bg-green-400"
+        className="w-[90px] h-[90px] relative bg-green-300 rounded-lg border-2 border-neutral-500 hover:bg-green-400 shadow-md hover:shadow-lg transition-all duration-300 ease-in-out"
       >
-        <div className="rotate-[180deg] h-20 w-20 flex items-center justify-center">
-          <img src="/images/arrow.svg" alt="UP" className='fl'/>
+        <div className="rotate-180 h-full w-full flex items-center justify-center">
+          <svg className="w-8 h-8 text-black" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <path fillRule="evenodd" d="M10 18a1 1 0 01-.707-.293l-7-7a1 1 0 011.414-1.414L9 14.586V3a1 1 0 112 0v11.586l5.293-5.293a1 1 0 011.414 1.414l-7 7A1 1 0 0110 18z" clipRule="evenodd" />
+          </svg>
         </div>
       </button>
       <div className="flex space-x-2">
         <button
           onMouseDown={() => setPressedKeys({ ...pressedKeys, 'a': true })}
           onMouseUp={() => setPressedKeys({ ...pressedKeys, 'a': false })}
-          className="w-[100px] h-[100px] relative bg-green-300 rounded-[20px] border-2 border-neutral-500 hover:bg-green-400"
+          className="w-[90px] h-[90px] relative bg-green-300 rounded-lg border-2 border-neutral-500 hover:bg-green-400 shadow-md hover:shadow-lg transition-all duration-300 ease-in-out"
         >
-          <div className="rotate-[90deg] h-20 w-20 flex items-center justify-center">
-          <img src="/images/arrow.svg" alt="UP" className='fl'/>
-        </div>
+          <div className="rotate-90 h-full w-full flex items-center justify-center">
+            <svg className="w-8 h-8 text-black" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+              <path fillRule="evenodd" d="M10 18a1 1 0 01-.707-.293l-7-7a1 1 0 011.414-1.414L9 14.586V3a1 1 0 112 0v11.586l5.293-5.293a1 1 0 011.414 1.414l-7 7A1 1 0 0110 18z" clipRule="evenodd" />
+            </svg>
+          </div>
         </button>
         <button
           onMouseDown={() => setPressedKeys({})}
-          className="w-[100px] h-[100px] relative bg-red-500 rounded-[20px] border-2 border-neutral-500 text-white flex items-center justify-center hover:bg-red-600"
+          className="w-[90px] h-[90px] relative bg-red-500 rounded-lg border-2 border-neutral-500 text-white flex items-center justify-center hover:bg-red-600 shadow-md hover:shadow-lg transition-all duration-300 ease-in-out"
         >
           Parar
         </button>
         <button
           onMouseDown={() => setPressedKeys({ ...pressedKeys, 'd': true })}
           onMouseUp={() => setPressedKeys({ ...pressedKeys, 'd': false })}
-          className="w-[100px] h-[100px] relative bg-green-300 rounded-[20px] border-2 border-neutral-500 hover:bg-green-400"
+          className="w-[90px] h-[90px] relative bg-green-300 rounded-lg border-2 border-neutral-500 hover:bg-green-400 shadow-md hover:shadow-lg transition-all duration-300 ease-in-out"
         >
-          <div className="rotate-[270deg] h-20 w-20 flex items-center justify-center">
-          <img src="/images/arrow.svg" alt="UP" className='fl'/>
-        </div>
+          <div className="rotate-[270deg] h-full w-full flex items-center justify-center">
+            <svg className="w-8 h-8 text-black" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+              <path fillRule="evenodd" d="M10 18a1 1 0 01-.707-.293l-7-7a1 1 0 011.414-1.414L9 14.586V3a1 1 0 112 0v11.586l5.293-5.293a1 1 0 011.414 1.414l-7 7A1 1 0 0110 18z" clipRule="evenodd" />
+            </svg>
+          </div>
         </button>
       </div>
       <button
         onMouseDown={() => setPressedKeys({ ...pressedKeys, 's': true })}
         onMouseUp={() => setPressedKeys({ ...pressedKeys, 's': false })}
-        className="w-[100px] h-[100px] relative bg-green-300 rounded-[20px] border-2 border-neutral-500 hover:bg-green-400"
+        className="w-[90px] h-[90px] relative bg-green-300 rounded-lg border-2 border-neutral-500 hover:bg-green-400 shadow-md hover:shadow-lg transition-all duration-300 ease-in-out"
       >
-        <div className="h-20 w-20 flex items-center justify-center">
-          <img src="/images/arrow.svg" alt="UP" className='fl'/>
+        <div className="h-full w-full flex items-center justify-center">
+          <svg className="w-8 h-8 text-black" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <path fillRule="evenodd" d="M10 18a1 1 0 01-.707-.293l-7-7a1 1 0 011.414-1.414L9 14.586V3a1 1 0 112 0v11.586l5.293-5.293a1 1 0 011.414 1.414l-7 7A1 1 0 0110 18z" clipRule="evenodd" />
+          </svg>
         </div>
       </button>
     </div>
