@@ -41,6 +41,20 @@ const MainPage = () => {
     if (latestFrame.current) {
       const base64image = latestFrame.current;
       console.log('Base64 Image:', base64image);
+
+      fetch('http://localhost:8000/process_image', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ image: base64image })
+      })
+      .then(response => response.json())
+      .then(data => {
+        history.push('/result', { processedImage: data });
+      })
+      .catch(error => console.error('Error processing image:', error));
+      
     } else {
       console.log('No image available.');
     }
