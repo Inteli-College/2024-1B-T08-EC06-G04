@@ -219,7 +219,20 @@ ros2 launch rosbridge_server rosbridge_websocket_launch.xml
 
 Após isto, seu Websocket estará aberto na porta padrão.
 
-## 5.0.0 Inicialização do backend
+## 5.0.0 Inicialização da interface
+
+A inicialização correta da interface gráfica é fundamental para o controle efetivo do robô e para a execução de comandos específicos do sistema. Para começar, siga estes passos detalhadamente para garantir que a interface gráfica seja iniciada sem problemas
+
+### 5.1.0 Clonagem do repositório do GitHub na máquina local
+
+Primeiramente, deve-se clonar este repositório em sua máquina local, afim de realizar o mesmo, digite o seguinte comando em seu terminal.
+
+```bash
+git clone https://github.com/Inteli-College/2024-1B-T08-EC06-G04.git
+```
+
+
+### 5.2.0 Inicialização do backend
 
 Afim de inicializar o backend, é necessário primeiramente ter todas as bibliotecas instaladas em sua máquina. Para fazer o mesmo, siga os passos abaixo. 
 
@@ -246,5 +259,43 @@ Certifique-se de já estar no diretório deste projeto
 :::
 
 ```bash
-cd 
+cd src/backend/src
 ```
+
+Após entrar no diretório principal do backend, execute o seguinte código para iniciar a FastAPI
+
+```bash
+uvicorn app:app --reload
+```
+
+Após isto, seu backend estará ligado e funcional. Vale lembrar que o mesmo irá armazenar todas as `fotos` tiradas pelo robô.
+
+### 5.3.0 Inicialização da aplicação
+
+Afim de inicializar o website com a interface do robô, será necessário inicializar o React criado. Para fazer tal feito, deve-se digitar os seguintes códigos em seu terminal
+
+Primeiramente vá ao diretório correto para inicialização
+
+```bash
+cd src/react/ProjetoMod6
+```
+
+Após ir até o diretório correto, execute o seguinte comando para instalar todas as depêndencias.
+
+```bash
+npm i
+```
+
+Após isto, inicie a interface web com o seguinte comando
+
+```bash
+npm run dev
+```
+
+Após todos estes passos, a interface está pronta para ser utilizada, caso algum problema tenha ocorrido, repasse sobre todas as etapas novamente.
+
+:::warning
+As instruções de operação seguem abaixo, para operar o robô do modo correto, **siga** os mesmos.
+:::
+
+## 6.0.0 Operações de uso
