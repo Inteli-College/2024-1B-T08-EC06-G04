@@ -49,7 +49,7 @@ async def process_image(data: ImageData):
             raise HTTPException(status_code=400, detail="Error loading image.")
 
         # Roda o YoloV8 na imagem
-        results = model(image)
+        results = model(image, conf=0.70)
 
         # Adiciona as anotações a imagem
         annotated_image = results[0].plot()
