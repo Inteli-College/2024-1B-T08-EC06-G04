@@ -1,5 +1,3 @@
-// Em MainPage.js
-
 import React, { useEffect, useState, useRef } from "react";
 import ROSLIB from "roslib";
 import Header from "../components/Header";
@@ -7,10 +5,12 @@ import Camera from "../components/Camera";
 import Controls from "../components/Controls";
 import PhotoButton from "../components/PhotoButton";
 import KillSwitch from "../components/KillSwitch";
+import Popup from "../components/Popup";
 
 const MainPage = () => {
   const [ros, setRos] = useState(null);
   const [connected, setConnected] = useState(false);
+  const [processedImage, setProcessedImage] = useState(null);
   const latestFrame = useRef(null);
 
   useEffect(() => {
@@ -52,13 +52,7 @@ const MainPage = () => {
         .then((response) => response.json())
         .then((data) => {
           // Imagem processada
-          console.log(data.processed_image);
-
-          // Criação do pop-up com a imagem processada
-          const imageWindow = window.open("");
-          imageWindow.document.write(
-            `<img src="data:image/jpeg;base64,${data.processed_image}" alt="Processed Image" />`
-          );
+          setProcessedImage(data.processed_image);
         })
         .catch((error) => console.error("Error processing image:", error));
     } else {
@@ -66,11 +60,12 @@ const MainPage = () => {
     }
   };
 
+  const closePopup = () => {
+    setProcessedImage(null);
+  };
+
   return (
-    <div
-      className="App flex flex-col justify-center min-h-screen bg-white w-full"
-      tabIndex="0"
-    >
+    <div className="App flex flex-col justify-center min-h-screen bg-white w-full" tabIndex="0">
       <Header connected={connected} />
       <div className="relative flex flex-grow">
         <Camera
@@ -81,10 +76,11 @@ const MainPage = () => {
           <Controls ros={ros} />
         </div>
         <div className="flex flex-col gap-10 absolute bottom-10 right-10">
-          <KillSwitch />
+          <KillSwitch ros={ros} />
           <PhotoButton onClick={handleTakePhoto} />
         </div>
       </div>
+      {processedImage && <Popup image={processedImage} onClose={closePopup} />}
     </div>
   );
 };
