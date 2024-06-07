@@ -14,23 +14,24 @@ model = YOLO("../yoloModel/best.pt")
 db = tinydb.TinyDB("../database/db.json")
 User = tinydb.Query()
 
-# Função para converter resultados em um JSON
-def results_to_json(results, model):
+# Função para converter resultados em um JSON com um limite minimo de 0.7 de "confidence"
+def results_to_json(results, model, confidence_threshold=0.7):
     detections = []
     for result in results:
         for box in result.boxes:
-            detection = {
-                "class": int(box.cls),
-                "label": model.names[int(box.cls)],
-                "confidence": float(box.conf),
-                "box": {
-                    "x_center": float(box.xywh[0][0]),
-                    "y_center": float(box.xywh[0][1]),
-                    "width": float(box.xywh[0][2]),
-                    "height": float(box.xywh[0][3]),
-                },
-            }
-            detections.append(detection)
+            if float(box.conf) >= confidence_threshold:
+                detection = {
+                    "class": int(box.cls),
+                    "label": model.names[int(box.cls)],
+                    "confidence": float(box.conf),
+                    "box": {
+                        "x_center": float(box.xywh[0][0]),
+                        "y_center": float(box.xywh[0][1]),
+                        "width": float(box.xywh[0][2]),
+                        "height": float(box.xywh[0][3]),
+                    },
+                }
+                detections.append(detection)
     return json.dumps(detections, indent=4)
 
 class ImageData(BaseModel):
@@ -60,11 +61,16 @@ async def process_image(data: ImageData):
         # Converte resultados em JSON
         results_json = results_to_json(results, model)
 
+        result_var = False
+
+        if results_json != "[]":
+            result_var = True
+
         # Salva na base de dados
         new_entry = {
             "version": "1.0",
             "image": annotated_image_base64,
-            "result": results_json
+            "result": result_var
         }
         db.insert(new_entry)
         
