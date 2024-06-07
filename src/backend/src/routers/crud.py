@@ -1,24 +1,31 @@
 from fastapi import APIRouter, HTTPException, Query, Body
 from controllers.crud.update import update
-from controllers.crud.create import create
 from controllers.crud.delete import delete
-from controllers.crud.read import read
+from controllers.crud.read import read, read_all
+from typing import Optional
 
 router = APIRouter()
 
-@router.put("/update/{id}", status_code=200)
-async def update_by_id(id: int, version: str = Body(...), image: str = Body(...), result: str = Body(...)):
+
+@router.patch("/update/{id}", status_code=200)
+async def update_by_id(
+    id: int,
+    version: Optional[str] = Body(default=None),
+    image: Optional[str] = Body(default=None),
+    result: Optional[str] = Body(default=None),
+):
+    update_data = {
+        k: v
+        for k, v in {"version": version, "image": image, "result": result}.items()
+        if v is not None
+    }
     try:
-        return await update(id, version, image, result)
+        if not update_data:
+            raise ValueError("No valid data provided for update")
+        return await update(id, **update_data)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-@router.post("/create", status_code=201)
-async def create_by_id(version: str = Body(...), image: str = Body(...), result: str = Body(...)):
-    try:
-        return await create(version, image, result)
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
 
 @router.delete("/delete/{id}", status_code=200)
 async def delete_by_id(id: int):
@@ -27,8 +34,17 @@ async def delete_by_id(id: int):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+
+@router.get("/read", status_code=200)
+async def read_all_records():
+    try:
+        return await read_all()
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 @router.get("/read/{id}", status_code=200)
-async def read_by_id(id: int):
+async def read_record_by_id(id: int):
     try:
         return await read(id)
     except Exception as e:
