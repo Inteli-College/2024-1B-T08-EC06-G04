@@ -6,11 +6,13 @@ import Controls from "../components/Controls";
 import PhotoButton from "../components/PhotoButton";
 import KillSwitch from "../components/KillSwitch";
 import Popup from "../components/Popup";
+import WarningPopup from "../components/WarningPopup";
 
 const MainPage = () => {
   const [ros, setRos] = useState(null);
   const [connected, setConnected] = useState(false);
   const [processedImage, setProcessedImage] = useState(null);
+  const [warningMessage, setWarningMessage] = useState('');
   const latestFrame = useRef(null);
 
   useEffect(() => {
@@ -64,6 +66,10 @@ const MainPage = () => {
     setProcessedImage(null);
   };
 
+  const handleWarning = (message) => {
+    setWarningMessage(message);
+  };
+
   return (
     <div className="App flex flex-col justify-center min-h-screen bg-white w-full" tabIndex="0">
       <Header connected={connected} />
@@ -73,7 +79,7 @@ const MainPage = () => {
           onUpdateFrame={(frame) => (latestFrame.current = frame)}
         />
         <div className="absolute bottom-5 left-5">
-          <Controls ros={ros} />
+          <Controls ros={ros} onWarning={handleWarning} />
         </div>
         <div className="flex flex-col gap-10 absolute bottom-10 right-10">
           <KillSwitch ros={ros} />
@@ -81,6 +87,7 @@ const MainPage = () => {
         </div>
       </div>
       {processedImage && <Popup image={processedImage} onClose={closePopup} />}
+      {warningMessage && <WarningPopup message={warningMessage} />}
     </div>
   );
 };

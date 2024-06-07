@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import ROSLIB from 'roslib';
 
-const Controls = ({ ros }) => {
+const Controls = ({ ros, onWarning }) => {
   const [cmdVel, setCmdVel] = useState(null);
   const [frontClear, setFrontClear] = useState(true);
   const [backClear, setBackClear] = useState(true);
@@ -69,6 +69,14 @@ const Controls = ({ ros }) => {
 
     const frontIsClear = !frontRanges.some(range => range < safetyDistance);
     const backIsClear = !backRanges.some(range => range < safetyDistance);
+
+    if (!frontIsClear) {
+      onWarning('Está muito próximo da frente. Movimento na direção bloqueado.');
+    } else if (!backIsClear) {
+      onWarning('Está muito próximo da parte de trás. Movimento na direção bloqueado.');
+    } else {
+      onWarning('');
+    }
 
     setFrontClear(frontIsClear);
     setBackClear(backIsClear);
