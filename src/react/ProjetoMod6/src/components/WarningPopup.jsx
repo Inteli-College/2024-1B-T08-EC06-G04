@@ -1,5 +1,6 @@
-import React from 'react';
+import React from "react";
 
+// PopUp de aviso ao usuário se o robô vai bater na frente ou atrás
 const WarningPopup = ({ message }) => {
   if (!message) return null;
 

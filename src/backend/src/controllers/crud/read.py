@@ -3,6 +3,8 @@ import tinydb
 db = tinydb.TinyDB("../database/db.json")
 User = tinydb.Query()
 
+# Lógica para "ler" as informações de um respectivo id ou, ler todas as informações
+
 async def read(id):
     try:
         result = db.search(User.id == id)

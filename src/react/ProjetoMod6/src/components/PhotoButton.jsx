@@ -1,5 +1,6 @@
-import React from 'react';
+import React from "react";
 
+// Botão para tirar foto, o mesmo pega a base64 atual e envia a página principal
 const PhotoButton = ({ onClick }) => {
   const handleClick = () => {
     onClick();
@@ -16,3 +17,4 @@ const PhotoButton = ({ onClick }) => {
 };
 
 export default PhotoButton;
+

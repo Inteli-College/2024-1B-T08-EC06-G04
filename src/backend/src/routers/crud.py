@@ -4,6 +4,8 @@ from controllers.crud.create import create
 from controllers.crud.delete import delete
 from controllers.crud.read import read
 
+# Rotas CRUD da aplicação
+
 router = APIRouter()
 
 @router.put("/update/{id}", status_code=200)

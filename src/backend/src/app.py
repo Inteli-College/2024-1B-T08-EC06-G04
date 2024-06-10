@@ -1,13 +1,14 @@
 # app.py
+import routers
+import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-import uvicorn
-
-import routers
 
 app = FastAPI()
 
 origins = ["*"]
+
+# Habilita o CORS
 
 app.add_middleware(
     CORSMiddleware,
@@ -17,6 +18,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Adiciona prefixo API aos roteadores
 app.include_router(routers.router, prefix="/api")
 
 if __name__ == "__main__":

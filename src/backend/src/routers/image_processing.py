@@ -1,7 +1,10 @@
-from fastapi import APIRouter, HTTPException, Body
-from controllers.img_proc.image_controller import process_image, ImageData
+from controllers.img_proc.image_controller import ImageData, process_image
+from fastapi import APIRouter, Body, HTTPException
 
 router = APIRouter()
+
+# Rota para procesamento da imagem
+
 
 @router.post("/process_image", status_code=200)
 async def process_image_endpoint(data: ImageData = Body(...)):
