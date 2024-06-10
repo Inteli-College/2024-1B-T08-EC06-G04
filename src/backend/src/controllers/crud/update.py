@@ -4,7 +4,7 @@ import tinydb
 # Função para atualizar registro na base de dados com base no ID da mesma
 # Necessário adicionar informações da versão, image e result em um JSON embutido
 
-async def update(id, version, image, result):
+async def update(id, **kwargs):
     try:
         db = tinydb.TinyDB("../database/db.json")
         User = tinydb.Query()
