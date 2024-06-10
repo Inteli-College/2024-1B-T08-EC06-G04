@@ -21,3 +21,4 @@ async def create(version, image, result):
         return {"id": id, "version": version, "image": image, "result": result}
     except Exception as e:
         return {"error": str(e)}
+
