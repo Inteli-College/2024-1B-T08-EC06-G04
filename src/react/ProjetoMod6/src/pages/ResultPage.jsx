@@ -1,17 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
 const ResultPage = () => {
-  const location = useLocation();
-  const { processedImage } = location.state || {};
-  const rows = [
-    { id: 1, version: 10, status: "Success", image: "Vampeta", processedImage: "data:image/jpeg;base64,<base64_data_1>" },
-    { id: 2, version: 20, status: "Fail", image: "Ronaldinho", processedImage: "data:image/jpeg;base64,<base64_data_2>" },
-    { id: 3, version: 30, status: "Fail", image: "Ronaldo", processedImage: "data:image/jpeg;base64,<base64_data_3>" },
-    { id: 4, version: 40, status: "Success", image: "Rivaldo", processedImage: "data:image/jpeg;base64,<base64_data_4>" },
-    { id: 5, version: 50, status: "Success", image: "Romario", processedImage: "data:image/jpeg;base64,<base64_data_5>" },
-  ];
-
+  const [rows, setRows] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
   const [currentImage, setCurrentImage] = useState('');
 
@@ -24,6 +15,30 @@ const ResultPage = () => {
     setShowPopup(false);
     setCurrentImage('');
   };
+
+  const GetInformations = async () => {
+    try {
+      const response = await fetch("http://127.0.0.1:8000/api/read", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await response.json();
+      if (data.error) {
+        console.error("Error retrieving data:", data.error);
+      } else {
+        setRows(data);
+      }
+    } catch (error) {
+      console.error("Error retrieving data:", error);
+    }
+  };
+
+  useEffect(() => {
+    // Chamada inicial para buscar os dados da tabela
+    GetInformations();
+  }, []);
 
   return (
     <div className='flex flex-col items-center justify-center gap-6 m-8'>
@@ -46,11 +61,10 @@ const ResultPage = () => {
               <td className="px-4 py-2 border border-gray-300">
                 <button
                   className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                  onClick={() => openPopup(row.processedImage)}>
-
+                  onClick={() => openPopup(row.processedImage)}
+                >
                   Abrir Imagem
                 </button>
-
               </td>
             </tr>
           ))}
@@ -61,14 +75,12 @@ const ResultPage = () => {
           <div className="bg-white inline-flex flex-col items-center p-4 gap-4 rounded shadow-lg max-w-sm">
             <h2 className='text-xl font-bold'>Imagem Analisada</h2>
             <img src={currentImage} alt="Processed" className="w-[400px] h-[400px] bg-slate-500" />
-
             <button
               className="px-4 py-2 bg-red-500 hover:bg-red-700 text-white rounded"
-              onClick={closePopup}>
-
+              onClick={closePopup}
+            >
               Fechar
             </button>
-
           </div>
         </div>
       )}
