@@ -18,7 +18,7 @@ const ResultPage = () => {
 
   const GetInformations = async () => {
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/read", {
+      const response = await fetch("http://127.0.0.1:8000/api/crud/read", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -28,6 +28,7 @@ const ResultPage = () => {
       if (data.error) {
         console.error("Error retrieving data:", data.error);
       } else {
+        console.log(data)
         setRows(data);
       }
     } catch (error) {
@@ -57,11 +58,11 @@ const ResultPage = () => {
             <tr key={row.id}>
               <td className="px-4 py-2 border border-gray-300">{row.id}</td>
               <td className="px-4 py-2 border border-gray-300">{row.version}</td>
-              <td className="px-4 py-2 border border-gray-300">{row.status}</td>
+              <td className="px-4 py-2 border border-gray-300">{row.result}</td>
               <td className="px-4 py-2 border border-gray-300">
                 <button
                   className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                  onClick={() => openPopup(row.processedImage)}
+                  onClick={() => openPopup(row.image)}
                 >
                   Abrir Imagem
                 </button>
@@ -74,7 +75,7 @@ const ResultPage = () => {
         <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
           <div className="bg-white inline-flex flex-col items-center p-4 gap-4 rounded shadow-lg max-w-sm">
             <h2 className='text-xl font-bold'>Imagem Analisada</h2>
-            <img src={currentImage} alt="Processed" className="w-[400px] h-[400px] bg-slate-500" />
+            <img src={`data:image/png;base64,${currentImage}`} alt="Processed" className="w-[400px] h-[400px] bg-slate-500" />
             <button
               className="px-4 py-2 bg-red-500 hover:bg-red-700 text-white rounded"
               onClick={closePopup}
