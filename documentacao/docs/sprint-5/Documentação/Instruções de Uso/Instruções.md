@@ -252,26 +252,22 @@ Afim de inicializar o backend, é necessário primeiramente ter todas as bibliot
 Se as bibliotecas não estiverem instaladas, o backend **não** poderá ser aberto e resultará em algum erro
 :::
 
-Primeiramente instale o uvicorn com o seguinte comando
+Instale as bibliotecas utilizadas com os seguinte comandos:
 
 ```bash
-pip install uvicorn
-```
+cd src/backend
 
-Após isto, instale o resto das bibliotecas com o seguinte comando
-
-```bash
-pip install fastapi ultralytics opencv-python tinydb
+pip install -r requirements.txt
 ```
 
 Após isto, navegue até o diretório `SRC` do backend, com o seguinte comando
 
 :::info
-Certifique-se de já estar no diretório deste projeto
+Certifique-se de já estar no diretório `2024-1B-T08-EC06-G04/src/backend`
 :::
 
 ```bash
-cd src/backend/src
+cd /src
 ```
 
 Após entrar no diretório principal do backend, execute o seguinte código para iniciar a FastAPI
