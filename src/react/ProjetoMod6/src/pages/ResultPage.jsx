@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import ImageTable from '../components/ResultTable';
+import ImagePopup from '../components/ImagePopup';
 
 const ResultPage = () => {
   const [rows, setRows] = useState([]);
@@ -28,7 +29,6 @@ const ResultPage = () => {
       if (data.error) {
         console.error("Error retrieving data:", data.error);
       } else {
-        console.log(data)
         setRows(data);
       }
     } catch (error) {
@@ -37,54 +37,15 @@ const ResultPage = () => {
   };
 
   useEffect(() => {
-    // Chamada inicial para buscar os dados da tabela
+    // Initial call to fetch table data
     GetInformations();
   }, []);
 
   return (
     <div className='flex flex-col items-center justify-center gap-6 m-8'>
       <h1 className='text-xl font-bold'>Lista de Imagens analisadas</h1>
-      <table>
-        <thead>
-          <tr>
-            <th className="px-4 py-2 border border-gray-500">Id</th>
-            <th className="px-4 py-2 border border-gray-500">Version</th>
-            <th className="px-4 py-2 border border-gray-500">Status</th>
-            <th className="px-4 py-2 border border-gray-500">Image</th>
-          </tr>
-        </thead>
-        <tbody>
-          {rows.map((row) => (
-            <tr key={row.id}>
-              <td className="px-4 py-2 border border-gray-300">{row.id}</td>
-              <td className="px-4 py-2 border border-gray-300">{row.version}</td>
-              <td className="px-4 py-2 border border-gray-300">{row.result}</td>
-              <td className="px-4 py-2 border border-gray-300">
-                <button
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                  onClick={() => openPopup(row.image)}
-                >
-                  Abrir Imagem
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      {showPopup && (
-        <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
-          <div className="bg-white inline-flex flex-col items-center p-4 gap-4 rounded shadow-lg max-w-sm">
-            <h2 className='text-xl font-bold'>Imagem Analisada</h2>
-            <img src={`data:image/png;base64,${currentImage}`} alt="Processed" className="w-[400px] h-[400px] bg-slate-500" />
-            <button
-              className="px-4 py-2 bg-red-500 hover:bg-red-700 text-white rounded"
-              onClick={closePopup}
-            >
-              Fechar
-            </button>
-          </div>
-        </div>
-      )}
+      <ImageTable rows={rows} openPopup={openPopup} />
+      {showPopup && <ImagePopup currentImage={currentImage} closePopup={closePopup} />}
     </div>
   );
 };
