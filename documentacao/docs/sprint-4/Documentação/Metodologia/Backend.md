@@ -46,6 +46,40 @@ Para o desenvolvimento do backend, utilizamos tecnologias avançadas para garant
    - Optamos pelo TinyDB como a base de dados para armazenar as imagens e metadados associados aos tubos entupidos.
    - O TinyDB, sendo uma solução leve e simples, foi ideal para a manipulação de dados e integração direta com a FastAPI, garantindo eficiência no armazenamento e recuperação de dados.
 
+### 3.1 Justificando o Uso do TinyDB
+
+#### Visão Geral do TinyDB:
+O TinyDB é um banco de dados orientado a documentos, leve, que armazena dados em formato JSON. Ele é especialmente adequado para aplicações de pequena escala, prototipagem e cenários onde um banco de dados SQL tradicional não caberia.
+
+#### Razões para Usar o TinyDB:
+
+1. **Armazenamento de Imagens em Base64**:
+   - **Justificativa Principal**: Não é recomendado armazenar imagens em formato Base64 diretamente em um banco de dados SQL tradicional, pois isso pode levar a problemas de desempenho e gerenciamento de dados. O TinyDB, por armazenar dados em JSON, é mais adequado para este tipo de uso.
+   - **Vantagem**: O armazenamento de dados em JSON permite que as imagens em Base64 sejam facilmente gerenciadas, acessadas e manipuladas sem os desafios e limitações que surgem com bancos de dados relacionais.
+
+
+2. **Integração com Python**:
+   - TinyDB é escrito em Python e integra-se perfeitamente com aplicações Python.
+   - Suporta consultas e manipulações de dados de maneira Pythônica.
+
+#### Campos do Banco de Dados:
+
+1. **ID**:
+   - **Propósito**: Identifica unicamente cada entrada de imagem no banco de dados.
+   - **Justificativa**: Garante que cada registro possa ser referenciado individualmente, permitindo a recuperação, atualização e exclusão eficientes.
+
+2. **Versão do Modelo**:
+   - **Propósito**: Indica a versão do modelo que foi usada para analisar a imagem.
+   - **Justificativa**: Importante para rastrear e validar os resultados, especialmente quando os modelos são atualizados ou modificados. Ajuda na comparação do desempenho de diferentes versões do modelo.
+
+3. **Status**:
+   - **Propósito**: Registra se um tubo e/ou detritos foram detectados na imagem.
+   - **Justificativa**: Permite a consulta e filtragem rápida das imagens com base nos resultados da detecção. É essencial para analisar o desempenho do modelo e para etapas de processamento adicionais que dependem dos resultados da detecção.
+
+4. **Imagem (Base64)**:
+   - **Propósito**: Armazena os dados da imagem em formato codificado Base64.
+   - **Justificativa**: A codificação Base64 permite que dados binários de imagem sejam armazenados como texto, tornando-os compatíveis com JSON e garantindo que possam ser facilmente armazenados e recuperados do banco de dados. Também facilita a exibição e transmissão de imagens em aplicações web.
+
 ### 4. Estruturação do Projeto
    - Organizamos o backend em módulos bem definidos, garantindo que cada parte do sistema fosse independente e reutilizável.
    - Essa modularidade facilita a manutenção do código e a implementação de novas funcionalidades no futuro.
