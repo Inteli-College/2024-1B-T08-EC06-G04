@@ -11,7 +11,7 @@ Durante a sprint 5, foi realizada uma refatoração significativa no código do 
 Além disso, a refatoração do código do backend incluiu a melhoria na disposição do código e ajustes em funções que poderiam afetar o desempenho do sistema. A seguir, será apresentado o código anterior do botão de emergência e a versão atualizada que corrigiu os problemas identificados.
 
 :::info
-Os testes atualizados realizados pelo nosso grupo podem ser vistos em `Sprint 5` > `Documentação` > `Testes Realizados` > `Testes`
+Os testes atualizados realizados pelo nosso grupo podem ser vistos [aqui](../../../sprint-4/Documentação/Testes/Testes.md)`
 :::
 
 ---
