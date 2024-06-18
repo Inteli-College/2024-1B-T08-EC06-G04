@@ -38,7 +38,6 @@ const ResultPage = () => {
   };
 
   useEffect(() => {
-    // Initial call to fetch table data
     GetInformations();
   }, []);
 
