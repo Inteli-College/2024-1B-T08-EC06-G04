@@ -71,17 +71,14 @@ async def process_image(data: ImageData):
         _, buffer = cv2.imencode(".jpg", annotated_image)
         annotated_image_base64 = base64.b64encode(buffer).decode("utf-8")
 
-        # Converte resultados em JSON
-        results_json = results_to_json(results, model)
-
-        result_var = False
-
-        if results_json != "[]":
-            result_var = True
+        result_var = "Nada detectado"
+        if results and results[0].boxes:
+            result_var = "Detectado sujeira"
+            
         # Salva na base de dados
         new_entry = {
             "id": id,
-            "version": "1.0",
+            "version": "v1.0",
             "image": annotated_image_base64,
             "result": result_var,
         }
@@ -91,7 +88,7 @@ async def process_image(data: ImageData):
         return {
             "id": id,
             "processed_image": annotated_image_base64,
-            "results": results_json,
+            "results": result_var,
         }
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
