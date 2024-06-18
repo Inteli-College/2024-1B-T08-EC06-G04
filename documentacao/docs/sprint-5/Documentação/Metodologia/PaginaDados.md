@@ -39,7 +39,7 @@ const ResultPage = () => {
 export default ResultPage;
 ```
 
-No início do componente `ResultPage`, usamos o hook `useLocation` para obter o estado passado pela navegação. Em seguida, desestruturamos o objeto `location.state` para extrair a propriedade `processedImage` . Se `location.state` for undefined (caso nenhum estado tenha sido passado), `processedImage` será undefined. Verificamos se `processedImage` está definido. Se não estiver, renderizamos um <div> com uma mensagem de erro indicando que não há dados de imagem disponíveis. Se processedImage estiver definido, renderizamos um contêiner <div> com uma classe `ResultPage. Dentro deste contêiner, incluímos um título <h1> e uma tag <img> que exibe a imagem processada. A fonte da imagem (src) é definida como uma string codificada em base64 que representa a imagem JPEG processada.
+No início do componente `ResultPage`, usamos o hook `useLocation` para obter o estado passado pela navegação. Em seguida, desestruturamos o objeto `location.state` para extrair a propriedade `processedImage` . Se `location.state` for undefined (caso nenhum estado tenha sido passado), `processedImage` será undefined. Verificamos se `processedImage` está definido. Se não estiver, renderizamos um <div> com uma mensagem de erro indicando que não há dados de imagem disponíveis. Se processedImage estiver definido, renderizamos um contêiner <div> com uma classe `ResultPage`. Dentro deste contêiner, incluímos um título `<h1>` e uma tag <img> que exibe a imagem processada. A fonte da imagem (src) é definida como uma string codificada em base64 que representa a imagem JPEG processada.
 
 ## Interface
 
