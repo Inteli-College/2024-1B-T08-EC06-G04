@@ -47,7 +47,6 @@ def results_to_json(results, model, confidence_threshold=0.7):
 class ImageData(BaseModel):
     image: str
 
-
 async def process_image(data: ImageData):
     try:
         db = tinydb.TinyDB("../database/db.json")
@@ -74,7 +73,7 @@ async def process_image(data: ImageData):
         result_var = "Nada detectado"
         if results and results[0].boxes:
             result_var = "Detectado sujeira"
-            
+
         # Salva na base de dados
         new_entry = {
             "id": id,
