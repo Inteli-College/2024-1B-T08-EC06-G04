@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ImageTable from '../components/ResultTable';
 import ImagePopup from '../components/ImagePopup';
+import Button from '../components/Button'
 
 const ResultPage = () => {
   const [rows, setRows] = useState([]);
@@ -43,6 +44,9 @@ const ResultPage = () => {
 
   return (
     <div className='flex flex-col items-center justify-center gap-6 m-8'>
+      <div className="absolute top-5 left-5 z-10">
+      <Button label="Voltar" url="http://localhost:5173/"/> 
+      </div>
       <h1 className='text-xl font-bold'>Lista de Imagens analisadas</h1>
       <ImageTable rows={rows} openPopup={openPopup} />
       {showPopup && <ImagePopup currentImage={currentImage} closePopup={closePopup} />}
