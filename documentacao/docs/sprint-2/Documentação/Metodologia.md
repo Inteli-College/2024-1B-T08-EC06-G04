@@ -22,32 +22,13 @@ title: "Metodologia"
 
 ### Tópicos e nós
 
-&emsp;No contexto do ROS 2 (Robot Operating System 2), os conceitos de tópicos e nós desempenham papéis fundamentais na comunicação e coordenação entre os componentes de um sistema robótico. Abaixo, exploramos o significado e a funcionalidade desses conceitos:
-Tópicos
-
-#### Tópicos
-
-&emsp;Um tópico no ROS 2 é um canal de comunicação assíncrono utilizado para troca de mensagens entre nós (nodes) dentro do sistema. Ele permite que os nós publiquem mensagens em um tópico específico e que outros nós interessados se inscrevam nesse tópico para receber e processar essas mensagens.
-
-- **Publicação:** Um nó que publica mensagens em um tópico é chamado de publisher. Ele envia periodicamente ou em resposta a eventos específicos mensagens contendo informações relevantes para outros nós.
-
-- **Inscrição:** Um nó que recebe mensagens de um tópico é chamado de subscriber. Ele se inscreve em um tópico específico para receber e processar as mensagens publicadas por outros nós.
-
-Os tópicos facilitam a comunicação entre os diferentes componentes de um sistema robótico, permitindo a troca de informações de forma eficiente e flexível.
+&emsp;No contexto do ROS 2 (Robot Operating System 2), os conceitos de tópicos e nós desempenham papéis fundamentais na comunicação e coordenação entre os componentes de um sistema robótico.
 
 ##### Tópicos Utilizados:
-**cmd_vel:**  Este é um tópico crucial no qual o sistema publica mensagens do tipo geometry_msgs/Twist. Ele permite controlar as velocidades lineares e angulares do TurtleBot, essenciais para o seu movimento autônomo e teleoperado.
-**image_raw:** Outro tópico utilizado pode ser image_raw, onde as imagens capturadas pela câmera Dobot Magic são publicadas. Essas imagens são consumidas pelo nó responsável pela detecção de objetos (possivelmente integrado ao YOLO) para processamento e tomada de decisões.
-
-#### Nós (Nodes)
-
-&emsp;Um nó (node) no ROS 2 é um processo executável que realiza uma tarefa específica dentro do sistema robótico. Cada nó é independente e comunica-se com outros nós por meio de tópicos, serviços ou parâmetros.
-
-- **Funcionalidade:** Cada nó pode desempenhar funções como controle de sensores, processamento de dados, planejamento de trajetórias, geração de mapas, entre outros.
-
-- **Comunicação:** Os nós se comunicam trocando mensagens por meio dos tópicos. Um nó pode ser tanto um publisher (que envia mensagens) quanto um subscriber (que recebe mensagens) em um ou mais tópicos.
-
-- **Flexibilidade:** A arquitetura baseada em nós permite que diferentes partes de um sistema robótico sejam desenvolvidas, testadas e modificadas de forma independente, facilitando a escalabilidade e manutenção do sistema como um todo.
+**cmd_vel:**  Controle das velocidades lineares e angulares do TurtleBot.
+**emergency_stop:** Quando recebe o dado cancela a operação do robô.
+**chatter:** Envia as imagens para o ROS.
+**scan:** Recebe as informações do lidar.
 
 ##### Interação como Publisher:
 
