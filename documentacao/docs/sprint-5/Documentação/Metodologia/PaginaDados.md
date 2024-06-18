@@ -43,4 +43,4 @@ No início do componente `ResultPage`, usamos o hook `useLocation` para obter o 
 
 ## Interface
 
-![alt text](../../../../static/img/inter_dados.png)
+![alt text](../../../../static/img/interf_dados.png)
