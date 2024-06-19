@@ -9,6 +9,7 @@ import Popup from "../components/Popup";
 import WarningPopup from "../components/WarningPopup";
 import Button from "../components/Button";
 
+// Página principal
 const MainPage = () => {
   const [ros, setRos] = useState(null);
   const [connected, setConnected] = useState(false);
@@ -16,6 +17,7 @@ const MainPage = () => {
   const [warningMessage, setWarningMessage] = useState('');
   const latestFrame = useRef(null);
 
+  // Conecta ao servidor websocket do ROS usando a ROSLIB
   useEffect(() => {
     const rosInstance = new ROSLIB.Ros({ url: "ws://10.128.0.9:9090" });
 
@@ -34,6 +36,7 @@ const MainPage = () => {
       setConnected(false);
     });
 
+    // Atualiza o estado do ROS
     setRos(rosInstance);
 
     return () => {
@@ -41,10 +44,12 @@ const MainPage = () => {
     };
   }, []);
 
+  // Função para tirar uma foto
   const handleTakePhoto = () => {
     if (latestFrame.current) {
       const base64image = latestFrame.current;
 
+      // Envia a imagem para o servidor de processamento para analisar a imagem e retornar a imagem processada
       fetch("http://127.0.0.1:8000/api/image_processing/process_image", {
         method: "POST",
         headers: {

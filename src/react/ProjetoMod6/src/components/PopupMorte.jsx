@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
+// Componente que exibe uma notificação popup, pede a mensagem e uma função onClose
 const PopupNotification = ({ message, onClose }) => {
   const [isVisible, setIsVisible] = useState(true);
 

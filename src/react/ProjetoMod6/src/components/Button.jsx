@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+
+// Botão principal utilizado, pede uma label: string, uma url: string, um onClick(opcional): function(opcional)e um className: string
 const Button = ({ label, url, onClick, type = 'button', className = '' }) => {
   const handleClick = () => {
     if (onClick) {
@@ -20,6 +22,7 @@ const Button = ({ label, url, onClick, type = 'button', className = '' }) => {
   );
 };
 
+// Define os tipos de propriedades que o componente Button pode receber
 Button.propTypes = {
   label: PropTypes.string.isRequired,
   url: PropTypes.string.isRequired,

@@ -4,6 +4,7 @@ import ImagePopup from '../components/ImagePopup';
 import PopupNotification from '../components/PopupMorte';
 import Button from '../components/Button';
 
+// Página de resultados/banco de dados
 const ResultPage = () => {
   const [rows, setRows] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
@@ -20,6 +21,7 @@ const ResultPage = () => {
     setCurrentImage('');
   };
 
+  // Função para pegar as informações do banco de dados
   const GetInformations = async () => {
     try {
       const response = await fetch("http://127.0.0.1:8000/api/crud/read", {
@@ -39,6 +41,7 @@ const ResultPage = () => {
     }
   };
 
+  // Função para deletar as linhas selecionadas
   const handleDelete = async (selectedIds) => {
     try {
       await Promise.all(

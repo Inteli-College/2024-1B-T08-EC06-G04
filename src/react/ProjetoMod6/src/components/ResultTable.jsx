@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import PopupNotification from './PopupMorte';
 
+// Componente que exibe uma tabela com as imagens processadas, pede as linhas(rows), uma função openPopup, uma string deleteEndpoint e uma função fetchRows
 const ImageTable = ({ rows, openPopup, deleteEndpoint, fetchRows }) => {
   const [sortConfig, setSortConfig] = useState({ key: null, direction: 'ascending' });
   const [selectedRows, setSelectedRows] = useState([]);
   const [showNotification, setShowNotification] = useState(false);
 
+  // Ordena as linhas de acordo com a configuração de ordenação
   const sortedRows = React.useMemo(() => {
     let sortableRows = [...rows];
     if (sortConfig !== null) {
@@ -22,6 +24,7 @@ const ImageTable = ({ rows, openPopup, deleteEndpoint, fetchRows }) => {
     return sortableRows;
   }, [rows, sortConfig]);
 
+  // Função para requisitar a ordenação de acordo com a chave
   const requestSort = (key) => {
     let direction = 'ascending';
     if (sortConfig.key === key && sortConfig.direction === 'ascending') {
@@ -30,17 +33,21 @@ const ImageTable = ({ rows, openPopup, deleteEndpoint, fetchRows }) => {
     setSortConfig({ key, direction });
   };
 
+  // Função para pegar a classe de ordenação de acordo com a chave
   const getSortClass = (key) => {
     if (!sortConfig) return;
     return sortConfig.key === key ? (sortConfig.direction === 'ascending' ? 'ascending' : 'descending') : undefined;
   };
 
+  // Função para selecionar uma linha
   const handleSelectRow = (id) => {
     setSelectedRows((prevSelected) =>
       prevSelected.includes(id) ? prevSelected.filter((rowId) => rowId !== id) : [...prevSelected, id]
     );
   };
-
+  
+  // Função para deletar as linhas selecionadas, faz um request para cada linha
+  // Futuramente para melhorar isto, deverá ser feito um novo endpoint que deleta os IDs em um "range"
   const handleDelete = async () => {
     try {
       await Promise.all(
@@ -58,12 +65,12 @@ const ImageTable = ({ rows, openPopup, deleteEndpoint, fetchRows }) => {
         })
       );
 
-      // Fetch updated rows after deletion
+      // Atualiza as linhas após apagá-las
       await fetchRows();
 
-      // Show success notification
+      // Mostra notificação de sucesso
       setShowNotification(true);
-      setSelectedRows([]); // Clear selection after deletion
+      setSelectedRows([]); // Limpa as linhas selecionadas
     } catch (error) {
       console.error('Failed to delete rows:', error);
     }

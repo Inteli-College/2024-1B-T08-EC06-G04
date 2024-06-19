@@ -9,6 +9,7 @@ app = FastAPI()
 
 origins = ["*"]
 
+# Permite o CORS para testes, pode retirar antes do deploy
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
@@ -17,6 +18,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Adiciona prefixo /api nos roteadores
 app.include_router(routers.router, prefix="/api")
 
 if __name__ == "__main__":

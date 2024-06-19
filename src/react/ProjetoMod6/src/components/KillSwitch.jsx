@@ -3,21 +3,26 @@ import ROSLIB from "roslib";
 
 const KillSwitch = ({ ros }) => {
   const emergencyStop = () => {
+    // Se houver conexão ROS
     if (ros) {
+      // Cria um serviço no nome /emergency_stop
       const emergencyStopService = new ROSLIB.Service({
         ros: ros,
         name: "/emergency_stop",
         serviceType: "std_srvs/srv/Empty",
       });
 
+      // Faz o corpo do request
       const request = new ROSLIB.ServiceRequest({});
 
+      // Chama o serviço
       emergencyStopService.callService(request, (result) => {
         console.log("Emergency stop service called.", result);
       });
     }
   };
 
+  // Fecha a conexão ROS 
   const closeConnection = () => {
     if (ros) {
       ros.close();

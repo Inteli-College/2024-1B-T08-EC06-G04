@@ -1,6 +1,6 @@
 import tinydb
 
-
+# Função que atualiza um registro do banco de dados pelo ID
 async def update(id, **kwargs):
     try:
         db = tinydb.TinyDB("../database/db.json")

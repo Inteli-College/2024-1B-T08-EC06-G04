@@ -10,11 +10,13 @@ const Controls = ({ ros, onWarning }) => {
   useEffect(() => {
     if (!ros) return;
 
+    // Cria um tópico no /cmd_vel
     const cmdVelTopic = new ROSLIB.Topic({
       ros,
       name: '/cmd_vel',
       messageType: 'geometry_msgs/Twist'
     });
+    // Cria um tópico no /scan
     const lidarTopic = new ROSLIB.Topic({
       ros,
       name: '/scan',
@@ -27,10 +29,12 @@ const Controls = ({ ros, onWarning }) => {
 
     setCmdVel(cmdVelTopic);
 
+    // Adiciona um event listener para as teclas pressionadas
     const handleKeyDown = (e) => {
       setPressedKeys(prevKeys => ({ ...prevKeys, [e.key]: true }));
     };
 
+    // Adiciona um event listener para as teclas soltas
     const handleKeyUp = (e) => {
       setPressedKeys(prevKeys => ({ ...prevKeys, [e.key]: false }));
     };
@@ -45,6 +49,7 @@ const Controls = ({ ros, onWarning }) => {
     };
   }, [ros]);
 
+  // Atualiza o movimento do robô
   useEffect(() => {
     const interval = setInterval(() => {
       updateMovement();
@@ -55,6 +60,7 @@ const Controls = ({ ros, onWarning }) => {
     };
   }, [frontClear, backClear, pressedKeys]);
 
+  // Função que verifica se o caminho está livre
   const lidarCallback = (ranges) => {
     const numRanges = ranges.length;
     const sectorSize = Math.floor(numRanges / 12);
@@ -82,6 +88,7 @@ const Controls = ({ ros, onWarning }) => {
     setBackClear(backIsClear);
   };
 
+  // Função que atualiza o movimento do robô
   const updateMovement = () => {
     let linear = 0.0;
     let angular = 0.0;
@@ -108,6 +115,7 @@ const Controls = ({ ros, onWarning }) => {
     moveRobot(linear, angular);
   };
 
+  // Função que move o robô
   const moveRobot = (linear, angular) => {
     if (!cmdVel) return;
 
