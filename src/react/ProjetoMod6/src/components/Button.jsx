@@ -13,7 +13,7 @@ const Button = ({ label, url, onClick, type = 'button', className = '' }) => {
     <button
       type={type}
       onClick={handleClick}
-      className={`px-4 py-2 bg-green-400 hover:bg-green-700 text-white font-bold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75 ${className}`}
+      className={`px-4 py-2 bg-green-400 hover:bg-green-700 text-white  rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75 ${className}`}
     >
       {label}
     </button>
