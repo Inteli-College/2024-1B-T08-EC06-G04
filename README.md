@@ -45,7 +45,7 @@
 
 A solução consiste em uma câmera endoscópica percorre o interior dos tubos. Esta câmera, equipada com o modelo de IA YOLO, analisa as imagens capturadas para detectar visualmente quaisquer sinais de entupimento. A combinação destas tecnologias permite uma avaliação abrangente e precisa do estado dos tubos, garantindo uma operação mais estável e eficiente.
 
-Para ler toda a documentação do projeto, (clique aqui)[https://inteli-college.github.io/2024-1B-T08-EC06-G04/]
+Para ler toda a documentação do projeto, [clique aqui](https://inteli-college.github.io/2024-1B-T08-EC06-G04/)
 
 ---
 
