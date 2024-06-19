@@ -56,10 +56,10 @@ const ResultPage = () => {
         })
       );
 
-      // Fetch updated rows after deletion
+
       await GetInformations();
 
-      // Show success notification
+
       setNotificationMessage('Rows successfully deleted!');
     } catch (error) {
       console.error('Failed to delete rows:', error);

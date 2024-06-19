@@ -75,7 +75,7 @@ const MainPage = () => {
     <div className="App flex flex-col justify-center min-h-screen bg-white w-full" tabIndex="0">
       <Header connected={connected} />
       <div className="relative flex flex-grow">
-        <div className="absolute top-5 left-5 z-10">
+        <div className="absolute top-14 left-5 z-10">
           <Button label="Analisar resultados" url="http://localhost:5173/result" />
         </div>
         <Camera
