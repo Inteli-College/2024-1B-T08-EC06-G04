@@ -1,6 +1,7 @@
 import tinydb
 
 
+# Função que lê um registro do banco de dados pelo ID
 async def read(id):
     try:
         db = tinydb.TinyDB("../database/db.json")
@@ -15,6 +16,7 @@ async def read(id):
         return {"error": str(e)}
 
 
+# Funcão que lê todos os registros do banco de dados
 async def read_all():
     try:
         db = tinydb.TinyDB("../database/db.json")

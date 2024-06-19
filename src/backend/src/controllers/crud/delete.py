@@ -1,6 +1,7 @@
 import tinydb
 
 
+# Função que deleta um registro do banco de dados pelo ID
 async def delete(id):
     try:
         db = tinydb.TinyDB("../database/db.json")

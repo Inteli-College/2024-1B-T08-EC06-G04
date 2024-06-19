@@ -1,5 +1,6 @@
 import React from 'react';
 
+// Componente que exibe uma notificação popup, pede uma mensagem
 const WarningPopup = ({ message }) => {
   if (!message) return null;
 

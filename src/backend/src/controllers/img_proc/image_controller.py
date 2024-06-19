@@ -72,7 +72,10 @@ async def process_image(data: ImageData):
 
         result_var = "Nada detectado"
         if results and results[0].boxes:
-            result_var = "Detectado sujeira"
+            for box in results[0].boxes:
+                if model.names[int(box.cls)] == "dirt":
+                    result_var = "Detectado sujeira"
+                    break
 
         # Salva na base de dados
         new_entry = {

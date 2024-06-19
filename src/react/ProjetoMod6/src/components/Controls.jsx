@@ -10,11 +10,13 @@ const Controls = ({ ros, onWarning }) => {
   useEffect(() => {
     if (!ros) return;
 
+    // Cria um tópico no /cmd_vel
     const cmdVelTopic = new ROSLIB.Topic({
       ros,
       name: '/cmd_vel',
       messageType: 'geometry_msgs/Twist'
     });
+    // Cria um tópico no /scan
     const lidarTopic = new ROSLIB.Topic({
       ros,
       name: '/scan',
@@ -27,10 +29,12 @@ const Controls = ({ ros, onWarning }) => {
 
     setCmdVel(cmdVelTopic);
 
+    // Adiciona um event listener para as teclas pressionadas
     const handleKeyDown = (e) => {
       setPressedKeys(prevKeys => ({ ...prevKeys, [e.key]: true }));
     };
 
+    // Adiciona um event listener para as teclas soltas
     const handleKeyUp = (e) => {
       setPressedKeys(prevKeys => ({ ...prevKeys, [e.key]: false }));
     };
@@ -45,6 +49,7 @@ const Controls = ({ ros, onWarning }) => {
     };
   }, [ros]);
 
+  // Atualiza o movimento do robô
   useEffect(() => {
     const interval = setInterval(() => {
       updateMovement();
@@ -55,6 +60,7 @@ const Controls = ({ ros, onWarning }) => {
     };
   }, [frontClear, backClear, pressedKeys]);
 
+  // Função que verifica se o caminho está livre
   const lidarCallback = (ranges) => {
     const numRanges = ranges.length;
     const sectorSize = Math.floor(numRanges / 12);
@@ -82,6 +88,7 @@ const Controls = ({ ros, onWarning }) => {
     setBackClear(backIsClear);
   };
 
+  // Função que atualiza o movimento do robô
   const updateMovement = () => {
     let linear = 0.0;
     let angular = 0.0;
@@ -108,6 +115,7 @@ const Controls = ({ ros, onWarning }) => {
     moveRobot(linear, angular);
   };
 
+  // Função que move o robô
   const moveRobot = (linear, angular) => {
     if (!cmdVel) return;
 
@@ -124,7 +132,7 @@ const Controls = ({ ros, onWarning }) => {
       <button
         onMouseDown={() => setPressedKeys({ ...pressedKeys, 'w': true })}
         onMouseUp={() => setPressedKeys({ ...pressedKeys, 'w': false })}
-        className="w-[90px] h-[90px] relative bg-green-400 rounded-lg border-2 border-neutral-500 hover:bg-green-700 shadow-md hover:shadow-lg transition-all duration-300 ease-in-out"
+        className={`w-[90px] h-[90px] relative rounded-lg border-2 border-neutral-500 shadow-md transition-all duration-300 ease-in-out ${pressedKeys['w'] ? 'bg-green-700' : 'bg-green-400 hover:bg-green-700'}`}
       >
         <div className="rotate-180 h-full w-full flex items-center justify-center">
           <svg className="w-8 h-8 text-black" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -136,7 +144,7 @@ const Controls = ({ ros, onWarning }) => {
         <button
           onMouseDown={() => setPressedKeys({ ...pressedKeys, 'a': true })}
           onMouseUp={() => setPressedKeys({ ...pressedKeys, 'a': false })}
-          className="w-[90px] h-[90px] relative bg-green-400 rounded-lg border-2 border-neutral-500 hover:bg-green-700 shadow-md hover:shadow-lg transition-all duration-300 ease-in-out"
+          className={`w-[90px] h-[90px] relative rounded-lg border-2 border-neutral-500 shadow-md transition-all duration-300 ease-in-out ${pressedKeys['a'] ? 'bg-green-700' : 'bg-green-400 hover:bg-green-700'}`}
         >
           <div className="rotate-90 h-full w-full flex items-center justify-center">
             <svg className="w-8 h-8 text-black" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -153,7 +161,7 @@ const Controls = ({ ros, onWarning }) => {
         <button
           onMouseDown={() => setPressedKeys({ ...pressedKeys, 'd': true })}
           onMouseUp={() => setPressedKeys({ ...pressedKeys, 'd': false })}
-          className="w-[90px] h-[90px] relative bg-green-400 rounded-lg border-2 border-neutral-500 hover:bg-green-700 shadow-md hover:shadow-lg transition-all duration-300 ease-in-out"
+          className={`w-[90px] h-[90px] relative rounded-lg border-2 border-neutral-500 shadow-md transition-all duration-300 ease-in-out ${pressedKeys['d'] ? 'bg-green-700' : 'bg-green-400 hover:bg-green-700'}`}
         >
           <div className="rotate-[270deg] h-full w-full flex items-center justify-center">
             <svg className="w-8 h-8 text-black" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -165,7 +173,7 @@ const Controls = ({ ros, onWarning }) => {
       <button
         onMouseDown={() => setPressedKeys({ ...pressedKeys, 's': true })}
         onMouseUp={() => setPressedKeys({ ...pressedKeys, 's': false })}
-        className="w-[90px] h-[90px] relative bg-green-400 rounded-lg border-2 border-neutral-500 hover:bg-green-700 shadow-md hover:shadow-lg transition-all duration-300 ease-in-out"
+        className={`w-[90px] h-[90px] relative rounded-lg border-2 border-neutral-500 shadow-md transition-all duration-300 ease-in-out ${pressedKeys['s'] ? 'bg-green-700' : 'bg-green-400 hover:bg-green-700'}`}
       >
         <div className="h-full w-full flex items-center justify-center">
           <svg className="w-8 h-8 text-black" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
