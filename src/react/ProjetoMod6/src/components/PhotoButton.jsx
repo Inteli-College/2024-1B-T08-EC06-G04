@@ -1,5 +1,6 @@
 import React from 'react';
 
+// Botão para tirar foto, pede um onClick: function
 const PhotoButton = ({ onClick }) => {
   const handleClick = () => {
     onClick();

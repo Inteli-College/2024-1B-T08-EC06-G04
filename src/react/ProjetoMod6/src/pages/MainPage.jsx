@@ -9,6 +9,7 @@ import Popup from "../components/Popup";
 import WarningPopup from "../components/WarningPopup";
 import Button from "../components/Button";
 
+// Página principal
 const MainPage = () => {
   const [ros, setRos] = useState(null);
   const [connected, setConnected] = useState(false);
@@ -16,6 +17,7 @@ const MainPage = () => {
   const [warningMessage, setWarningMessage] = useState('');
   const latestFrame = useRef(null);
 
+  // Conecta ao servidor websocket do ROS usando a ROSLIB
   useEffect(() => {
     const rosInstance = new ROSLIB.Ros({ url: "ws://10.128.0.9:9090" });
 
@@ -34,6 +36,7 @@ const MainPage = () => {
       setConnected(false);
     });
 
+    // Atualiza o estado do ROS
     setRos(rosInstance);
 
     return () => {
@@ -41,10 +44,12 @@ const MainPage = () => {
     };
   }, []);
 
+  // Função para tirar uma foto
   const handleTakePhoto = () => {
     if (latestFrame.current) {
       const base64image = latestFrame.current;
 
+      // Envia a imagem para o servidor de processamento para analisar a imagem e retornar a imagem processada
       fetch("http://127.0.0.1:8000/api/image_processing/process_image", {
         method: "POST",
         headers: {
@@ -75,7 +80,7 @@ const MainPage = () => {
     <div className="App flex flex-col justify-center min-h-screen bg-white w-full" tabIndex="0">
       <Header connected={connected} />
       <div className="relative flex flex-grow">
-        <div className="absolute top-5 left-5 z-10">
+        <div className="absolute top-14 left-5 z-10">
           <Button label="Analisar resultados" url="http://localhost:5173/result" />
         </div>
         <Camera

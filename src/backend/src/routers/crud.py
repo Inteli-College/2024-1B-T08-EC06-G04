@@ -6,7 +6,7 @@ from typing import Optional
 
 router = APIRouter()
 
-
+# Rota /update que recebe um id e os campos que deseja atualizar
 @router.patch("/update/{id}", status_code=200)
 async def update_by_id(
     id: int,
@@ -27,6 +27,7 @@ async def update_by_id(
         raise HTTPException(status_code=500, detail=str(e))
 
 
+# Rota /delete que recebe um id e deleta o registro correspondente
 @router.delete("/delete/{id}", status_code=200)
 async def delete_by_id(id: int):
     try:
@@ -35,6 +36,7 @@ async def delete_by_id(id: int):
         raise HTTPException(status_code=500, detail=str(e))
 
 
+# Rota /read que retorna todos os registros
 @router.get("/read", status_code=200)
 async def read_all_records():
     try:
@@ -43,6 +45,7 @@ async def read_all_records():
         raise HTTPException(status_code=500, detail=str(e))
 
 
+# Rota /read/{id} que retorna um registro específico
 @router.get("/read/{id}", status_code=200)
 async def read_record_by_id(id: int):
     try:

@@ -1,16 +1,17 @@
-// Em Camera.js
-
 import React, { useEffect, useState } from 'react';
 import ROSLIB from 'roslib';
 
+// Componente Camera, pede um objeto ros e uma função onUpdateFrame como parâmetros
 const Camera = ({ ros, onUpdateFrame }) => {
   const [frames, setFrames] = useState([]);
   const [timestamp, setTimestamp] = useState(null);
   const [latency, setLatency] = useState(null);
 
   useEffect(() => {
+    // Se ROS não estiver conectado não faça nada
     if (!ros) return;
 
+    // Cria um novo tópico no /chatter
     const videoTopic = new ROSLIB.Topic({
       ros,
       name: '/chatter',
@@ -19,19 +20,22 @@ const Camera = ({ ros, onUpdateFrame }) => {
 
     const handleMessage = (message) => {
       try {
+        // Divide a mensagem entre o timestamp e a base64 (são divididas usando o caractere '|')
         const [timestamp, base64Image] = message.data.split('|');
         const imgSrc = `data:image/jpeg;base64,${base64Image}`;
-        const messageTimestamp = parseFloat(timestamp) * 1000; // Convert to milliseconds
+        const messageTimestamp = parseFloat(timestamp) * 1000; // Converte para milisegundos
         const currentTimestamp = Date.now();
         const latency = currentTimestamp - messageTimestamp;
 
         setFrames((prevFrames) => {
+          // Adiciona a nova imagem ao array de frames
           const newFrames = [...prevFrames, imgSrc];
           if (newFrames.length > 10) {
-            newFrames.shift(); // Remove the oldest frame
+            newFrames.shift(); // Remove a imagem mais antiga
           }
           return newFrames;
         });
+        // Atualiza o timestamp e a latência
         setTimestamp(new Date(messageTimestamp).toLocaleString());
         setLatency(latency);
         if (onUpdateFrame) {

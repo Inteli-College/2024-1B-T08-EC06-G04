@@ -1,5 +1,6 @@
 import React from 'react';
 
+// Componente para exibir uma imagem em um popup, pede a base64 de uma imagem e uma função onClose
 const Popup = ({ image, onClose }) => {
   if (!image) return null;
 
