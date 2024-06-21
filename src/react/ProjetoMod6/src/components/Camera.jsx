@@ -25,7 +25,7 @@ const Camera = ({ ros, onUpdateFrame }) => {
         const imgSrc = `data:image/jpeg;base64,${base64Image}`;
         const messageTimestamp = parseFloat(timestamp) * 1000; // Converte para milisegundos
         const currentTimestamp = Date.now();
-        const latency = currentTimestamp - messageTimestamp;
+        const latency = Math.abs(currentTimestamp - messageTimestamp);
 
         setFrames((prevFrames) => {
           // Adiciona a nova imagem ao array de frames

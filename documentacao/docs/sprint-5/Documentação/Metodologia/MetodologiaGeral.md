@@ -26,11 +26,15 @@ Para a preparação e organização do dataset de imagens dos tubos obstruídos,
 
 Vale destacar que todas as imagens presentes no dataset foram capturadas e preparadas por nossa equipe, levando em consideração as especificações detalhadas fornecidas pela Atvos. Cada imagem foi selecionada e processada para garantir que representem de forma precisa as condições reais dos tubos obstruídos, conforme solicitado pelo cliente.
 
+Pode ser visto com mais detalhes clicando [aqui](../../../sprint-4/Documentação/Metodologia/Yolo.md#2-roboflow)
+
 ### 2. Desenvolvimento do Backend
 
 #### FastAPI
 
 O backend foi desenvolvido utilizando o FastAPI, um framework moderno para a construção rápida de APIs em Python. Esta escolha foi motivada pela necessidade de uma interface robusta e eficiente para integrar o modelo de detecção com o sistema da Atvos. O FastAPI proporciona alta performance e segurança, essenciais para a operação em tempo real na planta industrial.
+
+Pode ser visto com mais detalhes clicando [aqui](../../../sprint-4/Documentação/Metodologia/Backend.md#1-fastapi)
 
 ### 3. Treinamento e Implementação do Modelo
 
@@ -40,6 +44,8 @@ O modelo YoloV8 foi selecionado devido à sua eficácia comprovada na detecção
 
 ![alt text](../../../../static/img/modelo.png)
 
+
+Pode ser visto com mais detalhes clicando [aqui](../../../sprint-4/Documentação/Metodologia/Yolo.md)
 
 ### 4. Gerenciamento de Dados e Armazenamento
 
@@ -57,6 +63,8 @@ O usuário clica no no botão de câmera.
 
 Após isso, a imagem é mostrada para o usuário, já marcando os locais que estão sujos. E assim, ela é salva no banco de dados, com data e hora e outras informações.
 
+Pode ser visto com mais detalhes clicando [aqui](../../../sprint-4/Documentação/Metodologia/Backend.md)
+
 ### 5. Interface de Usuário
 
 #### Frontend com ReactJS
@@ -67,11 +75,15 @@ No frontend, foi desenvolvida uma interface intuitiva utilizando ReactJS. Esta e
 
 ![alt text](../../../../static/img/interface2.png)
 
+Pode ser visto com mais detalhes clicando [aqui](../../../sprint-4/Documentação/Metodologia/React.md)
+
 ## Metodologia do Projeto
 
 ### 1. Planejamento e Estratégia
 
 O projeto foi iniciado com um planejamento detalhado, definindo os objetivos específicos e os requisitos técnicos necessários para a implementação da solução de detecção de obstruções em tubos. Foram realizadas reuniões regulares com as partes interessadas para alinhar expectativas e garantir o sucesso do projeto.
+
+Pode ser visto mais detalhes clicando nos seguinte links: [User-Stories](../../../sprint-1/Metadesign/user-stories.md), [RF e RNF](../../../sprint-1/Arquitetura/rf-e-rnf.md), [Proposta de arquitetura](../../../sprint-1/Arquitetura/proposta_arq.md), [Personas](../../../sprint-1/Metadesign/personas.md), [Matriz de Risco](../../../sprint-1/Entendimento%20do%20negócio/matriz-de-risco.md), [Business Model Canvas](../../../sprint-1/Entendimento%20do%20negócio/BusinessModelCanvas.md), [Arquitetura da Informação](../../../sprint-1/Metadesign/arquitetura-informacao.md)
 
 ### 2. Desenvolvimento do Backend
 
@@ -87,6 +99,8 @@ app = FastAPI()
 db = TinyDB('database.json')
 ```
 
+O backend completo pode ser visualizado clicando [aqui](../../../sprint-4/Documentação/Metodologia/Backend.md)
+
 ### 3. Integração do Modelo YoloV8
 
 #### Treinamento e Ajustes
@@ -99,6 +113,8 @@ from ultralytics import YOLO
 model = YOLO("yolov8.pt")
 result = model.train(data="dataset.yaml", epochs=100, device="cuda")
 ```
+
+A utilização do Yolo pode ser visualizada com mais detalhes clicando [aqui](../../../sprint-4/Documentação/Metodologia/Yolo.md)
 
 ### 4. Validação e Testes
 
@@ -113,11 +129,17 @@ recall = metrics.recall()
 false_positive_rate = metrics.false_positive_rate()
 ```
 
+Os testes a respeito do Yolo podem ser visualizados no seguinte [link](../../../sprint-4/Documentação/Metodologia/Yolo.md) também
+
 ### 5. Integração Completa e Operacionalização
 
 #### Backend e Frontend
 
 O modelo treinado foi integrado ao backend desenvolvido com FastAPI, permitindo a análise em tempo real das imagens capturadas pelos robôs de inspeção. Os resultados da detecção foram armazenados no TinyDB e acessados através da interface de usuário desenvolvida em ReactJS.
+
+O backend pode ser visto [aqui](../../../sprint-4/Documentação/Metodologia/Backend.md)
+
+E o Frontend [aqui](../../../sprint-4/Documentação/Metodologia/React.md)
 
 ### 6. Monitoramento e Manutenção
 
